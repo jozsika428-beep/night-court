@@ -68,6 +68,18 @@
         "lang": "en-us",
         "speed": 1.1,
         "pitch_semitones": -0.5
+      },
+      "vael": {
+        "source": "voice/hero_memos/memo_3.m4a",
+        "performer": "Jozefino"
+      },
+      "grimfang": {
+        "source": "voice/hero_memos/memo_2.m4a",
+        "performer": "Jozefino"
+      },
+      "ashen": {
+        "source": "voice/hero_memos/memo_1.m4a",
+        "performer": "Jozefino"
       }
     },
     "bat_screech": "synthesized with ffmpeg (aevalsrc FM sweep + bandpassed pink noise)",
@@ -121,8 +133,8 @@
       },
       "heroes_ready": {
         "vael": {
-          "label": "cold slow whisper echo",
-          "pitch_st": -1.0,
+          "label": "cold whisper-double, dark cathedral",
+          "pitch_st": -1.5,
           "events": [
             "select",
             "move",
@@ -130,11 +142,12 @@
             "ability",
             "death"
           ],
-          "path": "final/vael/"
+          "path": "final/vael/",
+          "script": "voice/fx_heroes.py"
         },
         "grimfang": {
-          "label": "deep growl",
-          "pitch_st": -5.0,
+          "label": "deep growl, growl layer, short rough room",
+          "pitch_st": -4.5,
           "events": [
             "select",
             "move",
@@ -142,10 +155,11 @@
             "ability",
             "death"
           ],
-          "path": "final/grimfang/"
+          "path": "final/grimfang/",
+          "script": "voice/fx_heroes.py"
         },
         "ashen": {
-          "label": "proud preacher cathedral",
+          "label": "clean firm hunter, slight grit, short plate",
           "pitch_st": 0.0,
           "events": [
             "select",
@@ -154,7 +168,8 @@
             "ability",
             "death"
           ],
-          "path": "final/ashen/"
+          "path": "final/ashen/",
+          "script": "voice/fx_heroes.py"
         }
       }
     }
@@ -1000,6 +1015,288 @@
         "text": "The ballista's lost!",
         "source": "tts",
         "voice": "am_liam"
+      }
+    ]
+  },
+  "vael": {
+    "select": [
+      {
+        "file": "vael/select_1.ogg",
+        "text": "You may speak.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "vael/select_2.ogg",
+        "text": "The night bows to me.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "vael/select_3.ogg",
+        "text": "Make it worth my time.",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "move": [
+      {
+        "file": "vael/move_1.ogg",
+        "text": "The darkness follows me.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "vael/move_2.ogg",
+        "text": "Where I walk, they kneel.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "vael/move_3.ogg",
+        "text": "Lead on, little shadow.",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "attack": [
+      {
+        "file": "vael/attack_1.ogg",
+        "text": "Kneel, cattle. Your blood belongs to me.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "vael/attack_2.ogg",
+        "text": "I've drunk better than you from rats.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "vael/attack_3.ogg",
+        "text": "Dawn always ends. I'm still here.",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "ability": [
+      {
+        "file": "vael/ability_1.ogg",
+        "text": "Rise, and serve me!",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "vael/ability_2.ogg",
+        "text": "Drink deep, my children.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "vael/ability_3.ogg",
+        "text": "The mist hungers.",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "death": [
+      {
+        "file": "vael/death_1.ogg",
+        "text": "This is... not... the end...",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "vael/death_2.ogg",
+        "text": "I will return... thirsty.",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ]
+  },
+  "grimfang": {
+    "select": [
+      {
+        "file": "grimfang/select_1.ogg",
+        "text": "Alpha listens.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "grimfang/select_2.ogg",
+        "text": "Talk, before I bite.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "grimfang/select_3.ogg",
+        "text": "The pack is ready.",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "move": [
+      {
+        "file": "grimfang/move_1.ogg",
+        "text": "The pack runs!",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "grimfang/move_2.ogg",
+        "text": "Keep up or get eaten.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "grimfang/move_3.ogg",
+        "text": "Following the blood trail.",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "attack": [
+      {
+        "file": "grimfang/attack_1.ogg",
+        "text": "Your god left you, candle-boy. Now it's just me and your throat.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "grimfang/attack_2.ogg",
+        "text": "Nice armor. Like a tin of dog food.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "grimfang/attack_3.ogg",
+        "text": "Run! I like it when they run!",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "ability": [
+      {
+        "file": "grimfang/ability_1.ogg",
+        "text": "AWOOOOO!",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "grimfang/ability_2.ogg",
+        "text": "Hunt them down!",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "grimfang/ability_3.ogg",
+        "text": "Feel my weight!",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "death": [
+      {
+        "file": "grimfang/death_1.ogg",
+        "text": "The pack... lives on...",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "grimfang/death_2.ogg",
+        "text": "Howl for me...",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ]
+  },
+  "ashen": {
+    "select": [
+      {
+        "file": "ashen/select_1.ogg",
+        "text": "Brother Ashen stands ready.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "ashen/select_2.ogg",
+        "text": "The Dawn is patient. I am not.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "ashen/select_3.ogg",
+        "text": "Speak quickly.",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "move": [
+      {
+        "file": "ashen/move_1.ogg",
+        "text": "Where darkness gathers, I go.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "ashen/move_2.ogg",
+        "text": "The Light walks with me.",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "ashen/move_3.ogg",
+        "text": "Onward, hunters.",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "attack": [
+      {
+        "file": "ashen/attack_1.ogg",
+        "text": "Dawn comes for every bloodsucker!",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "ashen/attack_2.ogg",
+        "text": "Burn the leeches, salt the ashes!",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "ashen/attack_3.ogg",
+        "text": "Stay down, corpse. You've done it before.",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "ability": [
+      {
+        "file": "ashen/ability_1.ogg",
+        "text": "Feel the Light, demon!",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "ashen/ability_2.ogg",
+        "text": "Stand fast! The banner holds!",
+        "source": "memo",
+        "voice": "jozefino"
+      }
+    ],
+    "death": [
+      {
+        "file": "ashen/death_1.ogg",
+        "text": "Hold... the line...",
+        "source": "memo",
+        "voice": "jozefino"
+      },
+      {
+        "file": "ashen/death_2.ogg",
+        "text": "The sun... will rise... without me.",
+        "source": "memo",
+        "voice": "jozefino"
       }
     ]
   }
