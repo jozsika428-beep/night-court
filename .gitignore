@@ -4,3 +4,9 @@ node_modules/
 __pycache__/
 art3d_hd/raw/
 art3d_hd/concepts/
+# voice: ship only index.json + the audio lines (no TTS/FX tooling or samples)
+voice/*
+!voice/raw/
+!voice/final/
+voice/raw/**/*.py
+voice/final/**/*.py

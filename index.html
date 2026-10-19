@@ -21,6 +21,7 @@
     <h2>Difficulty</h2>
     <div id="diffs" class="row"></div>
     <div id="gfx-wrap"><h2>Graphics</h2><div id="gfx" class="row"></div><h2>Models</h2><div id="models" class="row"></div></div>
+    <div id="voice-wrap"><h2>Voice</h2><div class="row voice"><input type="range" id="vvol" min="0" max="100" step="5" aria-label="Voice volume"><span id="vvol-n"></span><button id="vmute">🔊 Mute</button></div></div>
     <button id="play" class="big">▶ Play</button>
     <div class="viewlink"><a id="viewlink" href="?2d=1">Having trouble? Use the classic 2D view</a></div>
     <details class="how"><summary>How to play</summary>
@@ -63,6 +64,7 @@
 <script src="js/render.js"></script>
 <script src="js/input.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/voice.js"></script>
 <script src="js/main.js"></script>
 <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/" } }</script>
 <script type="module" src="js3d/boot3d.js" onerror="window.dispatchEvent(new Event('nc3d-failed'))"></script>

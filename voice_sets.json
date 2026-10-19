@@ -1,0 +1,12 @@
+{
+ "raw": {
+  "base": "voice/raw/",
+  "available": true,
+  "m4a": true
+ },
+ "final": {
+  "base": "voice/final/",
+  "available": true,
+  "m4a": true
+ }
+}

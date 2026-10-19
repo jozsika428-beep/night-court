@@ -1,0 +1,1006 @@
+{
+  "_meta": {
+    "tts": "Kokoro-82M v1.0 (kokoro-onnx), Apache-2.0",
+    "format": "Ogg Opus mono 48kHz ~72k, silence-trimmed, character FX + loudnorm -16 LUFS / -1 dBTP (Opus-safe peak pad)",
+    "voices": {
+      "ghoul": {
+        "voice": "am_puck",
+        "lang": "en-us",
+        "speed": 0.92,
+        "pitch_semitones": -3.0
+      },
+      "thrall": {
+        "voice": "bm_fable",
+        "lang": "en-gb",
+        "speed": 0.9,
+        "pitch_semitones": -1.5
+      },
+      "werewolf": {
+        "voice": "am_onyx",
+        "lang": "en-us",
+        "speed": 0.95,
+        "pitch_semitones": -4.0
+      },
+      "bonearcher": {
+        "voice": "am_eric",
+        "lang": "en-us",
+        "speed": 1.0,
+        "pitch_semitones": -2.0
+      },
+      "bat": {
+        "voice": "af_nicole",
+        "lang": "en-us",
+        "speed": 1.15,
+        "pitch_semitones": 4.0
+      },
+      "catapult": {
+        "voice": "am_fenrir",
+        "lang": "en-us",
+        "speed": 1.05,
+        "pitch_semitones": -1.0
+      },
+      "crossbowman": {
+        "voice": "bm_daniel",
+        "lang": "en-gb",
+        "speed": 1.1,
+        "pitch_semitones": 0.0
+      },
+      "torchbearer": {
+        "voice": "bf_isabella",
+        "lang": "en-gb",
+        "speed": 1.1,
+        "pitch_semitones": 0.0
+      },
+      "knight": {
+        "voice": "bm_lewis",
+        "lang": "en-gb",
+        "speed": 1.05,
+        "pitch_semitones": 0.0
+      },
+      "priest": {
+        "voice": "bm_george",
+        "lang": "en-gb",
+        "speed": 0.88,
+        "pitch_semitones": -1.0
+      },
+      "ballista": {
+        "voice": "am_liam",
+        "lang": "en-us",
+        "speed": 1.1,
+        "pitch_semitones": -0.5
+      }
+    },
+    "bat_screech": "synthesized with ffmpeg (aevalsrc FM sweep + bandpassed pink noise)",
+    "fx": {
+      "script": "voice/fx.py",
+      "presets": {
+        "ghoul": {
+          "label": "wet raspy growl",
+          "pitch_st": -2.0
+        },
+        "thrall": {
+          "label": "cold breathy echo",
+          "pitch_st": -1.5
+        },
+        "werewolf": {
+          "label": "deep beast rumble",
+          "pitch_st": -4.0
+        },
+        "bonearcher": {
+          "label": "hollow bony",
+          "pitch_st": -1.0
+        },
+        "bat": {
+          "label": "screech double/widen",
+          "pitch_st": 0.0
+        },
+        "catapult": {
+          "label": "gruff outdoor crew",
+          "pitch_st": -1.0
+        },
+        "crossbowman": {
+          "label": "clean gritty soldier",
+          "pitch_st": 0.0
+        },
+        "torchbearer": {
+          "label": "clean gritty soldier",
+          "pitch_st": 0.0
+        },
+        "ballista": {
+          "label": "clean gritty crew",
+          "pitch_st": -0.5
+        },
+        "priest": {
+          "label": "warm small-hall preacher",
+          "pitch_st": 0.0
+        },
+        "knight": {
+          "label": "helmet-muffled knight",
+          "pitch_st": 0.0
+        }
+      },
+      "heroes_ready": {
+        "vael": {
+          "label": "cold slow whisper echo",
+          "pitch_st": -1.0,
+          "events": [
+            "select",
+            "move",
+            "attack",
+            "ability",
+            "death"
+          ],
+          "path": "final/vael/"
+        },
+        "grimfang": {
+          "label": "deep growl",
+          "pitch_st": -5.0,
+          "events": [
+            "select",
+            "move",
+            "attack",
+            "ability",
+            "death"
+          ],
+          "path": "final/grimfang/"
+        },
+        "ashen": {
+          "label": "proud preacher cathedral",
+          "pitch_st": 0.0,
+          "events": [
+            "select",
+            "move",
+            "attack",
+            "ability",
+            "death"
+          ],
+          "path": "final/ashen/"
+        }
+      }
+    }
+  },
+  "ghoul": {
+    "select": [
+      {
+        "file": "ghoul/select_1.ogg",
+        "text": "Hungry...",
+        "source": "tts",
+        "voice": "am_puck"
+      },
+      {
+        "file": "ghoul/select_2.ogg",
+        "text": "Feed me, master.",
+        "source": "tts",
+        "voice": "am_puck"
+      },
+      {
+        "file": "ghoul/select_3.ogg",
+        "text": "Something smells delicious.",
+        "source": "tts",
+        "voice": "am_puck"
+      }
+    ],
+    "move": [
+      {
+        "file": "ghoul/move_1.ogg",
+        "text": "Following the meat.",
+        "source": "tts",
+        "voice": "am_puck"
+      },
+      {
+        "file": "ghoul/move_2.ogg",
+        "text": "Faster to the feast.",
+        "source": "tts",
+        "voice": "am_puck"
+      },
+      {
+        "file": "ghoul/move_3.ogg",
+        "text": "Crawling, crawling...",
+        "source": "tts",
+        "voice": "am_puck"
+      }
+    ],
+    "attack": [
+      {
+        "file": "ghoul/attack_1.ogg",
+        "text": "Fresh meat in shiny tins!",
+        "source": "tts",
+        "voice": "am_puck"
+      },
+      {
+        "file": "ghoul/attack_2.ogg",
+        "text": "Hunter stew tonight!",
+        "source": "tts",
+        "voice": "am_puck"
+      },
+      {
+        "file": "ghoul/attack_3.ogg",
+        "text": "Crack them open!",
+        "source": "tts",
+        "voice": "am_puck"
+      }
+    ],
+    "death": [
+      {
+        "file": "ghoul/death_1.ogg",
+        "text": "Still... hungry...",
+        "source": "tts",
+        "voice": "am_puck"
+      },
+      {
+        "file": "ghoul/death_2.ogg",
+        "text": "Save me a bite...",
+        "source": "tts",
+        "voice": "am_puck"
+      }
+    ]
+  },
+  "thrall": {
+    "select": [
+      {
+        "file": "thrall/select_1.ogg",
+        "text": "The Countess commands?",
+        "source": "tts",
+        "voice": "bm_fable"
+      },
+      {
+        "file": "thrall/select_2.ogg",
+        "text": "My blade thirsts.",
+        "source": "tts",
+        "voice": "bm_fable"
+      },
+      {
+        "file": "thrall/select_3.ogg",
+        "text": "Speak, and I bleed them.",
+        "source": "tts",
+        "voice": "bm_fable"
+      }
+    ],
+    "move": [
+      {
+        "file": "thrall/move_1.ogg",
+        "text": "As the night wills.",
+        "source": "tts",
+        "voice": "bm_fable"
+      },
+      {
+        "file": "thrall/move_2.ogg",
+        "text": "Through the dark.",
+        "source": "tts",
+        "voice": "bm_fable"
+      },
+      {
+        "file": "thrall/move_3.ogg",
+        "text": "We move unseen.",
+        "source": "tts",
+        "voice": "bm_fable"
+      }
+    ],
+    "attack": [
+      {
+        "file": "thrall/attack_1.ogg",
+        "text": "Your blood is cheap, sun-crawler!",
+        "source": "tts",
+        "voice": "bm_fable"
+      },
+      {
+        "file": "thrall/attack_2.ogg",
+        "text": "Humans. Juice boxes with opinions.",
+        "source": "tts",
+        "voice": "bm_fable"
+      },
+      {
+        "file": "thrall/attack_3.ogg",
+        "text": "Kneel, cattle!",
+        "source": "tts",
+        "voice": "bm_fable"
+      }
+    ],
+    "death": [
+      {
+        "file": "thrall/death_1.ogg",
+        "text": "The night... remembers me...",
+        "source": "tts",
+        "voice": "bm_fable"
+      },
+      {
+        "file": "thrall/death_2.ogg",
+        "text": "Not... the sun...",
+        "source": "tts",
+        "voice": "bm_fable"
+      }
+    ]
+  },
+  "werewolf": {
+    "select": [
+      {
+        "file": "werewolf/select_1.ogg",
+        "text": "Grrr. Talk fast.",
+        "source": "tts",
+        "voice": "am_onyx"
+      },
+      {
+        "file": "werewolf/select_2.ogg",
+        "text": "I smell fear.",
+        "source": "tts",
+        "voice": "am_onyx"
+      },
+      {
+        "file": "werewolf/select_3.ogg",
+        "text": "Point me at something warm.",
+        "source": "tts",
+        "voice": "am_onyx"
+      }
+    ],
+    "move": [
+      {
+        "file": "werewolf/move_1.ogg",
+        "text": "Running with the pack.",
+        "source": "tts",
+        "voice": "am_onyx"
+      },
+      {
+        "file": "werewolf/move_2.ogg",
+        "text": "On the hunt.",
+        "source": "tts",
+        "voice": "am_onyx"
+      },
+      {
+        "file": "werewolf/move_3.ogg",
+        "text": "Follow the scent.",
+        "source": "tts",
+        "voice": "am_onyx"
+      }
+    ],
+    "attack": [
+      {
+        "file": "werewolf/attack_1.ogg",
+        "text": "Hunters taste better scared!",
+        "source": "tts",
+        "voice": "am_onyx"
+      },
+      {
+        "file": "werewolf/attack_2.ogg",
+        "text": "Silver? Cute. I'll pick my teeth with it.",
+        "source": "tts",
+        "voice": "am_onyx"
+      },
+      {
+        "file": "werewolf/attack_3.ogg",
+        "text": "Your god's on a leash. So are you!",
+        "source": "tts",
+        "voice": "am_onyx"
+      }
+    ],
+    "death": [
+      {
+        "file": "werewolf/death_1.ogg",
+        "text": "The moon... fades...",
+        "source": "tts",
+        "voice": "am_onyx"
+      },
+      {
+        "file": "werewolf/death_2.ogg",
+        "text": "Avenge... me...",
+        "source": "tts",
+        "voice": "am_onyx"
+      }
+    ]
+  },
+  "bonearcher": {
+    "select": [
+      {
+        "file": "bonearcher/select_1.ogg",
+        "text": "Bow strung. Bones ready.",
+        "source": "tts",
+        "voice": "am_eric"
+      },
+      {
+        "file": "bonearcher/select_2.ogg",
+        "text": "Who needs skin anyway?",
+        "source": "tts",
+        "voice": "am_eric"
+      },
+      {
+        "file": "bonearcher/select_3.ogg",
+        "text": "Aim and rattle.",
+        "source": "tts",
+        "voice": "am_eric"
+      }
+    ],
+    "move": [
+      {
+        "file": "bonearcher/move_1.ogg",
+        "text": "Rattling along.",
+        "source": "tts",
+        "voice": "am_eric"
+      },
+      {
+        "file": "bonearcher/move_2.ogg",
+        "text": "Watch my femur.",
+        "source": "tts",
+        "voice": "am_eric"
+      },
+      {
+        "file": "bonearcher/move_3.ogg",
+        "text": "Moving, clack clack.",
+        "source": "tts",
+        "voice": "am_eric"
+      }
+    ],
+    "attack": [
+      {
+        "file": "bonearcher/attack_1.ogg",
+        "text": "Arrows for the warm ones!",
+        "source": "tts",
+        "voice": "am_eric"
+      },
+      {
+        "file": "bonearcher/attack_2.ogg",
+        "text": "Bleed like you mean it!",
+        "source": "tts",
+        "voice": "am_eric"
+      },
+      {
+        "file": "bonearcher/attack_3.ogg",
+        "text": "Pin them to the dirt!",
+        "source": "tts",
+        "voice": "am_eric"
+      }
+    ],
+    "death": [
+      {
+        "file": "bonearcher/death_1.ogg",
+        "text": "Back to the boneyard...",
+        "source": "tts",
+        "voice": "am_eric"
+      },
+      {
+        "file": "bonearcher/death_2.ogg",
+        "text": "Someone... collect my skull...",
+        "source": "tts",
+        "voice": "am_eric"
+      }
+    ]
+  },
+  "bat": {
+    "select": [
+      {
+        "file": "bat/select_1.ogg",
+        "text": "*screeching*",
+        "source": "synth",
+        "voice": null
+      },
+      {
+        "file": "bat/select_2.ogg",
+        "text": "Skrrreee!",
+        "source": "synth",
+        "voice": null
+      },
+      {
+        "file": "bat/select_3.ogg",
+        "text": "We see everything.",
+        "source": "tts",
+        "voice": "af_nicole"
+      }
+    ],
+    "move": [
+      {
+        "file": "bat/move_1.ogg",
+        "text": "Wings in the dark.",
+        "source": "tts",
+        "voice": "af_nicole"
+      },
+      {
+        "file": "bat/move_2.ogg",
+        "text": "Flying high.",
+        "source": "tts",
+        "voice": "af_nicole"
+      },
+      {
+        "file": "bat/move_3.ogg",
+        "text": "Swarming out.",
+        "source": "tts",
+        "voice": "af_nicole"
+      }
+    ],
+    "attack": [
+      {
+        "file": "bat/attack_1.ogg",
+        "text": "Bite the eyes!",
+        "source": "tts",
+        "voice": "af_nicole"
+      },
+      {
+        "file": "bat/attack_2.ogg",
+        "text": "Skrreee! Feast!",
+        "source": "synth+tts",
+        "voice": "af_nicole"
+      },
+      {
+        "file": "bat/attack_3.ogg",
+        "text": "Drain them dry!",
+        "source": "tts",
+        "voice": "af_nicole"
+      }
+    ],
+    "death": [
+      {
+        "file": "bat/death_1.ogg",
+        "text": "*fading screech*",
+        "source": "synth",
+        "voice": null
+      }
+    ]
+  },
+  "catapult": {
+    "select": [
+      {
+        "file": "catapult/select_1.ogg",
+        "text": "Corpse loaded.",
+        "source": "tts",
+        "voice": "am_fenrir"
+      },
+      {
+        "file": "catapult/select_2.ogg",
+        "text": "Plague ready to fly.",
+        "source": "tts",
+        "voice": "am_fenrir"
+      },
+      {
+        "file": "catapult/select_3.ogg",
+        "text": "Fresh ammo, slightly used.",
+        "source": "tts",
+        "voice": "am_fenrir"
+      }
+    ],
+    "move": [
+      {
+        "file": "catapult/move_1.ogg",
+        "text": "Rolling the dead.",
+        "source": "tts",
+        "voice": "am_fenrir"
+      },
+      {
+        "file": "catapult/move_2.ogg",
+        "text": "Heavy load coming.",
+        "source": "tts",
+        "voice": "am_fenrir"
+      },
+      {
+        "file": "catapult/move_3.ogg",
+        "text": "Mind the wheels.",
+        "source": "tts",
+        "voice": "am_fenrir"
+      }
+    ],
+    "attack": [
+      {
+        "file": "catapult/attack_1.ogg",
+        "text": "Special delivery of rot!",
+        "source": "tts",
+        "voice": "am_fenrir"
+      },
+      {
+        "file": "catapult/attack_2.ogg",
+        "text": "Catch your cousin!",
+        "source": "tts",
+        "voice": "am_fenrir"
+      },
+      {
+        "file": "catapult/attack_3.ogg",
+        "text": "Plague incoming!",
+        "source": "tts",
+        "voice": "am_fenrir"
+      }
+    ],
+    "death": [
+      {
+        "file": "catapult/death_1.ogg",
+        "text": "The frame breaks!",
+        "source": "tts",
+        "voice": "am_fenrir"
+      },
+      {
+        "file": "catapult/death_2.ogg",
+        "text": "Ammo everywhere...",
+        "source": "tts",
+        "voice": "am_fenrir"
+      }
+    ]
+  },
+  "crossbowman": {
+    "select": [
+      {
+        "file": "crossbowman/select_1.ogg",
+        "text": "Silver's loaded.",
+        "source": "tts",
+        "voice": "bm_daniel"
+      },
+      {
+        "file": "crossbowman/select_2.ogg",
+        "text": "Point me at a leech.",
+        "source": "tts",
+        "voice": "bm_daniel"
+      },
+      {
+        "file": "crossbowman/select_3.ogg",
+        "text": "Bolt ready, sir.",
+        "source": "tts",
+        "voice": "bm_daniel"
+      }
+    ],
+    "move": [
+      {
+        "file": "crossbowman/move_1.ogg",
+        "text": "On the move.",
+        "source": "tts",
+        "voice": "bm_daniel"
+      },
+      {
+        "file": "crossbowman/move_2.ogg",
+        "text": "Watch the shadows.",
+        "source": "tts",
+        "voice": "bm_daniel"
+      },
+      {
+        "file": "crossbowman/move_3.ogg",
+        "text": "Keep your crucifix close.",
+        "source": "tts",
+        "voice": "bm_daniel"
+      }
+    ],
+    "attack": [
+      {
+        "file": "crossbowman/attack_1.ogg",
+        "text": "Silver for the mutts!",
+        "source": "tts",
+        "voice": "bm_daniel"
+      },
+      {
+        "file": "crossbowman/attack_2.ogg",
+        "text": "Ten silver says the bloodsucker cries!",
+        "source": "tts",
+        "voice": "bm_daniel"
+      },
+      {
+        "file": "crossbowman/attack_3.ogg",
+        "text": "Let's go hunt some leeches!",
+        "source": "tts",
+        "voice": "bm_daniel"
+      }
+    ],
+    "death": [
+      {
+        "file": "crossbowman/death_1.ogg",
+        "text": "Tell my mother... I was brave...",
+        "source": "tts",
+        "voice": "bm_daniel"
+      },
+      {
+        "file": "crossbowman/death_2.ogg",
+        "text": "Out of bolts...",
+        "source": "tts",
+        "voice": "bm_daniel"
+      }
+    ]
+  },
+  "torchbearer": {
+    "select": [
+      {
+        "file": "torchbearer/select_1.ogg",
+        "text": "Torch is lit.",
+        "source": "tts",
+        "voice": "bf_isabella"
+      },
+      {
+        "file": "torchbearer/select_2.ogg",
+        "text": "Who wants to be warm?",
+        "source": "tts",
+        "voice": "bf_isabella"
+      },
+      {
+        "file": "torchbearer/select_3.ogg",
+        "text": "Fire's hungry.",
+        "source": "tts",
+        "voice": "bf_isabella"
+      }
+    ],
+    "move": [
+      {
+        "file": "torchbearer/move_1.ogg",
+        "text": "Lighting the way.",
+        "source": "tts",
+        "voice": "bf_isabella"
+      },
+      {
+        "file": "torchbearer/move_2.ogg",
+        "text": "Keep the flame high.",
+        "source": "tts",
+        "voice": "bf_isabella"
+      },
+      {
+        "file": "torchbearer/move_3.ogg",
+        "text": "Into the dark, then.",
+        "source": "tts",
+        "voice": "bf_isabella"
+      }
+    ],
+    "attack": [
+      {
+        "file": "torchbearer/attack_1.ogg",
+        "text": "Light 'em up! Rot burns fast!",
+        "source": "tts",
+        "voice": "bf_isabella"
+      },
+      {
+        "file": "torchbearer/attack_2.ogg",
+        "text": "Smells like a barbecue in a graveyard!",
+        "source": "tts",
+        "voice": "bf_isabella"
+      },
+      {
+        "file": "torchbearer/attack_3.ogg",
+        "text": "Burn, corpse!",
+        "source": "tts",
+        "voice": "bf_isabella"
+      }
+    ],
+    "death": [
+      {
+        "file": "torchbearer/death_1.ogg",
+        "text": "The flame... goes out...",
+        "source": "tts",
+        "voice": "bf_isabella"
+      },
+      {
+        "file": "torchbearer/death_2.ogg",
+        "text": "So cold...",
+        "source": "tts",
+        "voice": "bf_isabella"
+      }
+    ]
+  },
+  "knight": {
+    "select": [
+      {
+        "file": "knight/select_1.ogg",
+        "text": "For the Dawn!",
+        "source": "tts",
+        "voice": "bm_lewis"
+      },
+      {
+        "file": "knight/select_2.ogg",
+        "text": "Steel and silver, ready.",
+        "source": "tts",
+        "voice": "bm_lewis"
+      },
+      {
+        "file": "knight/select_3.ogg",
+        "text": "Command me.",
+        "source": "tts",
+        "voice": "bm_lewis"
+      }
+    ],
+    "move": [
+      {
+        "file": "knight/move_1.ogg",
+        "text": "Ride on!",
+        "source": "tts",
+        "voice": "bm_lewis"
+      },
+      {
+        "file": "knight/move_2.ogg",
+        "text": "Charge position.",
+        "source": "tts",
+        "voice": "bm_lewis"
+      },
+      {
+        "file": "knight/move_3.ogg",
+        "text": "Forward, for the Order.",
+        "source": "tts",
+        "voice": "bm_lewis"
+      }
+    ],
+    "attack": [
+      {
+        "file": "knight/attack_1.ogg",
+        "text": "Heel, mutt!",
+        "source": "tts",
+        "voice": "bm_lewis"
+      },
+      {
+        "file": "knight/attack_2.ogg",
+        "text": "Who let the dogs out? Me. To put them down.",
+        "source": "tts",
+        "voice": "bm_lewis"
+      },
+      {
+        "file": "knight/attack_3.ogg",
+        "text": "Back to your grave, rotbag!",
+        "source": "tts",
+        "voice": "bm_lewis"
+      }
+    ],
+    "death": [
+      {
+        "file": "knight/death_1.ogg",
+        "text": "The Dawn... will rise...",
+        "source": "tts",
+        "voice": "bm_lewis"
+      },
+      {
+        "file": "knight/death_2.ogg",
+        "text": "My horse... save my horse...",
+        "source": "tts",
+        "voice": "bm_lewis"
+      }
+    ]
+  },
+  "priest": {
+    "select": [
+      {
+        "file": "priest/select_1.ogg",
+        "text": "Light be with you.",
+        "source": "tts",
+        "voice": "bm_george"
+      },
+      {
+        "file": "priest/select_2.ogg",
+        "text": "Faith and fire.",
+        "source": "tts",
+        "voice": "bm_george"
+      },
+      {
+        "file": "priest/select_3.ogg",
+        "text": "I hear you, child.",
+        "source": "tts",
+        "voice": "bm_george"
+      }
+    ],
+    "move": [
+      {
+        "file": "priest/move_1.ogg",
+        "text": "The Light guides me.",
+        "source": "tts",
+        "voice": "bm_george"
+      },
+      {
+        "file": "priest/move_2.ogg",
+        "text": "Walk in faith.",
+        "source": "tts",
+        "voice": "bm_george"
+      },
+      {
+        "file": "priest/move_3.ogg",
+        "text": "Onward, blessed.",
+        "source": "tts",
+        "voice": "bm_george"
+      }
+    ],
+    "attack": [
+      {
+        "file": "priest/attack_1.ogg",
+        "text": "Pray, leech. Oh wait, nobody's listening to you.",
+        "source": "tts",
+        "voice": "bm_george"
+      },
+      {
+        "file": "priest/attack_2.ogg",
+        "text": "Back to your grave, rotface!",
+        "source": "tts",
+        "voice": "bm_george"
+      },
+      {
+        "file": "priest/attack_3.ogg",
+        "text": "Even the flies won't touch you, ghoul.",
+        "source": "tts",
+        "voice": "bm_george"
+      }
+    ],
+    "ability": [
+      {
+        "file": "priest/ability_1.ogg",
+        "text": "Rise, and fight on!",
+        "source": "tts",
+        "voice": "bm_george"
+      },
+      {
+        "file": "priest/ability_2.ogg",
+        "text": "Be healed!",
+        "source": "tts",
+        "voice": "bm_george"
+      }
+    ],
+    "death": [
+      {
+        "file": "priest/death_1.ogg",
+        "text": "Into the Light...",
+        "source": "tts",
+        "voice": "bm_george"
+      },
+      {
+        "file": "priest/death_2.ogg",
+        "text": "Forgive them... no, actually, don't.",
+        "source": "tts",
+        "voice": "bm_george"
+      }
+    ]
+  },
+  "ballista": {
+    "select": [
+      {
+        "file": "ballista/select_1.ogg",
+        "text": "Bolt's on fire.",
+        "source": "tts",
+        "voice": "am_liam"
+      },
+      {
+        "file": "ballista/select_2.ogg",
+        "text": "Big gun, ready.",
+        "source": "tts",
+        "voice": "am_liam"
+      },
+      {
+        "file": "ballista/select_3.ogg",
+        "text": "Aim us at a coffin.",
+        "source": "tts",
+        "voice": "am_liam"
+      }
+    ],
+    "move": [
+      {
+        "file": "ballista/move_1.ogg",
+        "text": "Rolling forward.",
+        "source": "tts",
+        "voice": "am_liam"
+      },
+      {
+        "file": "ballista/move_2.ogg",
+        "text": "Push, lads, push!",
+        "source": "tts",
+        "voice": "am_liam"
+      },
+      {
+        "file": "ballista/move_3.ogg",
+        "text": "Heavy steel coming.",
+        "source": "tts",
+        "voice": "am_liam"
+      }
+    ],
+    "attack": [
+      {
+        "file": "ballista/attack_1.ogg",
+        "text": "Flaming bolt away!",
+        "source": "tts",
+        "voice": "am_liam"
+      },
+      {
+        "file": "ballista/attack_2.ogg",
+        "text": "Skewer the night!",
+        "source": "tts",
+        "voice": "am_liam"
+      },
+      {
+        "file": "ballista/attack_3.ogg",
+        "text": "Stake through the heart, the big one!",
+        "source": "tts",
+        "voice": "am_liam"
+      }
+    ],
+    "death": [
+      {
+        "file": "ballista/death_1.ogg",
+        "text": "She's burning!",
+        "source": "tts",
+        "voice": "am_liam"
+      },
+      {
+        "file": "ballista/death_2.ogg",
+        "text": "The ballista's lost!",
+        "source": "tts",
+        "voice": "am_liam"
+      }
+    ]
+  }
+}

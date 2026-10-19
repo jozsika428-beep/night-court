@@ -30,3 +30,9 @@ Play: open `index.html` from any static web server (GitHub Pages works). No inst
 - `test/browser_test.py`: 2D view, headless Chrome at 390x844 and 844x390, screenshots to `screens/`
 - `test/browser3d_test.py [url] [low|high]`: 3D view with SwiftShader WebGL: touch tap/drag/pinch/twist, raycast pick, ~100-unit fps run, `?2d=1` fallback, screenshots `screens/3d_*.png`
 - `ART_GUIDE.md`: how sprites are drawn and how to add more
+
+## Voice lines
+- Your own units speak (BFME style): **select** (one line per group: a hero first, else the most common type), **move** (ground tap), **attack** (tap an enemy; sometimes when units start fighting, at most every 14 s), **ability** (hero abilities), **death** (heroes always; other units sometimes when near the camera). One line at a time with a 0.8 s gap, never the same line twice in a row. Code: `js/voice.js`.
+- Audio: `voice/final/` is the main set, `voice/raw/` the fallback for units missing in final (folder names: `bonearcher`, `crossbowman`, `torchbearer` = archer, crossbow, torch). Heroes (`vael/`, `grimfang/`, `ashen/`) stay silent until their lines appear in `final/index.json`.
+- Web Audio, each file decoded on first use; audio unlocks on the first tap (iOS). Menu: Voice volume + Mute (saved).
+- Browsers without Ogg Opus (older iOS Safari) get `.m4a` (AAC) copies. **After the artist adds or changes lines, run:** `python3 tools/voice_m4a.py && python3 tools/asset_index.py --voice-only`, then commit `voice/` and push. Only `index.json`, `.ogg` and `.m4a` are shipped (TTS/FX tooling is git-ignored).

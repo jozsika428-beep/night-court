@@ -21,7 +21,20 @@
   document.title = NC.TITLE; $('title').textContent = NC.TITLE;
   if (!want3d) { $('viewlink').textContent = 'Switch to the 3D view'; $('viewlink').href = location.pathname; $('gfx-wrap').classList.add('hidden'); }
 
+  var voice = NC.Voice ? new NC.Voice() : null; window.NC_VOICE = voice;
+  function voiceMenu() {
+    if (!voice) return;
+    $('vvol').value = voice.vol; $('vvol-n').textContent = voice.muted ? 'muted' : voice.vol + '%';
+    $('vmute').textContent = voice.muted ? '🔇 Unmute' : '🔊 Mute'; $('vmute').classList.toggle('sel', voice.muted);
+  }
+  if (voice) {
+    $('vvol').oninput = function () { voice.setVolume(+this.value); if (voice.muted) voice.setMuted(false); voiceMenu(); };
+    $('vvol').onchange = function () { voice.busyUntil = 0; voice.say('ghoul', 'select', 'preview'); };
+    $('vmute').onclick = function () { voice.setMuted(!voice.muted); voiceMenu(); };
+  } else $('voice-wrap').classList.add('hidden');
+
   function menu() {
+    voiceMenu();
     var m = '';
     for (var k in NC.MAPS) { var mp = NC.MAPS[k]; m += '<div class="card' + (mp.playable ? (state.map === k ? ' sel' : '') : ' soon') + '" data-map="' + k + '">' + (mp.playable ? '' : '<span class="tag">Coming soon</span>') + '<b>' + mp.name + '</b><small>' + mp.desc + '</small></div>'; }
     $('maps').innerHTML = m;
@@ -108,6 +121,7 @@
       if (want3d) ui.toast('3D view not available here, using the 2D view', 'alert');
     }
     $('minimap').onpointerdown = function (e) { var r = this.getBoundingClientRect(); cam.x = (e.clientX - r.left) / r.width * NC.WORLD.w; cam.y = (e.clientY - r.top) / r.height * NC.WORLD.h; cam.clamp(); };
+    if (voice) voice.attach(game, ui, cam);
     ui.toast('Build on the ＋ plots. Start with a Crypt and a Blood Farm.', 'hero');
     running = true; paused = false; acc = 0; last = performance.now();
     window.NC_GAME = game; window.NC_BOT = bot; window.NC_CAM = cam; window.NC_VIEW = mode; window.NC_WORLD = mode === '3d' ? world : null; window.NC_UI = ui; // for tests
@@ -138,6 +152,7 @@
       while (acc >= STEP && steps < 6) { bot.update(STEP); game.update(STEP); acc -= STEP; steps++; }
       if (steps === 6) acc = 0;
       if (game.winner >= 0) setTimeout(endScreen, 1200);
+      if (voice) voice.update();
     }
     ren.draw(ui);
     if (mode === '3d') window.__fps = world.fps;

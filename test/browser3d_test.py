@@ -57,6 +57,25 @@ def run(p, w, h, name):
     built = pg.evaluate("(id) => !!NC_GAME.get(NC_GAME.get(id).buildingId)", sp['id'])
     print(name, 'tap plot -> build menu:', menu_ok, '| Crypt built:', built)
     if not (menu_ok and built): errors.append(name + ' touch build flow failed')
+    # voice lines: tap one of your units -> 'select' line; tap the ground -> 'move' line (real touch input)
+    vp = pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM; NC_UI.clear(); const us = [0, 1, 2].map(i => { const u = g.spawnUnit('ghoul', 0, c.x - 20 + i * 20, c.y - 25); u.order = { type: 'idle' }; return u; });
+      window.__vu = us.map(u => u.id); NC_VOICE.busyUntil = 0; NC_VOICE.calls.length = 0; NC_VOICE.plays.length = 0; return 1; }""")
+    pg.wait_for_timeout(600)
+    sp_u = pg.evaluate("() => { const u = NC_GAME.units.find(u => u.id === window.__vu[1]); const s = NC_CAM.project(u.x, u.y, 1.4); return { x: s.x, y: s.y }; }")
+    pg.touchscreen.tap(sp_u['x'], sp_u['y']); pg.wait_for_timeout(2600)
+    sp_g = pg.evaluate("() => { const s = NC_CAM.project(NC_CAM.x + 50, NC_CAM.y - 70, 0); return { x: s.x, y: s.y }; }")
+    pg.touchscreen.tap(sp_g['x'], sp_g['y']); pg.wait_for_timeout(1500)
+    v = pg.evaluate("() => { const V = NC_VOICE; return { loaded: V.loaded, ctx: V.ctx ? V.ctx.state : null, ext: V.ext, calls: V.calls.map(c => c.type + ':' + c.ev + ':' + c.why), plays: V.plays.map(p => p.ev + ' ' + p.file + ' \"' + p.text + '\"'), sel: NC_UI.sel.units.size } }")
+    print(name, 'voice:', json.dumps(v))
+    evs = [c.split(':')[1] for c in v['calls']]; pl = ' '.join(v['plays'])
+    if not ('select' in evs and 'move' in evs and 'select' in pl and 'move' in pl): errors.append(name + ' voice select/move did not play ' + json.dumps(v))
+    # AAC fallback path (what older iPhones use) and a hero with no audio yet: must not throw or 404
+    v2 = pg.evaluate("""() => new Promise(res => { const V = NC_VOICE; V.ext = 'm4a'; V.choose(); V.busyUntil = 0; const n = V.plays.length; V.say('ghoul', 'attack', 'test');
+      const hero = V.say('vael', 'select', 'test');
+      setTimeout(() => { const p = V.plays.slice(n); V.ext = 'ogg'; V.choose(); res({ m4a: p.map(x => x.file), heroSpoke: hero }); }, 1200); })""")
+    print(name, 'voice m4a fallback:', json.dumps(v2))
+    if not (v2['m4a'] and v2['m4a'][0].endswith('.m4a')) or v2['heroSpoke']: errors.append(name + ' voice m4a/hero fallback failed ' + json.dumps(v2))
+    pg.evaluate("() => { const g = NC_GAME; g.units = g.units.filter(u => !window.__vu.includes(u.id)); NC_UI.clear(); }")
     # tap the building (raycast) -> building panel
     bp = pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM, f = g.get(g.sides[0].fortressId); NC_UI.clear(); NC_UI.refresh(true); c.x = f.x; c.y = f.y - 30; c.clamp(); c.apply(); const s = c.project(f.x, f.y, 4); return s; }""")
     # wait for the view to settle: in headless SwiftShader the first frames on new models can stall long enough
