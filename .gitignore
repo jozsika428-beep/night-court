@@ -1,0 +1,4 @@
+art/_src/
+art/*/src/
+node_modules/
+__pycache__/

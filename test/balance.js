@@ -1,0 +1,2 @@
+const fs=require('fs'),vm=require('vm');['config','maps','sim','ai'].forEach(f=>vm.runInThisContext(fs.readFileSync(__dirname+'/../js/'+f+'.js','utf8')));
+let w=[0,0,0];for(let s=1;s<=8;s++){const g=new NC.Game({difficulty:'medium',seed:s*7});const b0=new NC.Bot(g,0),b1=new NC.Bot(g,1);g.sides[0].incomeMult=1;let t=0;while(g.winner<0&&t<2400){b0.update(1/30);b1.update(1/30);g.update(1/30);t+=1/30;}w[g.winner+1]++;console.log('seed',s,'winner',g.winner,(t/60).toFixed(1)+'min','kills',g.sides[0].stats.kills,g.sides[1].stats.kills);}console.log('draw/night/dawn',w);

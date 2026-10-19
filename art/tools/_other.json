@@ -1,0 +1,213 @@
+[
+ {
+  "file": "portraits/night_vael.png",
+  "width": 512,
+  "height": 512,
+  "kind": "hero_portrait",
+  "faction": "night",
+  "notes": "square, opaque painted background; frame/mask in UI"
+ },
+ {
+  "file": "portraits/night_grimfang.png",
+  "width": 512,
+  "height": 512,
+  "kind": "hero_portrait",
+  "faction": "night",
+  "notes": "square, opaque painted background; frame/mask in UI"
+ },
+ {
+  "file": "portraits/night_gravecaller.png",
+  "width": 512,
+  "height": 512,
+  "kind": "hero_portrait",
+  "faction": "night",
+  "notes": "square, opaque painted background; frame/mask in UI"
+ },
+ {
+  "file": "portraits/night_banshee_queen.png",
+  "width": 512,
+  "height": 512,
+  "kind": "hero_portrait",
+  "faction": "night",
+  "notes": "square, opaque painted background; frame/mask in UI"
+ },
+ {
+  "file": "portraits/dawn_ashen.png",
+  "width": 512,
+  "height": 512,
+  "kind": "hero_portrait",
+  "faction": "dawn",
+  "notes": "square, opaque painted background; frame/mask in UI"
+ },
+ {
+  "file": "portraits/dawn_iron_inquisitor.png",
+  "width": 512,
+  "height": 512,
+  "kind": "hero_portrait",
+  "faction": "dawn",
+  "notes": "square, opaque painted background; frame/mask in UI"
+ },
+ {
+  "file": "portraits/dawn_sun_priestess.png",
+  "width": 512,
+  "height": 512,
+  "kind": "hero_portrait",
+  "faction": "dawn",
+  "notes": "square, opaque painted background; frame/mask in UI"
+ },
+ {
+  "file": "terrain/tile_water_256.png",
+  "width": 256,
+  "height": 256,
+  "kind": "terrain_tile",
+  "tileable": true,
+  "notes": "seamless repeat; Blackwater Fords"
+ },
+ {
+  "file": "terrain/tile_water.png",
+  "width": 128,
+  "height": 128,
+  "kind": "terrain_tile",
+  "tileable": true,
+  "notes": "seamless repeat 128px; Blackwater Fords"
+ },
+ {
+  "file": "terrain/tile_ford_256.png",
+  "width": 256,
+  "height": 256,
+  "kind": "terrain_tile",
+  "tileable": true,
+  "notes": "seamless repeat; Blackwater Fords"
+ },
+ {
+  "file": "terrain/tile_ford.png",
+  "width": 128,
+  "height": 128,
+  "kind": "terrain_tile",
+  "tileable": true,
+  "notes": "seamless repeat 128px; Blackwater Fords"
+ },
+ {
+  "file": "terrain/tile_grass_256.png",
+  "width": 256,
+  "height": 256,
+  "kind": "terrain_tile",
+  "tileable": true,
+  "notes": "seamless repeat; Blackwater Fords"
+ },
+ {
+  "file": "terrain/tile_grass.png",
+  "width": 128,
+  "height": 128,
+  "kind": "terrain_tile",
+  "tileable": true,
+  "notes": "seamless repeat 128px; Blackwater Fords"
+ },
+ {
+  "file": "terrain/tile_mud_256.png",
+  "width": 256,
+  "height": 256,
+  "kind": "terrain_tile",
+  "tileable": true,
+  "notes": "seamless repeat; Blackwater Fords"
+ },
+ {
+  "file": "terrain/tile_mud.png",
+  "width": 128,
+  "height": 128,
+  "kind": "terrain_tile",
+  "tileable": true,
+  "notes": "seamless repeat 128px; Blackwater Fords"
+ },
+ {
+  "file": "ui/res_blood.png",
+  "width": 64,
+  "height": 64,
+  "kind": "ui_icon",
+  "notes": "resource: Blood (Night Court)"
+ },
+ {
+  "file": "ui/res_gold.png",
+  "width": 64,
+  "height": 64,
+  "kind": "ui_icon",
+  "notes": "resource: Gold (Dawn Order)"
+ },
+ {
+  "file": "ui/upg_silver_armor.png",
+  "width": 64,
+  "height": 64,
+  "kind": "ui_icon",
+  "notes": "upgrade: silver armor"
+ },
+ {
+  "file": "ui/upg_fangs.png",
+  "width": 64,
+  "height": 64,
+  "kind": "ui_icon",
+  "notes": "upgrade: sharper fangs"
+ },
+ {
+  "file": "ui/upg_faster_recruit.png",
+  "width": 64,
+  "height": 64,
+  "kind": "ui_icon",
+  "notes": "upgrade: faster recruitment"
+ },
+ {
+  "file": "ui/upg_bone_armor.png",
+  "width": 64,
+  "height": 64,
+  "kind": "ui_icon",
+  "notes": "upgrade: bone armor"
+ },
+ {
+  "file": "ui/upg_silver_weapons.png",
+  "width": 64,
+  "height": 64,
+  "kind": "ui_icon",
+  "notes": "upgrade: silver-tipped weapons"
+ },
+ {
+  "file": "ui/badge_level_1.png",
+  "width": 64,
+  "height": 64,
+  "kind": "ui_badge",
+  "level": 1,
+  "notes": "overlay at top-right of a building/unit (bronze I, silver II, gold III)"
+ },
+ {
+  "file": "ui/badge_level_2.png",
+  "width": 64,
+  "height": 64,
+  "kind": "ui_badge",
+  "level": 2,
+  "notes": "overlay at top-right of a building/unit (bronze I, silver II, gold III)"
+ },
+ {
+  "file": "ui/badge_level_3.png",
+  "width": 64,
+  "height": 64,
+  "kind": "ui_badge",
+  "level": 3,
+  "notes": "overlay at top-right of a building/unit (bronze I, silver II, gold III)"
+ },
+ {
+  "file": "ui/team_ring_night.png",
+  "width": 64,
+  "height": 32,
+  "kind": "ui_overlay",
+  "faction": "night",
+  "anchor": "centre",
+  "notes": "draw under a unit at its feet anchor for ownership/selection"
+ },
+ {
+  "file": "ui/team_ring_dawn.png",
+  "width": 64,
+  "height": 32,
+  "kind": "ui_overlay",
+  "faction": "dawn",
+  "anchor": "centre",
+  "notes": "draw under a unit at its feet anchor for ownership/selection"
+ }
+]

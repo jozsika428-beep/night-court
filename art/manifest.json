@@ -1,0 +1,2122 @@
+{
+ "base": "art/",
+ "sprites": {
+  "ghoul": "units/night_ghoul.png",
+  "archer": "units/night_bone_archer.png",
+  "thrall": "units/night_vampire_thrall.png",
+  "werewolf": "units/night_werewolf.png",
+  "bat": "units/night_bat_swarm.png",
+  "catapult": "units/night_bone_catapult.png",
+  "brute": "units/night_alpha_brute.png",
+  "bloodknight": "units/night_blood_knight.png",
+  "banshee": "units/night_banshee.png",
+  "wraith": "units/night_wraith_rider.png",
+  "gargoyle": "units/night_gargoyle.png",
+  "abomination": "units/night_flesh_abomination.png",
+  "cultist": "units/night_blood_cultist.png",
+  "torch": "units/dawn_torchbearer.png",
+  "crossbow": "units/dawn_crossbowman.png",
+  "priest": "units/dawn_priest.png",
+  "knight": "units/dawn_silver_knight.png",
+  "ballista": "units/dawn_fire_ballista.png",
+  "witchhunter": "units/dawn_witch_hunter.png",
+  "vael": "heroes/night_vael.png",
+  "grimfang": "heroes/night_grimfang.png",
+  "gravecaller": "heroes/night_gravecaller.png",
+  "bansheequeen": "heroes/night_banshee_queen.png",
+  "ashen": "heroes/dawn_ashen.png",
+  "inquisitor": "heroes/dawn_iron_inquisitor.png",
+  "sunpriestess": "heroes/dawn_sun_priestess.png",
+  "village": "buildings/neutral_village_plot.png",
+  "graveyard": "buildings/neutral_graveyard_plot.png",
+  "shrine": "buildings/neutral_shrine.png",
+  "ruin": "buildings/neutral_watchtower_ruin.png",
+  "prop_reeds": "terrain/props/reeds.png",
+  "prop_rock_flat": "terrain/props/rock_flat.png",
+  "prop_rocks_cluster": "terrain/props/rocks_cluster.png",
+  "prop_tree_dead": "terrain/props/tree_dead.png",
+  "prop_tree_oak": "terrain/props/tree_oak.png",
+  "prop_tree_pine": "terrain/props/tree_pine.png",
+  "tile_water": "terrain/tile_water.png",
+  "tile_ford": "terrain/tile_ford.png",
+  "tile_grass": "terrain/tile_grass.png",
+  "tile_mud": "terrain/tile_mud.png"
+ },
+ "buildings": {
+  "fortress": {
+   "l1": "buildings/night_fortress_l1.png",
+   "l2": "buildings/night_fortress_l2.png",
+   "l3": "buildings/night_fortress_l3.png"
+  },
+  "crypt": {
+   "l1": "buildings/night_crypt_l1.png",
+   "l2": "buildings/night_crypt_l2.png",
+   "l3": "buildings/night_crypt_l3.png"
+  },
+  "wolfden": {
+   "l1": "buildings/night_wolf_den_l1.png",
+   "l2": "buildings/night_wolf_den_l2.png",
+   "l3": "buildings/night_wolf_den_l3.png"
+  },
+  "altar": {
+   "l1": "buildings/night_blood_altar_l1.png",
+   "l2": "buildings/night_blood_altar_l2.png",
+   "l3": "buildings/night_blood_altar_l3.png"
+  },
+  "bloodfarm": {
+   "l1": "buildings/night_blood_farm_l1.png",
+   "l2": "buildings/night_blood_farm_l2.png",
+   "l3": "buildings/night_blood_farm_l3.png"
+  },
+  "slaughter": {
+   "l1": "buildings/night_slaughterhouse_l1.png",
+   "l2": "buildings/night_slaughterhouse_l2.png",
+   "l3": "buildings/night_slaughterhouse_l3.png"
+  },
+  "charnel": {
+   "l1": "buildings/night_charnel_house_l1.png",
+   "l2": "buildings/night_charnel_house_l2.png",
+   "l3": "buildings/night_charnel_house_l3.png"
+  },
+  "ntower": {
+   "l1": "buildings/night_tower_l1.png",
+   "l2": "buildings/night_tower_l2.png",
+   "l3": "buildings/night_tower_l3.png"
+  },
+  "keep": {
+   "l1": "buildings/dawn_keep_l1.png",
+   "l2": "buildings/dawn_keep_l2.png",
+   "l3": "buildings/dawn_keep_l3.png"
+  },
+  "barracks": {
+   "l1": "buildings/dawn_barracks_l1.png",
+   "l2": "buildings/dawn_barracks_l2.png",
+   "l3": "buildings/dawn_barracks_l3.png"
+  },
+  "stables": {
+   "l1": "buildings/dawn_stables_l1.png",
+   "l2": "buildings/dawn_stables_l2.png",
+   "l3": "buildings/dawn_stables_l3.png"
+  },
+  "forge": {
+   "l1": "buildings/dawn_forge_l1.png",
+   "l2": "buildings/dawn_forge_l2.png",
+   "l3": "buildings/dawn_forge_l3.png"
+  },
+  "chapel": {
+   "l1": "buildings/dawn_chapel_l1.png",
+   "l2": "buildings/dawn_chapel_l2.png",
+   "l3": "buildings/dawn_chapel_l3.png"
+  },
+  "mill": {
+   "l1": "buildings/dawn_mill_l1.png",
+   "l2": "buildings/dawn_mill_l2.png",
+   "l3": "buildings/dawn_mill_l3.png"
+  },
+  "granary": {
+   "l1": "buildings/dawn_granary_l1.png",
+   "l2": "buildings/dawn_granary_l2.png",
+   "l3": "buildings/dawn_granary_l3.png"
+  },
+  "dtower": {
+   "l1": "buildings/dawn_tower_l1.png",
+   "l2": "buildings/dawn_tower_l2.png",
+   "l3": "buildings/dawn_tower_l3.png"
+  }
+ },
+ "portraits": {
+  "vael": "portraits/night_vael.png",
+  "grimfang": "portraits/night_grimfang.png",
+  "gravecaller": "portraits/night_gravecaller.png",
+  "bansheequeen": "portraits/night_banshee_queen.png",
+  "ashen": "portraits/dawn_ashen.png",
+  "inquisitor": "portraits/dawn_iron_inquisitor.png",
+  "sunpriestess": "portraits/dawn_sun_priestess.png"
+ },
+ "icons": {
+  "blood": "ui/res_blood.png",
+  "gold": "ui/res_gold.png",
+  "armor": "ui/upg_silver_armor.png",
+  "armor_night": "ui/upg_bone_armor.png",
+  "melee": "ui/upg_fangs.png",
+  "melee_dawn": "ui/upg_silver_weapons.png",
+  "recruit": "ui/upg_faster_recruit.png",
+  "badge_1": "ui/badge_level_1.png",
+  "badge_2": "ui/badge_level_2.png",
+  "badge_3": "ui/badge_level_3.png",
+  "ring_night": "ui/team_ring_night.png",
+  "ring_dawn": "ui/team_ring_dawn.png"
+ },
+ "pack": "night-court-art-v1",
+ "generated": "2026-10-19",
+ "root": "/workspace/game/art",
+ "conventions": {
+  "units": "units/<faction>_<unit>.png 64x64 RGBA, 1px faction outline baked in; units/src/*_128.png clean 128px sources",
+  "heroes": "heroes/<faction>_<hero>.png 80x80 RGBA (+ heroes/src 160px)",
+  "buildings": "buildings/<faction>_<building>_l<1|2|3>.png 256x256 RGBA (+ buildings/src 512px); neutral outposts buildings/neutral_*.png",
+  "anchor": "all sprites are bottom-centre anchored: draw at (x - w/2, y - h*0.96) for units, (x - w/2, y - h*0.97) for buildings",
+  "facing": "Night Court sprites face down-right, Dawn Order sprites face down-left (they face each other across the map). Mirror with scaleX(-1) for the other direction.",
+  "portraits": "portraits/<faction>_<hero>.png 512x512 opaque",
+  "ui": "ui/*.png 64x64 RGBA icons; badge_level_N overlays; team_ring_<faction>.png 64x32 drawn under units",
+  "terrain": "terrain/tile_<water|ford|grass|mud>.png 128px seamless (256px variants too); terrain/props/*.png 128px bottom-anchored"
+ },
+ "files": [
+  {
+   "file": "units/src/night_ghoul_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 20011
+  },
+  {
+   "file": "units/night_ghoul.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 6522
+  },
+  {
+   "file": "units/src/night_vampire_thrall_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 19045
+  },
+  {
+   "file": "units/night_vampire_thrall.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 5850
+  },
+  {
+   "file": "units/src/night_werewolf_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 21908
+  },
+  {
+   "file": "units/night_werewolf.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 6759
+  },
+  {
+   "file": "units/src/night_bone_archer_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 23264
+  },
+  {
+   "file": "units/night_bone_archer.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 7324
+  },
+  {
+   "file": "units/src/night_alpha_brute_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 26301
+  },
+  {
+   "file": "units/night_alpha_brute.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 8211
+  },
+  {
+   "file": "units/src/night_blood_knight_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 24028
+  },
+  {
+   "file": "units/night_blood_knight.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 7549
+  },
+  {
+   "file": "units/src/night_bat_swarm_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 19660
+  },
+  {
+   "file": "units/night_bat_swarm.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px. hovering/flying: draw a soft shadow under it",
+   "bytes": 6740
+  },
+  {
+   "file": "units/src/night_banshee_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 22377
+  },
+  {
+   "file": "units/night_banshee.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px. hovering/flying: draw a soft shadow under it",
+   "bytes": 7012
+  },
+  {
+   "file": "units/src/night_wraith_rider_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 27080
+  },
+  {
+   "file": "units/night_wraith_rider.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px. hovering/flying: draw a soft shadow under it",
+   "bytes": 8022
+  },
+  {
+   "file": "units/src/night_gargoyle_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 26678
+  },
+  {
+   "file": "units/night_gargoyle.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px. hovering/flying: draw a soft shadow under it",
+   "bytes": 8410
+  },
+  {
+   "file": "units/src/night_flesh_abomination_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 27276
+  },
+  {
+   "file": "units/night_flesh_abomination.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 8009
+  },
+  {
+   "file": "units/src/night_bone_catapult_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 29242
+  },
+  {
+   "file": "units/night_bone_catapult.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 8658
+  },
+  {
+   "file": "units/src/night_blood_cultist_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 16596
+  },
+  {
+   "file": "units/night_blood_cultist.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 5158
+  },
+  {
+   "file": "heroes/src/night_vael_160.png",
+   "width": 160,
+   "height": 160,
+   "kind": "hero_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 23392
+  },
+  {
+   "file": "heroes/night_vael.png",
+   "width": 80,
+   "height": 80,
+   "kind": "hero_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 80px (heroes read slightly larger than 64px units).",
+   "bytes": 7257
+  },
+  {
+   "file": "heroes/src/night_grimfang_160.png",
+   "width": 160,
+   "height": 160,
+   "kind": "hero_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 37021
+  },
+  {
+   "file": "heroes/night_grimfang.png",
+   "width": 80,
+   "height": 80,
+   "kind": "hero_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 80px (heroes read slightly larger than 64px units).",
+   "bytes": 11269
+  },
+  {
+   "file": "heroes/src/night_gravecaller_160.png",
+   "width": 160,
+   "height": 160,
+   "kind": "hero_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 26124
+  },
+  {
+   "file": "heroes/night_gravecaller.png",
+   "width": 80,
+   "height": 80,
+   "kind": "hero_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 80px (heroes read slightly larger than 64px units).",
+   "bytes": 8040
+  },
+  {
+   "file": "units/src/dawn_crossbowman_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 18942
+  },
+  {
+   "file": "units/dawn_crossbowman.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 6034
+  },
+  {
+   "file": "units/src/dawn_torchbearer_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 14259
+  },
+  {
+   "file": "units/dawn_torchbearer.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 4815
+  },
+  {
+   "file": "units/src/dawn_silver_knight_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 23872
+  },
+  {
+   "file": "units/dawn_silver_knight.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 7491
+  },
+  {
+   "file": "units/src/dawn_priest_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 18075
+  },
+  {
+   "file": "units/dawn_priest.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 5693
+  },
+  {
+   "file": "units/src/dawn_witch_hunter_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 17735
+  },
+  {
+   "file": "units/dawn_witch_hunter.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 5804
+  },
+  {
+   "file": "units/src/dawn_fire_ballista_128.png",
+   "width": 128,
+   "height": 128,
+   "kind": "unit_sprite_source",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 26851
+  },
+  {
+   "file": "units/dawn_fire_ballista.png",
+   "width": 64,
+   "height": 64,
+   "kind": "unit_sprite",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 64px.",
+   "bytes": 8106
+  },
+  {
+   "file": "heroes/src/dawn_ashen_160.png",
+   "width": 160,
+   "height": 160,
+   "kind": "hero_sprite_source",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 24012
+  },
+  {
+   "file": "heroes/dawn_ashen.png",
+   "width": 80,
+   "height": 80,
+   "kind": "hero_sprite",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 80px (heroes read slightly larger than 64px units).",
+   "bytes": 7709
+  },
+  {
+   "file": "heroes/src/dawn_iron_inquisitor_160.png",
+   "width": 160,
+   "height": 160,
+   "kind": "hero_sprite_source",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 38783
+  },
+  {
+   "file": "heroes/dawn_iron_inquisitor.png",
+   "width": 80,
+   "height": 80,
+   "kind": "hero_sprite",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 80px (heroes read slightly larger than 64px units).",
+   "bytes": 11669
+  },
+  {
+   "file": "heroes/src/dawn_sun_priestess_160.png",
+   "width": 160,
+   "height": 160,
+   "kind": "hero_sprite_source",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 30141
+  },
+  {
+   "file": "heroes/dawn_sun_priestess.png",
+   "width": 80,
+   "height": 80,
+   "kind": "hero_sprite",
+   "faction": "dawn",
+   "facing": "down-left (3/4 view); mirror horizontally for right",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 80px (heroes read slightly larger than 64px units).",
+   "bytes": 9332
+  },
+  {
+   "file": "heroes/src/night_banshee_queen_160.png",
+   "width": 160,
+   "height": 160,
+   "kind": "hero_sprite_source",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "bytes": 35187
+  },
+  {
+   "file": "heroes/night_banshee_queen.png",
+   "width": 80,
+   "height": 80,
+   "kind": "hero_sprite",
+   "faction": "night",
+   "facing": "down-right (3/4 view); mirror horizontally for left",
+   "anchor": "bottom-centre (x=0.5, y=0.96): feet/base contact point",
+   "outline": "1px faction colour baked in",
+   "notes": "in-game size 80px (heroes read slightly larger than 64px units). hovering/flying: draw a soft shadow under it",
+   "bytes": 10641
+  },
+  {
+   "file": "buildings/src/night_fortress_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 1,
+   "bytes": 183026
+  },
+  {
+   "file": "buildings/night_fortress_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 51020
+  },
+  {
+   "file": "buildings/src/night_fortress_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 2,
+   "bytes": 273375
+  },
+  {
+   "file": "buildings/night_fortress_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 75005
+  },
+  {
+   "file": "buildings/src/night_fortress_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 3,
+   "bytes": 295785
+  },
+  {
+   "file": "buildings/night_fortress_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 79598
+  },
+  {
+   "file": "buildings/src/night_crypt_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 1,
+   "bytes": 282314
+  },
+  {
+   "file": "buildings/night_crypt_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 81455
+  },
+  {
+   "file": "buildings/src/night_crypt_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 2,
+   "bytes": 322452
+  },
+  {
+   "file": "buildings/night_crypt_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 90727
+  },
+  {
+   "file": "buildings/src/night_crypt_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 3,
+   "bytes": 314229
+  },
+  {
+   "file": "buildings/night_crypt_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 84965
+  },
+  {
+   "file": "buildings/src/night_wolf_den_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 1,
+   "bytes": 318645
+  },
+  {
+   "file": "buildings/night_wolf_den_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 97773
+  },
+  {
+   "file": "buildings/src/night_wolf_den_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 2,
+   "bytes": 385306
+  },
+  {
+   "file": "buildings/night_wolf_den_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 112171
+  },
+  {
+   "file": "buildings/src/night_wolf_den_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 3,
+   "bytes": 420444
+  },
+  {
+   "file": "buildings/night_wolf_den_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 118387
+  },
+  {
+   "file": "buildings/src/night_blood_altar_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 1,
+   "bytes": 243695
+  },
+  {
+   "file": "buildings/night_blood_altar_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 76409
+  },
+  {
+   "file": "buildings/src/night_blood_altar_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 2,
+   "bytes": 307286
+  },
+  {
+   "file": "buildings/night_blood_altar_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 87679
+  },
+  {
+   "file": "buildings/src/night_blood_altar_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 3,
+   "bytes": 367225
+  },
+  {
+   "file": "buildings/night_blood_altar_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 101742
+  },
+  {
+   "file": "buildings/src/night_blood_farm_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 1,
+   "bytes": 351514
+  },
+  {
+   "file": "buildings/night_blood_farm_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 103748
+  },
+  {
+   "file": "buildings/src/night_blood_farm_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 2,
+   "bytes": 358383
+  },
+  {
+   "file": "buildings/night_blood_farm_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 100951
+  },
+  {
+   "file": "buildings/src/night_blood_farm_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 3,
+   "bytes": 430554
+  },
+  {
+   "file": "buildings/night_blood_farm_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 118116
+  },
+  {
+   "file": "buildings/src/night_slaughterhouse_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 1,
+   "bytes": 350329
+  },
+  {
+   "file": "buildings/night_slaughterhouse_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 105647
+  },
+  {
+   "file": "buildings/src/night_slaughterhouse_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 2,
+   "bytes": 368887
+  },
+  {
+   "file": "buildings/night_slaughterhouse_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 104476
+  },
+  {
+   "file": "buildings/src/night_slaughterhouse_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 3,
+   "bytes": 309650
+  },
+  {
+   "file": "buildings/night_slaughterhouse_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 85342
+  },
+  {
+   "file": "buildings/src/night_charnel_house_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 1,
+   "bytes": 284817
+  },
+  {
+   "file": "buildings/night_charnel_house_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 87451
+  },
+  {
+   "file": "buildings/src/night_charnel_house_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 2,
+   "bytes": 257375
+  },
+  {
+   "file": "buildings/night_charnel_house_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 75705
+  },
+  {
+   "file": "buildings/src/night_charnel_house_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 3,
+   "bytes": 309329
+  },
+  {
+   "file": "buildings/night_charnel_house_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 86025
+  },
+  {
+   "file": "buildings/src/night_tower_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 1,
+   "bytes": 197108
+  },
+  {
+   "file": "buildings/night_tower_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 59338
+  },
+  {
+   "file": "buildings/src/night_tower_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 2,
+   "bytes": 226481
+  },
+  {
+   "file": "buildings/night_tower_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 65115
+  },
+  {
+   "file": "buildings/src/night_tower_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "night",
+   "level": 3,
+   "bytes": 223579
+  },
+  {
+   "file": "buildings/night_tower_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "night",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 62328
+  },
+  {
+   "file": "buildings/src/dawn_keep_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 1,
+   "bytes": 272217
+  },
+  {
+   "file": "buildings/dawn_keep_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 77714
+  },
+  {
+   "file": "buildings/src/dawn_keep_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 2,
+   "bytes": 379691
+  },
+  {
+   "file": "buildings/dawn_keep_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 106493
+  },
+  {
+   "file": "buildings/src/dawn_keep_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 3,
+   "bytes": 324174
+  },
+  {
+   "file": "buildings/dawn_keep_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 87722
+  },
+  {
+   "file": "buildings/src/dawn_barracks_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 1,
+   "bytes": 305287
+  },
+  {
+   "file": "buildings/dawn_barracks_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 89724
+  },
+  {
+   "file": "buildings/src/dawn_barracks_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 2,
+   "bytes": 321627
+  },
+  {
+   "file": "buildings/dawn_barracks_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 90527
+  },
+  {
+   "file": "buildings/src/dawn_barracks_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 3,
+   "bytes": 359405
+  },
+  {
+   "file": "buildings/dawn_barracks_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 99662
+  },
+  {
+   "file": "buildings/src/dawn_stables_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 1,
+   "bytes": 346296
+  },
+  {
+   "file": "buildings/dawn_stables_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 102285
+  },
+  {
+   "file": "buildings/src/dawn_stables_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 2,
+   "bytes": 328711
+  },
+  {
+   "file": "buildings/dawn_stables_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 91196
+  },
+  {
+   "file": "buildings/src/dawn_stables_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 3,
+   "bytes": 333677
+  },
+  {
+   "file": "buildings/dawn_stables_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 89076
+  },
+  {
+   "file": "buildings/src/dawn_forge_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 1,
+   "bytes": 279283
+  },
+  {
+   "file": "buildings/dawn_forge_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 79016
+  },
+  {
+   "file": "buildings/src/dawn_forge_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 2,
+   "bytes": 253880
+  },
+  {
+   "file": "buildings/dawn_forge_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 70788
+  },
+  {
+   "file": "buildings/src/dawn_forge_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 3,
+   "bytes": 317177
+  },
+  {
+   "file": "buildings/dawn_forge_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 87177
+  },
+  {
+   "file": "buildings/src/dawn_chapel_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 1,
+   "bytes": 244353
+  },
+  {
+   "file": "buildings/dawn_chapel_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 66814
+  },
+  {
+   "file": "buildings/src/dawn_chapel_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 2,
+   "bytes": 262652
+  },
+  {
+   "file": "buildings/dawn_chapel_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 69652
+  },
+  {
+   "file": "buildings/src/dawn_chapel_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 3,
+   "bytes": 285981
+  },
+  {
+   "file": "buildings/dawn_chapel_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 75981
+  },
+  {
+   "file": "buildings/src/dawn_mill_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 1,
+   "bytes": 294834
+  },
+  {
+   "file": "buildings/dawn_mill_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 84248
+  },
+  {
+   "file": "buildings/src/dawn_mill_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 2,
+   "bytes": 332528
+  },
+  {
+   "file": "buildings/dawn_mill_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 93137
+  },
+  {
+   "file": "buildings/src/dawn_mill_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 3,
+   "bytes": 366463
+  },
+  {
+   "file": "buildings/dawn_mill_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 100914
+  },
+  {
+   "file": "buildings/src/dawn_granary_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 1,
+   "bytes": 333548
+  },
+  {
+   "file": "buildings/dawn_granary_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 99320
+  },
+  {
+   "file": "buildings/src/dawn_granary_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 2,
+   "bytes": 359169
+  },
+  {
+   "file": "buildings/dawn_granary_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 100183
+  },
+  {
+   "file": "buildings/src/dawn_granary_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 3,
+   "bytes": 390750
+  },
+  {
+   "file": "buildings/dawn_granary_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 105576
+  },
+  {
+   "file": "buildings/src/dawn_tower_l1_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 1,
+   "bytes": 234575
+  },
+  {
+   "file": "buildings/dawn_tower_l1.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 1,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 65476
+  },
+  {
+   "file": "buildings/src/dawn_tower_l2_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 2,
+   "bytes": 295165
+  },
+  {
+   "file": "buildings/dawn_tower_l2.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 2,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 82930
+  },
+  {
+   "file": "buildings/src/dawn_tower_l3_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "dawn",
+   "level": 3,
+   "bytes": 209601
+  },
+  {
+   "file": "buildings/dawn_tower_l3.png",
+   "width": 256,
+   "height": 256,
+   "kind": "building",
+   "faction": "dawn",
+   "level": 3,
+   "anchor": "bottom-centre (x=0.5, y=0.97): front tip of the isometric base",
+   "facing": "isometric 3/4, entrance faces viewer",
+   "notes": "each level is fitted to fill the 256 canvas; for visible growth draw L1 at ~80%, L2 ~90%, L3 100% scale",
+   "bytes": 57100
+  },
+  {
+   "file": "buildings/src/neutral_village_plot_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "neutral",
+   "bytes": 341996
+  },
+  {
+   "file": "buildings/neutral_village_plot.png",
+   "width": 256,
+   "height": 256,
+   "kind": "outpost",
+   "faction": "neutral",
+   "anchor": "bottom-centre (x=0.5, y=0.97)",
+   "notes": "unclaimed outpost; when captured swap to the owner's Blood Farm/Granary/Charnel House/Tower sprite or overlay a team flag",
+   "bytes": 107535
+  },
+  {
+   "file": "buildings/src/neutral_graveyard_plot_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "neutral",
+   "bytes": 328059
+  },
+  {
+   "file": "buildings/neutral_graveyard_plot.png",
+   "width": 256,
+   "height": 256,
+   "kind": "outpost",
+   "faction": "neutral",
+   "anchor": "bottom-centre (x=0.5, y=0.97)",
+   "notes": "unclaimed outpost; when captured swap to the owner's Blood Farm/Granary/Charnel House/Tower sprite or overlay a team flag",
+   "bytes": 97163
+  },
+  {
+   "file": "buildings/src/neutral_watchtower_ruin_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "neutral",
+   "bytes": 270367
+  },
+  {
+   "file": "buildings/neutral_watchtower_ruin.png",
+   "width": 256,
+   "height": 256,
+   "kind": "outpost",
+   "faction": "neutral",
+   "anchor": "bottom-centre (x=0.5, y=0.97)",
+   "notes": "unclaimed outpost; when captured swap to the owner's Blood Farm/Granary/Charnel House/Tower sprite or overlay a team flag",
+   "bytes": 80078
+  },
+  {
+   "file": "buildings/src/neutral_shrine_512.png",
+   "width": 512,
+   "height": 512,
+   "kind": "building_source",
+   "faction": "neutral",
+   "bytes": 325786
+  },
+  {
+   "file": "buildings/neutral_shrine.png",
+   "width": 256,
+   "height": 256,
+   "kind": "outpost",
+   "faction": "neutral",
+   "anchor": "bottom-centre (x=0.5, y=0.97)",
+   "notes": "unclaimed outpost; when captured swap to the owner's Blood Farm/Granary/Charnel House/Tower sprite or overlay a team flag",
+   "bytes": 101166
+  },
+  {
+   "file": "terrain/props/rocks_cluster.png",
+   "width": 128,
+   "height": 128,
+   "kind": "prop",
+   "faction": "neutral",
+   "anchor": "bottom-centre (x=0.5, y=0.96)",
+   "notes": "Blackwater Fords map prop",
+   "bytes": 28919
+  },
+  {
+   "file": "terrain/props/rock_flat.png",
+   "width": 128,
+   "height": 128,
+   "kind": "prop",
+   "faction": "neutral",
+   "anchor": "bottom-centre (x=0.5, y=0.96)",
+   "notes": "Blackwater Fords map prop",
+   "bytes": 22512
+  },
+  {
+   "file": "terrain/props/tree_pine.png",
+   "width": 128,
+   "height": 128,
+   "kind": "prop",
+   "faction": "neutral",
+   "anchor": "bottom-centre (x=0.5, y=0.96)",
+   "notes": "Blackwater Fords map prop",
+   "bytes": 14688
+  },
+  {
+   "file": "terrain/props/tree_oak.png",
+   "width": 128,
+   "height": 128,
+   "kind": "prop",
+   "faction": "neutral",
+   "anchor": "bottom-centre (x=0.5, y=0.96)",
+   "notes": "Blackwater Fords map prop",
+   "bytes": 25164
+  },
+  {
+   "file": "terrain/props/tree_dead.png",
+   "width": 128,
+   "height": 128,
+   "kind": "prop",
+   "faction": "neutral",
+   "anchor": "bottom-centre (x=0.5, y=0.96)",
+   "notes": "Blackwater Fords map prop",
+   "bytes": 17147
+  },
+  {
+   "file": "terrain/props/reeds.png",
+   "width": 128,
+   "height": 128,
+   "kind": "prop",
+   "faction": "neutral",
+   "anchor": "bottom-centre (x=0.5, y=0.96)",
+   "notes": "Blackwater Fords map prop",
+   "bytes": 17842
+  },
+  {
+   "file": "portraits/night_vael.png",
+   "width": 512,
+   "height": 512,
+   "kind": "hero_portrait",
+   "faction": "night",
+   "notes": "square, opaque painted background; frame/mask in UI",
+   "bytes": 449002
+  },
+  {
+   "file": "portraits/night_grimfang.png",
+   "width": 512,
+   "height": 512,
+   "kind": "hero_portrait",
+   "faction": "night",
+   "notes": "square, opaque painted background; frame/mask in UI",
+   "bytes": 498829
+  },
+  {
+   "file": "portraits/night_gravecaller.png",
+   "width": 512,
+   "height": 512,
+   "kind": "hero_portrait",
+   "faction": "night",
+   "notes": "square, opaque painted background; frame/mask in UI",
+   "bytes": 433413
+  },
+  {
+   "file": "portraits/night_banshee_queen.png",
+   "width": 512,
+   "height": 512,
+   "kind": "hero_portrait",
+   "faction": "night",
+   "notes": "square, opaque painted background; frame/mask in UI",
+   "bytes": 473960
+  },
+  {
+   "file": "portraits/dawn_ashen.png",
+   "width": 512,
+   "height": 512,
+   "kind": "hero_portrait",
+   "faction": "dawn",
+   "notes": "square, opaque painted background; frame/mask in UI",
+   "bytes": 486591
+  },
+  {
+   "file": "portraits/dawn_iron_inquisitor.png",
+   "width": 512,
+   "height": 512,
+   "kind": "hero_portrait",
+   "faction": "dawn",
+   "notes": "square, opaque painted background; frame/mask in UI",
+   "bytes": 523690
+  },
+  {
+   "file": "portraits/dawn_sun_priestess.png",
+   "width": 512,
+   "height": 512,
+   "kind": "hero_portrait",
+   "faction": "dawn",
+   "notes": "square, opaque painted background; frame/mask in UI",
+   "bytes": 519044
+  },
+  {
+   "file": "terrain/tile_water_256.png",
+   "width": 256,
+   "height": 256,
+   "kind": "terrain_tile",
+   "tileable": true,
+   "notes": "seamless repeat; Blackwater Fords",
+   "bytes": 85887
+  },
+  {
+   "file": "terrain/tile_water.png",
+   "width": 128,
+   "height": 128,
+   "kind": "terrain_tile",
+   "tileable": true,
+   "notes": "seamless repeat 128px; Blackwater Fords",
+   "bytes": 20609
+  },
+  {
+   "file": "terrain/tile_ford_256.png",
+   "width": 256,
+   "height": 256,
+   "kind": "terrain_tile",
+   "tileable": true,
+   "notes": "seamless repeat; Blackwater Fords",
+   "bytes": 130597
+  },
+  {
+   "file": "terrain/tile_ford.png",
+   "width": 128,
+   "height": 128,
+   "kind": "terrain_tile",
+   "tileable": true,
+   "notes": "seamless repeat 128px; Blackwater Fords",
+   "bytes": 31019
+  },
+  {
+   "file": "terrain/tile_grass_256.png",
+   "width": 256,
+   "height": 256,
+   "kind": "terrain_tile",
+   "tileable": true,
+   "notes": "seamless repeat; Blackwater Fords",
+   "bytes": 94628
+  },
+  {
+   "file": "terrain/tile_grass.png",
+   "width": 128,
+   "height": 128,
+   "kind": "terrain_tile",
+   "tileable": true,
+   "notes": "seamless repeat 128px; Blackwater Fords",
+   "bytes": 22161
+  },
+  {
+   "file": "terrain/tile_mud_256.png",
+   "width": 256,
+   "height": 256,
+   "kind": "terrain_tile",
+   "tileable": true,
+   "notes": "seamless repeat; Blackwater Fords",
+   "bytes": 99466
+  },
+  {
+   "file": "terrain/tile_mud.png",
+   "width": 128,
+   "height": 128,
+   "kind": "terrain_tile",
+   "tileable": true,
+   "notes": "seamless repeat 128px; Blackwater Fords",
+   "bytes": 23450
+  },
+  {
+   "file": "ui/res_blood.png",
+   "width": 64,
+   "height": 64,
+   "kind": "ui_icon",
+   "notes": "resource: Blood (Night Court)",
+   "bytes": 3478
+  },
+  {
+   "file": "ui/res_gold.png",
+   "width": 64,
+   "height": 64,
+   "kind": "ui_icon",
+   "notes": "resource: Gold (Dawn Order)",
+   "bytes": 4376
+  },
+  {
+   "file": "ui/upg_silver_armor.png",
+   "width": 64,
+   "height": 64,
+   "kind": "ui_icon",
+   "notes": "upgrade: silver armor",
+   "bytes": 4306
+  },
+  {
+   "file": "ui/upg_fangs.png",
+   "width": 64,
+   "height": 64,
+   "kind": "ui_icon",
+   "notes": "upgrade: sharper fangs",
+   "bytes": 3866
+  },
+  {
+   "file": "ui/upg_faster_recruit.png",
+   "width": 64,
+   "height": 64,
+   "kind": "ui_icon",
+   "notes": "upgrade: faster recruitment",
+   "bytes": 4968
+  },
+  {
+   "file": "ui/upg_bone_armor.png",
+   "width": 64,
+   "height": 64,
+   "kind": "ui_icon",
+   "notes": "upgrade: bone armor",
+   "bytes": 3616
+  },
+  {
+   "file": "ui/upg_silver_weapons.png",
+   "width": 64,
+   "height": 64,
+   "kind": "ui_icon",
+   "notes": "upgrade: silver-tipped weapons",
+   "bytes": 4121
+  },
+  {
+   "file": "ui/badge_level_1.png",
+   "width": 64,
+   "height": 64,
+   "kind": "ui_badge",
+   "level": 1,
+   "notes": "overlay at top-right of a building/unit (bronze I, silver II, gold III)",
+   "bytes": 4195
+  },
+  {
+   "file": "ui/badge_level_2.png",
+   "width": 64,
+   "height": 64,
+   "kind": "ui_badge",
+   "level": 2,
+   "notes": "overlay at top-right of a building/unit (bronze I, silver II, gold III)",
+   "bytes": 5160
+  },
+  {
+   "file": "ui/badge_level_3.png",
+   "width": 64,
+   "height": 64,
+   "kind": "ui_badge",
+   "level": 3,
+   "notes": "overlay at top-right of a building/unit (bronze I, silver II, gold III)",
+   "bytes": 4955
+  },
+  {
+   "file": "ui/team_ring_night.png",
+   "width": 64,
+   "height": 32,
+   "kind": "ui_overlay",
+   "faction": "night",
+   "anchor": "centre",
+   "notes": "draw under a unit at its feet anchor for ownership/selection",
+   "bytes": 2349
+  },
+  {
+   "file": "ui/team_ring_dawn.png",
+   "width": 64,
+   "height": 32,
+   "kind": "ui_overlay",
+   "faction": "dawn",
+   "anchor": "centre",
+   "notes": "draw under a unit at its feet anchor for ownership/selection",
+   "bytes": 2373
+  },
+  {
+   "file": "concept_sheet.png",
+   "width": 2560,
+   "height": 3077,
+   "kind": "contact_sheet",
+   "bytes": 4806246
+  }
+ ]
+}

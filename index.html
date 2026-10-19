@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#120408">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Night Court</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="favicon.png">
+</head>
+<body>
+<div id="menu" class="screen">
+  <div class="menu-inner">
+    <h1 id="title">Night Court</h1>
+    <div id="banner" class="heroes-banner"></div>
+    <div class="sub">Lead the creatures of the night against the Dawn Order.</div>
+    <h2>Map</h2>
+    <div id="maps" class="cards"></div>
+    <h2>Difficulty</h2>
+    <div id="diffs" class="row"></div>
+    <button id="play" class="big">▶ Play</button>
+    <details class="how"><summary>How to play</summary>
+      <ul>
+        <li><b>Tap</b> a unit to select it. <b>Double-tap</b> selects all of that kind. <b>⚔️ Army</b> selects everyone.</li>
+        <li>With units selected, <b>tap the ground</b> to move, or <b>tap an enemy</b> to attack.</li>
+        <li><b>Drag</b> to move the map, <b>pinch</b> to zoom. <b>Hold then drag</b> (or the ▢ button) draws a selection box.</li>
+        <li>Tap a <b>＋ plot</b> to build. Tap a building to recruit, level up or buy upgrades.</li>
+        <li>Stand units next to a <b>flag</b> to capture it. Captured villages and graveyards give you more plots.</li>
+        <li>Buildings level up (★) as you use them. Higher levels unlock stronger units.</li>
+        <li>Werewolves are stronger at <b>night</b> 🌙, vampires weaker by <b>day</b> ☀️.</li>
+        <li>Destroy the enemy Keep to win. Lose your Fortress and you lose.</li>
+      </ul>
+    </details>
+  </div>
+</div>
+
+<div id="game" class="hidden">
+  <canvas id="view"></canvas>
+  <div id="hud">
+    <div class="pill" id="h-res"></div>
+    <div class="pill" id="h-pop"></div>
+    <div class="pill" id="h-time"></div>
+  </div>
+  <button class="pill btn" id="h-pause">⏸</button>
+  <canvas id="minimap" width="110" height="165"></canvas>
+  <div id="toasts"></div>
+  <div id="panel"></div>
+  <div id="overlay" class="hidden"><div class="box" id="overlay-box"></div></div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/maps.js"></script>
+<script src="js/assets.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/render.js"></script>
+<script src="js/input.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+{ "name": "night-court", "version": "0.1.0", "private": true, "scripts": { "test": "node test/core.test.js" } }
