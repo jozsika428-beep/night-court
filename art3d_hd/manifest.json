@@ -107,6 +107,34 @@
   },
   "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
  },
+ "bat": {
+  "file": "units/bat.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.52,
+  "tris": 2443,
+  "bones": 22,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> TripoSR -> Blender bake/retopo (one bat, 350/100 tris); 7 copies placed and skinned on the std bat swarm skeleton (Bat<N> body, WingL/R<N> wings), std clips",
+  "flying": true,
+  "minY": 1.032,
+  "note": "7-bat swarm hovers ~1.0-2.6 m above origin (origin = ground point under swarm); Walk = fly loop; Death drops bats to the ground",
+  "lod": {
+   "far": "units/bat_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
  "bloodknight": {
   "file": "units/bloodknight.glb",
   "faction": "night",
@@ -713,26 +741,26 @@
  "barracks": {
   "dir": "buildings/",
   "levels": [
-   "../../art3d/buildings/barracks_l1.glb",
-   "../../art3d/buildings/barracks_l2.glb",
+   "barracks_l1.glb",
+   "barracks_l2.glb",
    "barracks_l3.glb"
   ],
   "faction": "dawn",
   "type": "building",
   "scale": 1,
   "height": [
-   2.98,
-   4.03,
+   3.66,
+   4.51,
    6.11
   ],
   "footprint": [
    [
-    3.93,
-    3.75
+    6.43,
+    6.3
    ],
    [
-    7.9,
-    6.77
+    6.74,
+    6.54
    ],
    [
     7.9,
@@ -740,21 +768,21 @@
    ]
   ],
   "tris": [
-   1377,
-   2308,
+   8973,
+   8978,
    8993
   ],
   "teamMaterial": "Team",
   "lod": {
    "far": [
-    null,
-    null,
+    "barracks_l1_far.glb",
+    "barracks_l2_far.glb",
     "barracks_l3_far.glb"
    ]
   },
   "hdLevels": [
-   false,
-   false,
+   true,
+   true,
    true
   ]
  },

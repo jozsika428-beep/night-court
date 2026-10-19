@@ -1,0 +1,30 @@
+{
+ "info": {
+  "bat.glb": {
+   "tris": 2443,
+   "dims": [
+    2.12,
+    1.49,
+    1.52
+   ]
+  },
+  "bat_far.glb": {
+   "tris": 693,
+   "dims": [
+    2.12,
+    1.49,
+    1.52
+   ]
+  }
+ },
+ "team_factor": [
+  0.30809205770492554,
+  0.046812769025564194,
+  0.08253445476293564
+ ],
+ "team_faces": [
+  7,
+  0
+ ],
+ "source": "HD: concept (FLUX.1-schnell) -> TripoSR -> Blender bake/retopo (one bat, 350/100 tris); 7 copies placed and skinned on the std bat swarm skeleton (Bat<N> body, WingL/R<N> wings), std clips"
+}
