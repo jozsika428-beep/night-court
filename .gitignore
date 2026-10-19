@@ -2,3 +2,5 @@ art/_src/
 art/*/src/
 node_modules/
 __pycache__/
+art3d_hd/raw/
+art3d_hd/concepts/

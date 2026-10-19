@@ -2,6 +2,8 @@
 // low-poly placeholder shapes for every key that has no model yet.
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
@@ -185,29 +187,53 @@ export const PROPS = {
 // Agreed spec: .glb, Y-up, 1 unit = 1 m, faces +Z, origin at feet; clips Idle/Walk/Attack/Death (+Run, Ability);
 // recolourable material named "Team". Manifest: { key: { file | levels:[l1,l2,l3], faction, scale, height, clips:{...} } }
 export class ModelLib {
-  constructor(base = 'art3d/') {
-    this.base = base; this.entries = {}; this.protos = {}; this.loader = new GLTFLoader(); this.tints = new Map(); this.version = 0;
+  // opts: { hd: 'art3d_hd/' (HD set; per-key fallback to base), renderer, high }
+  constructor(base = 'art3d/', opts = {}) {
+    this.base = base; this.opts = opts; this.high = !!opts.high;
+    this.entries = {}; this.protos = {}; this.far = {}; this.source = {}; this.roots = {};
+    this.loader = new GLTFLoader(); this.tints = new Map(); this.version = 0;
     this.glowMats = []; this.glowCache = new Map(); this.terrain = {}; this.issues = []; this.propCache = {};
+    // compressed assets: Meshopt geometry, KTX2/Basis textures (transcoder vendored, fetched only when a .ktx2 is used)
+    this.loader.setMeshoptDecoder(MeshoptDecoder);
+    if (opts.renderer) {
+      this.ktx2 = new KTX2Loader().setTranscoderPath(new URL('../vendor/three/addons/libs/basis/', import.meta.url).href).detectSupport(opts.renderer);
+      this.loader.setKTX2Loader(this.ktx2);
+      this.aniso = this.high ? Math.min(4, opts.renderer.capabilities.getMaxAnisotropy()) : 1;
+    } else this.aniso = 1;
   }
+  dispose() { if (this.ktx2) this.ktx2.dispose(); }
+  async manifest(base) {
+    try { const r = await fetch(base + 'manifest.json', { cache: 'no-cache' }); if (!r.ok) return null; const m = await r.json(); return { m, root: typeof m.base === 'string' ? m.base : base }; } catch (e) { return null; }
+  }
+  static flat(m) { return m.models || Object.assign({}, m.units || {}, m.heroes || {}, m.buildings || {}, m.props || {}, (m.units || m.buildings) ? {} : m); }
   async load() {
-    let m;
-    try { const r = await fetch(this.base + 'manifest.json', { cache: 'no-cache' }); if (!r.ok) return 0; m = await r.json(); } catch (e) { return 0; }
-    const base = (m && typeof m.base === 'string') ? m.base : this.base;
-    this.root = base;
-    const src = m.models || Object.assign({}, m.units || {}, m.heroes || {}, m.buildings || {}, m.props || {}, (m.units || m.buildings) ? {} : m);
-    const jobs = [];
-    for (const k in src) {
-      const e = src[k]; if (!e || typeof e !== 'object') continue;
-      if (e.type === 'terrain' || /^terrain_/.test(k)) { this.terrain[k] = e; continue; }
-      // buildings: { dir, levels:[...] }; units: { file }
+    const std = await this.manifest(this.base), hd = this.opts.hd ? await this.manifest(this.opts.hd) : null;
+    if (!std && !hd) return 0;
+    this.root = std ? std.root : hd.root; this.set = hd ? 'hd' : 'std';
+    const S0 = std ? ModelLib.flat(std.m) : {}, S1 = hd ? ModelLib.flat(hd.m) : {};
+    const jobs = [], keys = new Set([...Object.keys(S0), ...Object.keys(S1)]);
+    const get = (k, i, f, slot) => jobs.push(this.loader.loadAsync(f).then(gltf => { gltf.scene.traverse(o => { if (o.isMesh) [].concat(o.material).forEach(m => this.prep(m)); }); (slot[k] = slot[k] || [])[i] = gltf; this.version++; })
+      .catch(err => { this.issues.push(k + ': ' + f + ' failed to load'); console.warn('model failed', k, f, err && err.message); }));
+    for (const k of keys) {
+      const useHd = S1[k] && typeof S1[k] === 'object', e = useHd ? S1[k] : S0[k], root = useHd ? hd.root : std.root;
+      if (!e || typeof e !== 'object') continue;
+      if (e.type === 'terrain' || /^terrain_/.test(k)) { this.terrain[k] = Object.assign({ root }, e); continue; }
+      // buildings: { dir, levels:[...] }; units: { file }; optional lod: { far: file | [files per level] }
       const files = e.levels ? e.levels.map(f => f ? (e.dir || '') + f : null) : (e.file ? [e.file] : null); if (!files) continue;
-      this.entries[k] = e;
-      files.forEach((f, i) => { if (!f) return; jobs.push(this.loader.loadAsync(base + f).then(gltf => { this.protos[k] = this.protos[k] || []; this.protos[k][i] = gltf; this.version++; }).catch(err => { this.issues.push(k + ': ' + f + ' failed to load'); console.warn('model failed', k, f, err && err.message); })); });
+      this.entries[k] = e; this.source[k] = useHd ? 'hd' : 'std'; this.roots[k] = root;
+      const farSpec = e.lod && e.lod.far, fars = farSpec ? (Array.isArray(farSpec) ? farSpec : files.map(() => farSpec)) : [];
+      files.forEach((f, i) => {
+        if (!f) return;
+        const near = root + f, ff = fars[i], farUrl = ff ? (ff.includes('/') ? root + ff : near.replace(/[^/]*$/, '') + ff) : null;
+        if (farUrl && !this.high) get(k, i, farUrl, this.protos);   // Low graphics: always the far model
+        else { get(k, i, near, this.protos); if (farUrl) get(k, i, farUrl, this.far); }
+      });
     }
     await Promise.all(jobs);
     this.done = true; this.version++;
     return Object.keys(this.protos).length;
   }
+  hasFar(key, level) { const p = this.far[key]; return !!(p && (p[(level || 1) - 1] || p[0])); }
   has(key, level) { const p = this.protos[key]; return !!(p && (p[(level || 1) - 1] || p[0])); }
   entryHeight(key, level) { const e = this.entries[key] || {}; return Array.isArray(e.height) ? e.height[(level || 1) - 1] : e.height; }
   footprint(key, level) { const e = this.entries[key] || {}, f = e.footprint; if (!f) return null; return Array.isArray(f[0]) ? f[(level || 1) - 1] : f; }
@@ -221,14 +247,21 @@ export class ModelLib {
     let g = this.glowCache.get(mat.uuid);
     if (!g) {
       const base = (mat.emissive && mat.emissive.getHex()) ? mat.emissive.clone() : (mat.color ? mat.color.clone() : new THREE.Color(1, 1, 1));
-      g = new THREE.MeshBasicMaterial({ vertexColors: !!mat.vertexColors, color: base, toneMapped: false, transparent: mat.transparent, opacity: mat.opacity });
+      g = new THREE.MeshBasicMaterial({ vertexColors: !!mat.vertexColors, color: base, map: mat.emissiveMap || mat.map || null, side: mat.side, toneMapped: false, transparent: mat.transparent, opacity: mat.opacity });
       g.name = 'Glow'; g.userData.base = base.clone(); this.glowCache.set(mat.uuid, g); this.glowMats.push(g);
     }
     return g;
   }
   setGlow(k) { this.glowMats.forEach(g => g.color.copy(g.userData.base).multiplyScalar(k)); }
-  fixMat(mat, teamColor, uniqueTeam) {
+  // once per loaded material: graphics-level tweaks
+  prep(mat) {
+    if (!mat || mat.userData.prepped) return; mat.userData.prepped = true;
     if (this.frontSide && mat.side !== THREE.FrontSide) mat.side = THREE.FrontSide; // Low graphics: skip back faces
+    if (!this.high && mat.normalMap) { mat.normalMap.dispose(); mat.normalMap = null; mat.needsUpdate = true; } // no normal maps on Low
+    for (const t of ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'emissiveMap', 'aoMap']) if (mat[t]) mat[t].anisotropy = this.aniso;
+  }
+  fixMat(mat, teamColor, uniqueTeam) {
+    this.prep(mat);
     if (/glow/i.test(mat.name)) return this.glow(mat);
     if (/metal/i.test(mat.name) && mat.metalness !== undefined) { // no environment map, so very metallic parts would render black
       if (!mat.userData.fixed) { mat.metalness = Math.min(mat.metalness, 0.35); mat.roughness = Math.max(mat.roughness, 0.45); mat.userData.fixed = true; }
@@ -239,8 +272,8 @@ export class ModelLib {
   }
   // returns { root, mixer, actions, height, teamMats } or null
   instance(key, level, teamColor, opts) {
-    const p = this.protos[key]; if (!p) return null;
     opts = opts || {};
+    const p = (opts.far && this.far[key]) || this.protos[key]; if (!p) return null;
     const gltf = p[(level || 1) - 1] || p[0], e = this.entries[key] || {};
     const root = SkeletonUtils.clone(gltf.scene), teamMats = opts.uniqueTeam ? [] : null;
     root.traverse(o => {
@@ -261,7 +294,7 @@ export class ModelLib {
       }
     }
     const want = this.entryHeight(key, level);
-    let pc = this.protoMeasure(key, level, gltf);
+    let pc = this.protoMeasure(key + (opts.far ? '~far' : ''), level, gltf);
     // the manifest heights are measured from the files, so trust the file scale. Flying units (bat) keep their own
     // hover (minY); siege engines move parts in their clips, so their animated bbox is never used for fitting.
     const s = e.scale || 1;
@@ -270,7 +303,7 @@ export class ModelLib {
     if (!trustY && Math.abs(pc.minY) > 0.05) { root.position.y = -pc.minY * s; this.note(key + (level ? '_l' + level : '') + ': feet ' + pc.minY.toFixed(2) + ' m off the ground (corrected)'); }
     if (want && pc.h > 0 && e.type !== 'siege' && !e.flying && Math.abs(pc.h / want - 1) > 0.15) this.note(key + (level ? '_l' + level : '') + ': height ' + pc.h.toFixed(2) + ' m vs manifest ' + want);
     const top = (want || pc.h * s) + (e.flying ? (e.minY || 0) * s : 0);
-    return { root: holder, mixer, actions, teamMats, height: top, flying: !!e.flying, footprint: [pc.w * s, pc.d * s] };
+    return { root: holder, mixer, actions, teamMats, height: top, flying: !!e.flying, far: !!opts.far, footprint: [pc.w * s, pc.d * s] };
   }
   note(t) { this.notes = this.notes || []; if (!this.notes.includes(t)) this.notes.push(t); }
   protoMeasure(key, level, gltf) {
@@ -283,10 +316,10 @@ export class ModelLib {
   }
   // static props: geometry with node transforms baked in, for InstancedMesh
   propParts(key) {
-    const p = this.protos[key]; if (!p || !p[0]) return null;
+    const p = this.far[key] || this.protos[key]; if (!p || !p[0]) return null; // scenery: the cheap model when there is one
     const out = []; p[0].scene.updateMatrixWorld(true);
     p[0].scene.traverse(o => { if (o.isMesh && !o.isSkinnedMesh) { const g = o.geometry.clone(); g.applyMatrix4(o.matrixWorld); out.push({ geo: g, mat: this.fixMat(o.material) }); } });
     return out;
   }
-  terrainURL(k) { const t = this.terrain[k]; return t && t.map ? this.root + t.map : null; }
+  terrainURL(k) { const t = this.terrain[k]; return t && t.map ? t.root + t.map : null; }
 }

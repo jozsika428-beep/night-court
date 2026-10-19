@@ -6,16 +6,18 @@ import { unitGeometry, buildingGeometry, outpostGeometry, PROPS, ModelLib, TEAM 
 export const UNIT_VIS = 1.6;    // units drawn 60% larger than life so they read on a phone screen
 const WATER_Y = -0.12;
 const _o = new THREE.Object3D(), _v = new THREE.Vector3(), _v2 = new THREE.Vector3(), _q = new THREE.Quaternion(), _c = new THREE.Color(), _m = new THREE.Matrix4();
+const LOD_OUT = 55, LOD_IN = 45; // metres from the camera: go far beyond 55, come back near inside 45
 const smooth = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 
 export class World3D {
-  constructor(canvas, cam, NC, gfx) {
+  constructor(canvas, cam, NC, gfx, opts) {
+    opts = opts || {}; this.modelSet = opts.hd ? 'hd' : 'std';
     this.NC = NC; this.cam = cam; this.gfx = gfx; this.high = gfx === 'high'; this.canvas = canvas;
     this.r = new THREE.WebGLRenderer({ canvas, antialias: this.high, powerPreference: 'high-performance', alpha: false });
     this.r.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.high ? 2 : 1.5));
     this.r.outputColorSpace = THREE.SRGBColorSpace;
     this.r.shadowMap.enabled = this.high; this.r.shadowMap.type = THREE.PCFShadowMap;
-    this.models = new ModelLib('art3d/');
+    this.models = new ModelLib('art3d/', { hd: opts.hd || null, renderer: this.r, high: this.high });
     // Low graphics draws model faces one-sided (cheaper); ?double=1 forces the artist's double-sided materials
     this.models.frontSide = !this.high && !/[?&]double=1/.test(location.search);
     this.modelsReady = this.models.load();
@@ -32,7 +34,7 @@ export class World3D {
   }
 
   resize() { const c = this.cam; this.r.setSize(c.vw, c.vh, false); }
-  dispose() { this.r.dispose(); }
+  dispose() { this.models.dispose(); this.r.dispose(); }
 
   // ground height in metres at a sim point: river bed is deep, fords are shallow
   height(x, y) {
@@ -242,6 +244,11 @@ export class World3D {
       const want = 2 * b.r * S;
       grp.userData.lvlScale = 1; grp.userData.fitScale = b.def.role === 'fortress' ? want * 1.05 / mx : Math.min(1, want * 1.1 / mx);
       if (mi.mixer && mi.actions.idle) { mi.actions.idle.play(); grp.userData.mixer = mi.mixer; }
+      const fmi = this.models.hasFar(b.type, lvl) && this.models.instance(b.type, lvl, team, { shadow: this.high, far: true });
+      if (fmi) { // building LOD: both models live in the group, one visible
+        fmi.root.visible = false; grp.add(fmi.root); if (fmi.mixer && fmi.actions.idle) fmi.actions.idle.play();
+        grp.userData.lod = { near: mi, far: fmi, cur: mi };
+      }
     }
     else {
       const bg = buildingGeometry(this.NC, b.type, lvl);
@@ -268,8 +275,28 @@ export class World3D {
     this._brm = this._brm || {}; const k = col.getHexString();
     return this._brm[k] || (this._brm[k] = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.55, depthWrite: false }));
   }
-  makeUnitModel(u) {
-    const mi = this.models.instance(u.type, 1, TEAM[this.g.sides[u.owner].faction]); if (!mi) return null;
+  // ---- LOD: near/far models (High graphics only; Low always loads the far model) ----
+  // switch by camera distance with hysteresis so units near the threshold don't flicker
+  lodWant(isFar, d) { return isFar ? d > LOD_IN : d > LOD_OUT; }
+  // carry the animation over to the other model: same clips, same times and weights, so nothing restarts
+  syncAnim(from, to) {
+    to.state = from.state;
+    if (!from.mixer || !to.mixer) return;
+    for (const st in to.actions) {
+      const a = from.actions[st], b = to.actions[st];
+      if (a && (a.isRunning() || a.getEffectiveWeight() > 0.001)) { b.reset(); b.play(); b.time = a.time; b.timeScale = a.timeScale; b.setEffectiveWeight(a.getEffectiveWeight()); }
+      else b.stop();
+    }
+    to.mixer.update(0);
+  }
+  swapUnitLOD(r, u, toFar) {
+    const from = r.mi, to = toFar ? (r.miFar || (r.miFar = this.makeUnitModel(u, true))) : (r.miNear || (r.miNear = this.makeUnitModel(u, false)));
+    if (!to || to === from) return;
+    this.syncAnim(from, to); from.root.visible = false; to.root.visible = true; to.acc = 0; r.mi = to; this.lodSwaps = (this.lodSwaps || 0) + 1;
+  }
+  dropUnitModels(r) { for (const m of [r.miNear, r.miFar, r.mi]) if (m) this.scene.remove(m.root); r.mi = r.miNear = r.miFar = null; }
+  makeUnitModel(u, far) {
+    const mi = this.models.instance(u.type, 1, TEAM[this.g.sides[u.owner].faction], { far: !!far }); if (!mi) return null;
     mi.root.scale.setScalar(UNIT_VIS); this.scene.add(mi.root);
     mi.state = null; return mi;
   }
@@ -326,7 +353,7 @@ export class World3D {
       this.buildProps();
     }
     for (const [id, r] of this.brec) { this.scene.remove(r.grp); } this.brec.clear();
-    for (const [id, r] of this.urec) if (r.mi) { this.scene.remove(r.mi.root); r.mi = null; }
+    for (const [id, r] of this.urec) this.dropUnitModels(r);
   }
 
   syncBuildings(ui) {
@@ -340,6 +367,15 @@ export class World3D {
       r.seen = frame;
       const s = r.grp.userData.baseScale; r.grp.scale.set(s, s * (b.built < 1 ? 0.15 + 0.85 * b.built : 1), s);
       if (r.grp.userData.blades) r.grp.userData.blades.rotation.z += 0.02;
+      const L = r.grp.userData.lod;
+      if (L) {
+        const cp = this.cam.cam.position, gp = r.grp.position, d = Math.hypot(cp.x - gp.x, cp.y - gp.y - 3, cp.z - gp.z);
+        const wantFar = L.cur.far ? d > LOD_IN * 1.5 : d > LOD_OUT * 1.5;
+        if (wantFar !== L.cur.far) {
+          const to = wantFar ? L.far : L.near; this.syncAnim(L.cur, to);
+          L.cur.root.visible = false; to.root.visible = true; L.cur = to; r.grp.userData.mixer = to.mixer; this.lodSwaps = (this.lodSwaps || 0) + 1;
+        }
+      }
       if (r.grp.userData.mixer && b.built >= 1 && this.frustum.containsPoint(r.grp.position)) r.grp.userData.mixer.update(this.dt || 0.016);
       r.grp.userData.label.scale.y = 1.5 / (r.grp.scale.y / s);
       if (ui && ui.sel.buildingId === b.id) selB = b;
@@ -384,7 +420,10 @@ export class World3D {
       const sc = UNIT_VIS * (u.hero ? 1.12 : 1);
       const vis = this.frustum.containsPoint(_v.set(X, Y + 1, Z));
       // model or placeholder
-      if (!r.mi && this.models.has(u.type)) r.mi = this.makeUnitModel(u);
+      const lod = this.models.hasFar(u.type), camP = this.cam.cam.position;
+      const dCam = lod ? Math.hypot(camP.x - X, camP.y - Y, camP.z - Z) : 0;
+      if (!r.mi && this.models.has(u.type)) { const far = lod && dCam > LOD_OUT; r.mi = this.makeUnitModel(u, far); if (r.mi) r[far ? 'miFar' : 'miNear'] = r.mi; }
+      else if (r.mi && lod && vis) { const wantFar = this.lodWant(r.mi.far, dCam); if (wantFar !== r.mi.far) this.swapUnitLOD(r, u, wantFar); }
       let height;
       if (r.mi) {
         if (r.mi.flying) Y = Math.max(0, gh) + 0.8 + Math.sin(this.t * 3 + u.id) * 0.25; // the bat model hovers by itself (minY); lift a little to clear heads
@@ -396,7 +435,9 @@ export class World3D {
           if (a && (st === 'walk' || st === 'run')) a.timeScale = Math.max(0.75, Math.min(1.6, u.def.speed / (st === 'run' ? 110 : 65)));
           // Low graphics: animate at half rate (every other frame, double step)
           r.mi.acc = (r.mi.acc || 0) + dt;
-          if (vis && (this.high || (this.tick + u.id) % 2 === 0)) { r.mi.mixer.update(r.mi.acc); r.mi.acc = 0; }
+          // Low graphics and far-LOD models animate every other frame (double step), near models every frame
+          const half = !this.high || (r.mi.far && this.cam.z < 1.2);
+          if (vis && (!half || (this.tick + u.id) % 2 === 0)) { r.mi.mixer.update(r.mi.acc); r.mi.acc = 0; }
           else if (!vis) r.mi.acc = Math.min(r.mi.acc, 0.2);
         }
         height = r.mi.height * UNIT_VIS;
@@ -424,7 +465,7 @@ export class World3D {
       this.urec.delete(id);
       if (r.label) this.scene.remove(r.label);
       this.dying.push({ r, t: 0 });
-      if (r.mi) this.playState(r.mi, 'death');
+      if (r.mi) { for (const m of [r.miNear, r.miFar]) if (m && m !== r.mi) this.scene.remove(m.root); this.playState(r.mi, 'death'); }
     }
     this.dying = this.dying.filter(dd => {
       dd.t += dt; const r = dd.r;

@@ -1,0 +1,10 @@
+{
+ "std": {
+  "base": "art3d/",
+  "available": true
+ },
+ "hd": {
+  "base": "art3d_hd/",
+  "available": false
+ }
+}

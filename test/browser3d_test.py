@@ -4,6 +4,9 @@ import sys, json
 from playwright.sync_api import sync_playwright
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://localhost:8765/index.html'
 GFX = sys.argv[2] if len(sys.argv) > 2 else 'low'
+# models: std | hd (HD chosen in the menu; falls back to Standard while art3d_hd/ has no manifest) | hdfix (test fixture HD set with LOD/KTX2/meshopt)
+MODELS = sys.argv[3] if len(sys.argv) > 3 else 'std'
+if MODELS == 'hdfix': URL += ('&' if '?' in URL else '?') + 'hd=1&hdset=test/fixtures/hd/'
 OUT = '/workspace/game/screens/'
 PFX = '3d_b2_double_' if 'double=1' in URL else '3d_b2_'  # double=1: the artist's double-sided materials on Low (for comparison)
 errors = []
@@ -23,14 +26,25 @@ def run(p, w, h, name):
     pg.on('pageerror', lambda e: errors.append(f'{name} pageerror: {e}'))
     pg.on('requestfailed', lambda r: errors.append(f'{name} requestfailed: {r.url}'))
     pg.on('response', lambda r: r.status >= 400 and errors.append(f'{name} HTTP {r.status}: {r.url}'))
-    pg.add_init_script(f"localStorage.setItem('nc_gfx', '{GFX}')")
+    pg.add_init_script(f"localStorage.setItem('nc_gfx', '{GFX}'); localStorage.setItem('nc_models', '{'hd' if MODELS != 'std' else 'std'}')")
     pg.goto(URL); pg.wait_for_timeout(1500)
     if name == 'portrait': pg.screenshot(path=OUT + '3d_menu_390x844.png')
+    mtxt = pg.inner_text('#models').replace('\n', ' '); hd_dis = pg.evaluate("() => { const b = document.querySelector('[data-models=hd]'); return b ? b.disabled : null; }")
+    print(name, 'models menu:', mtxt, '| HD disabled:', hd_dis)
+    if MODELS == 'hd' and not hd_dis and 'coming soon' not in mtxt: print(name, '(HD set is available)')
     pg.tap('#play'); pg.wait_for_timeout(2500)
     view = pg.evaluate("() => NC_VIEW"); print(name, 'view:', view, 'gfx:', GFX)
     pg.wait_for_function("() => NC_WORLD.models.done", timeout=60000); pg.wait_for_timeout(500)
     ml = pg.evaluate("() => ({ loaded: Object.keys(NC_WORLD.models.protos).length, entries: Object.keys(NC_WORLD.models.entries).length, terrain: Object.keys(NC_WORLD.models.terrain).length, issues: NC_WORLD.models.issues })")
     print(name, 'models:', json.dumps(ml))
+    hd = pg.evaluate("""() => { const M = NC_WORLD.models, src = Object.values(M.source); let ktx = 0, nrm = 0;
+      for (const k of ['vael']) for (const p of [M.protos[k], M.far[k]]) if (p && p[0]) p[0].scene.traverse(o => { if (o.isMesh) { if (o.material.map && o.material.map.isCompressedTexture) ktx++; if (o.material.normalMap) nrm++; } });
+      return { set: NC_WORLD.modelSet, hdKeys: src.filter(x => x === 'hd').length, stdKeys: src.filter(x => x === 'std').length, lodKeys: Object.keys(M.far), ktx2Maps: ktx, normalMaps: nrm }; }""")
+    print(name, 'model set:', json.dumps(hd))
+    if MODELS == 'hdfix' and (hd['set'] != 'hd' or hd['hdKeys'] != 3 or hd['ktx2Maps'] < 1): errors.append(name + ' HD fixture not used ' + json.dumps(hd))
+    if MODELS == 'hdfix' and GFX == 'low' and (hd['lodKeys'] or hd['normalMaps']): errors.append(name + ' Low should use far models only, without normal maps')
+    if MODELS == 'hdfix' and GFX == 'high' and (len(hd['lodKeys']) != 3 or hd['normalMaps'] < 1): errors.append(name + ' High should load near+far with normal maps')
+    if MODELS != 'hdfix' and hd['set'] != 'std': errors.append(name + ' expected Standard set (HD not available yet)')
     if ml['issues'] or ml['loaded'] < ml['entries']: errors.append(name + ' model load issues ' + json.dumps(ml))
     if view != '3d': errors.append(name + ' did not start in 3D')
     # tap an empty plot (projected to screen) -> build menu -> build Crypt
@@ -45,15 +59,25 @@ def run(p, w, h, name):
     if not (menu_ok and built): errors.append(name + ' touch build flow failed')
     # tap the building (raycast) -> building panel
     bp = pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM, f = g.get(g.sides[0].fortressId); NC_UI.clear(); NC_UI.refresh(true); c.x = f.x; c.y = f.y - 30; c.clamp(); c.apply(); const s = c.project(f.x, f.y, 4); return s; }""")
-    pg.wait_for_timeout(200); pg.touchscreen.tap(bp['x'], bp['y']); pg.wait_for_timeout(400)
-    fort_ok = 'Fortress' in pg.inner_text('#panel'); print(name, 'raycast tap on Fortress opens it:', fort_ok)
+    # wait for the view to settle: in headless SwiftShader the first frames on new models can stall long enough
+    # (shader compile) that a tap is read as a long-press; one retry covers that
+    for attempt in range(2):
+        pg.wait_for_timeout(800); pg.touchscreen.tap(bp['x'], bp['y']); pg.wait_for_timeout(400)
+        fort_ok = 'Fortress' in pg.inner_text('#panel')
+        if fort_ok: break
+        print(name, 'Fortress tap missed on attempt', attempt + 1)
+    print(name, 'raycast tap on Fortress opens it:', fort_ok)
     if not fort_ok: errors.append(name + ' building raycast pick failed: ' + pg.inner_text('#panel')[:120].replace('\n', ' '))
     # drag to pan, pinch to zoom, twist to rotate (raw CDP touch events)
     cdp = ctx.new_cdp_session(pg)
     def touch(kind, pts): cdp.send('Input.dispatchTouchEvent', {'type': kind, 'touchPoints': [{'x': x, 'y': y, 'id': i} for i, (x, y) in enumerate(pts)]})
     c0 = pg.evaluate("() => [NC_CAM.x, NC_CAM.y, NC_CAM.z, NC_CAM.yaw]")
-    touch('touchStart', [(w/2, h/3)]); [touch('touchMove', [(w/2 + k*8, h/3 + k*12)]) for k in range(1, 9)]; touch('touchEnd', [])
-    c1 = pg.evaluate("() => [NC_CAM.x, NC_CAM.y, NC_CAM.z, NC_CAM.yaw]")
+    pg.evaluate("() => { NC_UI.clear(); NC_UI.refresh(true); }"); pg.wait_for_timeout(150)
+    for attempt in range(2):  # one retry: a drag that starts on a unit can turn into a hold-select instead of a pan
+        touch('touchStart', [(w/2, h/3)]); [touch('touchMove', [(w/2 + k*8, h/3 + k*12)]) for k in range(1, 9)]; touch('touchEnd', [])
+        c1 = pg.evaluate("() => [NC_CAM.x, NC_CAM.y, NC_CAM.z, NC_CAM.yaw]")
+        if c1[:2] != c0[:2]: break
+        print(name, 'drag did not pan on attempt', attempt + 1); pg.wait_for_timeout(300)
     cx, cy = w/2, h/3
     touch('touchStart', [(cx-40, cy), (cx+40, cy)])
     for k in range(1, 9): touch('touchMove', [(cx-40-k*8, cy - k*3), (cx+40+k*8, cy + k*3)])
@@ -112,6 +136,19 @@ def run(p, w, h, name):
         pg.evaluate("() => { const g = NC_GAME; g.buildings = g.buildings.filter(b => !window.__bl.includes(b.id)); window.__bl.forEach(id => delete g.ents[id]); }")
     notes = pg.evaluate("() => NC_WORLD.models.notes || []"); print(name, 'model notes:', json.dumps(notes))
     pg.evaluate("() => { NC_GAME.update = window.__upd; }")
+    if MODELS == 'hdfix' and GFX == 'high':
+        # LOD: swap a ghoul without restarting its clip, then zoom in/out and count distance-based swaps
+        lod = pg.evaluate("""() => new Promise(res => { const W = NC_WORLD, g = NC_GAME; g.update = window.__upd || g.update;
+          const us = []; for (let i = 0; i < 6; i++) { const u = g.spawnUnit('ghoul', 0, 700 + i * 25, 1800); u.order = { type: 'idle' }; us.push(u); }
+          const c = NC_CAM; c.x = 760; c.y = 1800; c.z = 0.5; c.clamp();
+          setTimeout(() => { const s0 = W.lodSwaps || 0; const r = W.urec.get(us[0].id); const far0 = r.mi.far;
+            const a = r.mi.actions[r.mi.state] || r.mi.actions.idle, t0 = a.time; W.swapUnitLOD(r, us[0], !r.mi.far); const b = r.mi.actions[r.mi.state] || r.mi.actions.idle;
+            const keep = Math.abs(b.time - t0) < 0.02 && b.isRunning();
+            c.z = 3.2; c.clamp(); setTimeout(() => { const nearNow = us.filter(u => { const q = W.urec.get(u.id); return q && q.mi && !q.mi.far; }).length;
+              c.z = 0.5; c.clamp(); setTimeout(() => { const farNow = us.filter(u => { const q = W.urec.get(u.id); return q && q.mi && q.mi.far; }).length;
+                res({ startedFar: far0, clipKeptTime: keep, t0: +t0.toFixed(3), t1: +b.time.toFixed(3), nearWhenZoomedIn: nearNow, farWhenZoomedOut: farNow, swaps: (W.lodSwaps || 0) - s0 }); }, 1200); }, 1200); }, 800); }) """)
+        print(name, 'LOD:', json.dumps(lod))
+        if not (lod['clipKeptTime'] and lod['nearWhenZoomedIn'] >= 4 and lod['farWhenZoomedOut'] >= 4): errors.append(name + ' LOD swap failed ' + json.dumps(lod))
     # stress: ~100 units on screen, measure fps from the render loop
     pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM; const types0 = ['ghoul','archer','thrall','werewolf','bat'], types1 = ['torch','crossbow','knight','priest'];
       let n0 = g.units.filter(u => u.owner === 0).length, n1 = g.units.filter(u => u.owner === 1).length;

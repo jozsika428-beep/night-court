@@ -1,0 +1,98 @@
+{
+ "_note": "Test fixture for the HD model path (?hdset=test/fixtures/hd/): meshopt near model, KTX2 + normal-map far model, LOD on ghoul/crypt. Every other key falls back to art3d/.",
+ "base": "test/fixtures/hd/",
+ "vael": {
+  "file": "vael_near_meshopt.glb",
+  "faction": "night",
+  "type": "hero",
+  "scale": 1,
+  "height": 2.19,
+  "tris": 2019,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run",
+   "ability": "Ability"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": "vael_far_ktx2.glb"
+  }
+ },
+ "ghoul": {
+  "file": "../../../art3d/units/ghoul.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.69,
+  "tris": 950,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": "../../../art3d/units/ghoul.glb"
+  }
+ },
+ "crypt": {
+  "dir": "../../../art3d/buildings/",
+  "levels": [
+   "crypt_l1.glb",
+   "crypt_l2.glb",
+   "crypt_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   3.83,
+   3.93,
+   3.96
+  ],
+  "footprint": [
+   [
+    4.73,
+    4.6
+   ],
+   [
+    6.84,
+    6.36
+   ],
+   [
+    7.9,
+    7.21
+   ]
+  ],
+  "tris": [
+   1453,
+   2352,
+   4308
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    "../../../art3d/buildings/crypt_l1.glb",
+    "../../../art3d/buildings/crypt_l2.glb",
+    "../../../art3d/buildings/crypt_l3.glb"
+   ]
+  }
+ }
+}

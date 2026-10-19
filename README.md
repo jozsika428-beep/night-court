@@ -13,6 +13,9 @@ Play: open `index.html` from any static web server (GitHub Pages works). No inst
 - Camera: angled RTS camera. Drag to pan, pinch to zoom, two-finger twist or the ⟲ ⟳ buttons to rotate (Q/E or the mouse wheel on desktop). It gets flatter as you zoom in.
 - Picking: buildings are hit by raycast; units by their on-screen body (feet to head); ground taps by a ray onto the ground plane.
 - Models: `art3d/manifest.json` (glTF .glb, Y-up, metres, faces +Z, origin at feet, clips Idle/Walk/Attack/Death/(Run, Ability), material "Team" gets tinted). Any key without a model uses a low-poly placeholder (one instanced draw call per unit type).
+- HD models: menu **Models: Standard / HD** (saved; `?hd=1` forces HD). HD reads `art3d_hd/manifest.json` (same keys) and falls back to `art3d/` for any key it lacks. Whether the HD set exists comes from `art3d_sets.json`; **run `python3 tools/asset_index.py` after the HD manifest appears** (until then the button says "HD (coming soon)").
+- LOD: an entry may have `"lod": {"far": "file.glb"}` (or a list per building level; same skeleton and clip names). High graphics swaps near/far by camera distance (far beyond 55 m, near again inside 45 m; buildings x1.5) and carries the running clips over; Low graphics only loads the far model. Far models animate every other frame when zoomed out.
+- Textures: KTX2/Basis (transcoder vendored in `vendor/three/addons/libs/basis/`), Meshopt geometry, WebP/PNG/JPG. Normal maps are dropped on Low; anisotropy 4 on High, 1 on Low. Test fixture: `test/fixtures/hd/` (`?hdset=test/fixtures/hd/&hd=1`).
 - Files: `js3d/boot3d.js` (startup), `camera3d.js`, `world3d.js` (scene, terrain, lighting, entity sync), `models3d.js` (glTF loading + placeholders), `input3d.js` (touch).
 
 ## Files

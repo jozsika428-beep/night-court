@@ -32,8 +32,8 @@ export class Input3D {
     this.pts.set(e.pointerId, { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY });
     clearTimeout(this.lp);
     if (this.pts.size === 1) {
-      this.moved = false; this.pinched = false; this.boxing = this.ui.boxMode;
-      this.lp = setTimeout(() => { if (!this.moved && this.pts.size === 1) { this.boxing = true; if (navigator.vibrate) navigator.vibrate(15); this.showBox(); } }, 380);
+      this.moved = false; this.pinched = false; this.boxing = this.ui.boxMode; this.downT = e.timeStamp; this.lpAuto = false;
+      this.lp = setTimeout(() => { if (!this.moved && this.pts.size === 1) { this.boxing = true; this.lpAuto = true; if (navigator.vibrate) navigator.vibrate(15); this.showBox(); } }, 380);
       if (this.boxing) this.showBox();
     } else if (this.pts.size === 2) { this.pinched = true; this.boxing = false; this.hideBox(); this.p0 = this.two(); }
   }
@@ -44,7 +44,12 @@ export class Input3D {
   move(e) {
     const p = this.pts.get(e.pointerId); if (!p) return;
     const px = p.x, py = p.y; p.x = e.clientX; p.y = e.clientY;
-    if (Math.abs(p.x - p.sx) + Math.abs(p.y - p.sy) > 10) this.moved = true;
+    if (Math.abs(p.x - p.sx) + Math.abs(p.y - p.sy) > 10) {
+      // on a slow frame the hold timer can fire before queued moves arrive: if the finger was already
+      // moving before the hold time, this is a pan, not a hold-select
+      if (!this.moved && this.lpAuto && e.timeStamp - this.downT < 380) { this.boxing = false; this.lpAuto = false; this.hideBox(); }
+      this.moved = true;
+    }
     const c = this.cam;
     if (this.pts.size === 1) {
       if (this.boxing && this.box) { const b = this.box; b.x0 = Math.min(b.ox, p.x); b.x1 = Math.max(b.ox, p.x); b.y0 = Math.min(b.oy, p.y); b.y1 = Math.max(b.oy, p.y); this.drawBox(); }
@@ -85,6 +90,7 @@ export class Input3D {
   }
 
   tap(sx, sy) {
+    this.cam.cam.updateMatrixWorld(); // pick with the camera as it is now, even if no frame has been drawn since it moved
     const gp = this.w.groundPoint(sx, sy); if (!gp) return;
     const u = this.w.pickUnit(sx, sy), b = u ? null : this.w.pickBuilding(sx, sy);
     this.ui.tapWith(gp.x, gp.y, u, b);

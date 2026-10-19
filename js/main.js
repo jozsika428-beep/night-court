@@ -4,6 +4,16 @@
   var touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   var state = { map: 'blackwater', diff: localStorage.getItem('nc_diff') || 'medium', gfx: localStorage.getItem('nc_gfx') || (touch ? 'low' : 'high') };
   var want3d = !/[?&]2d=1/.test(location.search);
+  // model set: Standard (art3d/) or HD (art3d_hd/, falls back per model). ?hd=1 forces HD for this visit.
+  // art3d_sets.json (written by tools/asset_index.py) says whether the HD set exists, so nothing 404s.
+  var qs = new URLSearchParams(location.search);
+  state.models = qs.get('hd') === '1' ? 'hd' : (localStorage.getItem('nc_models') || 'std');
+  var hdBase = qs.get('hdset') || null; // test hook: an alternative HD folder
+  var hdAvail = !!hdBase;
+  fetch('art3d_sets.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+    if (j && j.hd && j.hd.available && !hdBase) { hdAvail = true; hdBase = j.hd.base; } menu();
+  }).catch(function () {});
+  function modelOpts() { return { hd: state.models === 'hd' && hdAvail ? hdBase : null }; }
   var mode = null; // '3d' or '2d' for the current match
   var game, bot, ren, ui, input, cam, cam2d, cam3d, world, input3d, running = false, paused = false, acc = 0, last = 0, mmT = 0, uiT = 0;
   var STEP = 1 / 30;
@@ -18,9 +28,13 @@
     var d = ''; for (var k2 in NC.DIFFICULTY) d += '<button data-diff="' + k2 + '" class="' + (state.diff === k2 ? 'sel' : '') + '">' + NC.DIFFICULTY[k2].name + '</button>';
     $('diffs').innerHTML = d;
     $('gfx').innerHTML = '<button data-gfx="low" class="' + (state.gfx === 'low' ? 'sel' : '') + '">Low <small>(faster)</small></button><button data-gfx="high" class="' + (state.gfx === 'high' ? 'sel' : '') + '">High <small>(shadows)</small></button>';
+    var hdOn = state.models === 'hd' && hdAvail;
+    $('models').innerHTML = '<button data-models="std" class="' + (hdOn ? '' : 'sel') + '">Standard</button>' +
+      (hdAvail ? '<button data-models="hd" class="' + (hdOn ? 'sel' : '') + '">HD <small>(detailed)</small></button>' : '<button data-models="hd" disabled class="soon">HD <small>(coming soon)</small></button>');
   }
   $('maps').onclick = function (e) { var c = e.target.closest('[data-map]'); if (c && NC.MAPS[c.dataset.map].playable) { state.map = c.dataset.map; menu(); } };
   $('diffs').onclick = function (e) { var c = e.target.closest('[data-diff]'); if (c) { state.diff = c.dataset.diff; localStorage.setItem('nc_diff', state.diff); menu(); } };
+  $('models').onclick = function (e) { var c = e.target.closest('[data-models]'); if (c && !c.disabled) { state.models = c.dataset.models; localStorage.setItem('nc_models', state.models); menu(); } };
   $('gfx').onclick = function (e) { var c = e.target.closest('[data-gfx]'); if (c) { state.gfx = c.dataset.gfx; localStorage.setItem('nc_gfx', state.gfx); menu(); } };
 
   // ---- wait for the 3D module (or give up and use 2D) ----
@@ -58,11 +72,12 @@
   function setup3d() {
     var T = NC.three;
     cam3d = cam3d || new T.Camera3D(NC);
-    if (world && world.gfx !== state.gfx) { // graphics changed: new WebGL context on a fresh canvas
+    var mo = modelOpts();
+    if (world && (world.gfx !== state.gfx || world.modelSet !== (mo.hd ? 'hd' : 'std'))) { // graphics or model set changed: new WebGL context on a fresh canvas
       if (input3d) input3d.destroy(); input3d = null; world.dispose();
       var old = $('view3d'), fresh = old.cloneNode(false); old.parentNode.replaceChild(fresh, old); world = null;
     }
-    if (!world) world = new T.World3D($('view3d'), cam3d, NC, state.gfx);
+    if (!world) world = new T.World3D($('view3d'), cam3d, NC, state.gfx, mo);
     return cam3d;
   }
 
