@@ -1,7 +1,7 @@
 # Loads the game in headless Chrome at phone sizes, checks for console errors, plays a bit, takes screenshots.
 import sys, json
 from playwright.sync_api import sync_playwright
-URL = sys.argv[1] if len(sys.argv) > 1 else 'http://localhost:8765/index.html'
+URL = sys.argv[1] if len(sys.argv) > 1 else 'http://localhost:8765/index.html?2d=1'
 OUT = '/workspace/game/screens/'
 errors = []
 def run(p, w, h, name, scenario):

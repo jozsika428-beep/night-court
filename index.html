@@ -6,21 +6,23 @@
 <meta name="theme-color" content="#120408">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Night Court</title>
+<title>Blood &amp; Dawn</title>
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="favicon.png">
 </head>
 <body>
 <div id="menu" class="screen">
   <div class="menu-inner">
-    <h1 id="title">Night Court</h1>
+    <h1 id="title">Blood &amp; Dawn</h1>
     <div id="banner" class="heroes-banner"></div>
     <div class="sub">Lead the creatures of the night against the Dawn Order.</div>
     <h2>Map</h2>
     <div id="maps" class="cards"></div>
     <h2>Difficulty</h2>
     <div id="diffs" class="row"></div>
+    <div id="gfx-wrap"><h2>Graphics</h2><div id="gfx" class="row"></div></div>
     <button id="play" class="big">▶ Play</button>
+    <div class="viewlink"><a id="viewlink" href="?2d=1">Having trouble? Use the classic 2D view</a></div>
     <details class="how"><summary>How to play</summary>
       <ul>
         <li><b>Tap</b> a unit to select it. <b>Double-tap</b> selects all of that kind. <b>⚔️ Army</b> selects everyone.</li>
@@ -38,12 +40,15 @@
 
 <div id="game" class="hidden">
   <canvas id="view"></canvas>
+  <canvas id="view3d" class="hidden"></canvas>
+  <div id="selbox"></div>
   <div id="hud">
     <div class="pill" id="h-res"></div>
     <div class="pill" id="h-pop"></div>
     <div class="pill" id="h-time"></div>
   </div>
   <button class="pill btn" id="h-pause">⏸</button>
+  <div id="rot" class="hidden"><button class="pill btn" id="rot-l" aria-label="Rotate left">⟲</button><button class="pill btn" id="rot-r" aria-label="Rotate right">⟳</button></div>
   <canvas id="minimap" width="110" height="165"></canvas>
   <div id="toasts"></div>
   <div id="panel"></div>
@@ -59,5 +64,7 @@
 <script src="js/input.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/main.js"></script>
+<script type="importmap">{ "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/" } }</script>
+<script type="module" src="js3d/boot3d.js" onerror="window.dispatchEvent(new Event('nc3d-failed'))"></script>
 </body>
 </html>

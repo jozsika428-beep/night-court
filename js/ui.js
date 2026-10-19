@@ -40,6 +40,12 @@
     var hitU = nearest(up, tol) || nearest(up.map(function (u) { return { x: u.x, y: u.y - u.r * 1.4, r: u.r, ref: u }; }), tol);
     if (hitU && hitU.ref) hitU = hitU.ref;
     var hitB = nearest(g.buildings, 4);
+    this.tapWith(wx, wy, hitU, hitB);
+  };
+  // shared by the 2D and 3D views: 3D resolves hits by raycast, then calls this
+  P.tapWith = function (wx, wy, hitU, hitB) {
+    var g = this.g, me = g.player, p = { x: wx, y: wy };
+    function nearest(list, extra) { var best = null, bd = 1e9; list.forEach(function (e) { var d = U.dist(e, p) - e.r - extra; if (d < bd) { bd = d; best = e; } }); return bd <= 0 ? best : null; }
     var hasSel = this.sel.units.size > 0;
     if (hitU && hitU.owner === me) {
       var now = performance.now();
@@ -71,7 +77,8 @@
     this.clear(); this.sel.units = s; if (this.boxMode) this.boxMode = false;
     if (!s.size) this.toast('No units in the box');
   };
-  P.selectType = function (type) { var s = new Set(), c = this.cam, hw = c.vw / 2 / c.z, hh = c.vh / 2 / c.z; this.myUnits().forEach(function (u) { if (u.type === type && Math.abs(u.x - c.x) < hw && Math.abs(u.y - c.y) < hh) s.add(u.id); }); this.clear(); this.sel.units = s; };
+  P.selectWhere = function (fn) { var s = new Set(); this.myUnits().forEach(function (u) { if (fn(u)) s.add(u.id); }); this.clear(); this.sel.units = s; if (this.boxMode) this.boxMode = false; if (!s.size) this.toast('No units in the box'); };
+  P.selectType = function (type) { var s = new Set(), c = this.cam, hw = c.vw / 2 / c.z, hh = c.vh / 2 / c.z; this.myUnits().forEach(function (u) { if (u.type === type && (c.inView ? c.inView(u.x, u.y) : (Math.abs(u.x - c.x) < hw && Math.abs(u.y - c.y) < hh))) s.add(u.id); }); this.clear(); this.sel.units = s; };
   P.selectArmy = function () { var s = new Set(); this.myUnits().forEach(function (u) { s.add(u.id); }); this.clear(); this.sel.units = s; if (!s.size) this.toast('You have no army yet. Build a Crypt on a + plot.'); else this.centerOn(this.centroid(s)); };
   P.centroid = function (ids) { var g = this.g, x = 0, y = 0, n = 0; ids.forEach(function (id) { var u = g.get(id); if (u) { x += u.x; y += u.y; n++; } }); return n ? { x: x / n, y: y / n } : null; };
   P.centerOn = function (p) { if (!p) return; this.cam.x = p.x; this.cam.y = p.y; this.cam.clamp(); };

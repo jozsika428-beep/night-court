@@ -65,3 +65,10 @@ button.big { display: block; width: 100%; margin: 22px 0 10px; min-height: 64px;
 
 .heroes-banner { display: flex; justify-content: center; gap: 10px; margin: 6px 0 4px; }
 .heroes-banner img { width: 84px; height: 84px; border-radius: 50%; border: 2px solid #7a1a2a; object-fit: cover; box-shadow: 0 0 14px #600; }
+
+#view3d { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; display: block; }
+#selbox { position: absolute; display: none; border: 1.5px solid #7f7; background: rgba(120,255,120,0.12); pointer-events: none; }
+#rot { position: absolute; top: calc(226px + env(safe-area-inset-top)); right: 6px; display: flex; flex-direction: column; gap: 6px; }
+#rot button { width: 50px; font-size: 20px; }
+.viewlink { text-align: center; margin: 4px 0 14px; } .viewlink a { color: #c9a; font-size: 14px; }
+@media (orientation: landscape) and (max-height: 500px) { #rot { top: 170px; flex-direction: row; right: 4px; } #rot button { width: 38px; min-width: 38px; padding: 4px; } }

@@ -1,6 +1,6 @@
 // Night Court - game data. All numbers in one place so they are easy to tune.
 (function (NC) {
-  NC.TITLE = 'Night Court';
+  NC.TITLE = 'Blood & Dawn';
 
   NC.WORLD = { w: 1600, h: 2400, riverTop: 1130, riverBot: 1270,
     fords: [{ x1: 170, x2: 370 }, { x1: 710, x2: 890 }, { x1: 1230, x2: 1430 }] };
