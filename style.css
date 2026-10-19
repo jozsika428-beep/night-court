@@ -94,3 +94,27 @@ button.big { display: block; width: 100%; margin: 22px 0 10px; min-height: 64px;
 #sp-bar:not(.over-art) i { left: 6px; top: 6px; bottom: 6px; width: calc(var(--f, 0) * (100% - 12px)); }
 #sp-label { position: absolute; left: 0; right: 0; bottom: calc(5% + 30px + env(safe-area-inset-bottom)); text-align: center; color: #f0d9a8; font: 600 14px/1 Georgia, serif; letter-spacing: 1px; text-shadow: 0 1px 3px #000, 0 0 10px #000; }
 @media (orientation: landscape) { #logo { display: none; } #menu .menu-inner { padding-top: 96px; } }
+
+/* ---- button layout (look comes from art/ui/buttons.css) ---- */
+button, .card, h2, #overlay h2 { font-family: "Cinzel", Georgia, serif; }
+.row button, #overlay button, button.big { min-height: 52px; }
+#game .pill.btn { min-width: 50px; min-height: 50px; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+.pill.btn svg.svg { width: 24px; height: 24px; color: var(--gold, #e9b44c); }
+#rot button { width: 50px; }
+#h-pause { top: calc(176px + env(safe-area-inset-top)); }
+#rot { top: calc(234px + env(safe-area-inset-top)); }
+#panel .btns { gap: 8px; align-items: stretch; }
+#panel .b { min-height: 56px; }
+#panel .b.cmd { flex: 0 0 60px; max-width: 60px; min-height: 60px; padding: 4px 2px; }
+#panel .b.cmd svg.svg { width: 28px; height: 28px; color: var(--gold, #e9b44c); }
+#panel .b.cmd.on svg.svg { color: var(--gold-l, #ffe39a); }
+#panel .b.cmd span { font-size: 9.5px; letter-spacing: .03em; margin-top: 2px; white-space: nowrap; }
+#panel .b svg.svg { width: 24px; height: 24px; color: var(--gold, #e9b44c); }
+#panel .more { flex: 1 0 100%; display: flex; gap: 8px; order: 99; }
+@media (orientation: landscape) and (max-height: 500px) {
+  #game .pill.btn, #rot button { width: 48px; min-width: 48px; height: 48px; min-height: 48px; }
+  #h-pause { top: 122px; } #rot { top: 176px; }
+  #panel .b.cmd { flex: 0 0 56px; min-width: 56px; max-width: 56px; min-height: 56px; }
+  #panel .b { min-width: 84px; min-height: 56px; }
+  #panel .more { flex: 0 0 auto; order: 0; }
+}

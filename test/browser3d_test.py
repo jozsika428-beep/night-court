@@ -72,12 +72,12 @@ def run(p, w, h, name):
     print(name, 'voice:', json.dumps(v))
     evs = [c.split(':')[1] for c in v['calls']]; pl = ' '.join(v['plays'])
     if not ('select' in evs and 'move' in evs and 'select' in pl and 'move' in pl): errors.append(name + ' voice select/move did not play ' + json.dumps(v))
-    # AAC fallback path (what older iPhones use) and a hero with no audio yet: must not throw or 404
+    # AAC fallback path (what older iPhones use) and a hero line (heroes have audio now)
     v2 = pg.evaluate("""() => new Promise(res => { const V = NC_VOICE; V.ext = 'm4a'; V.choose(); V.busyUntil = 0; const n = V.plays.length; V.say('ghoul', 'attack', 'test');
       const hero = V.say('vael', 'select', 'test');
       setTimeout(() => { const p = V.plays.slice(n); V.ext = 'ogg'; V.choose(); res({ m4a: p.map(x => x.file), heroSpoke: hero }); }, 1200); })""")
     print(name, 'voice m4a fallback:', json.dumps(v2))
-    if not (v2['m4a'] and v2['m4a'][0].endswith('.m4a')) or v2['heroSpoke']: errors.append(name + ' voice m4a/hero fallback failed ' + json.dumps(v2))
+    if not (v2['m4a'] and v2['m4a'][0].endswith('.m4a')) or not v2['heroSpoke']: errors.append(name + ' voice m4a/hero line failed ' + json.dumps(v2))
     pg.evaluate("() => { const g = NC_GAME; g.units = g.units.filter(u => !window.__vu.includes(u.id)); NC_UI.clear(); }")
     # tap the building (raycast) -> building panel
     bp = pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM, f = g.get(g.sides[0].fortressId); NC_UI.clear(); NC_UI.refresh(true); c.x = f.x; c.y = f.y - 30; c.clamp(); c.apply(); const s = c.project(f.x, f.y, 4); return s; }""")

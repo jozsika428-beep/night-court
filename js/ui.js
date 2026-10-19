@@ -7,7 +7,7 @@
   function UI(game, cam, hooks) {
     this.g = game; this.cam = cam; this.hooks = hooks || {};
     this.sel = { units: new Set(), buildingId: null, plotId: null };
-    this.mode = 'amove'; this.boxMode = false; this.box = null;
+    this.mode = 'amove'; this.boxMode = false; this.more = false; this.box = null;
     this.sig = ''; this.lastSeq = game.evSeq || 0; this.lastTap = { t: 0, type: null };
     this.panel = $('panel'); this.panelDown = false;
     var self = this;
@@ -86,6 +86,7 @@
   // ----- panel buttons -----
   P.action = function (a, v) {
     var g = this.g, me = g.player, r;
+    if (a !== 'more') this.more = false; // the More row closes after any choice
     switch (a) {
       case 'army': this.selectArmy(); break;
       case 'heroes': {
@@ -95,8 +96,10 @@
         break; }
       case 'home': this.centerOn(g.get(this.me.fortressId)); break;
       case 'mode': this.mode = this.mode === 'amove' ? 'move' : 'amove'; this.toast(this.mode === 'amove' ? 'Attack-move: units fight anything on the way' : 'Move: units ignore enemies until they arrive'); break;
-      case 'box': this.boxMode = !this.boxMode; if (this.boxMode) this.toast('Drag on the map to draw a selection box'); break;
-      case 'clear': this.clear(); break;
+      case 'box': this.boxMode = !this.boxMode; this.more = false; if (this.boxMode) this.toast('Drag on the map to draw a selection box'); break;
+      case 'clear': this.clear(); this.more = false; break;
+      case 'more': this.more = !this.more; break;
+      case 'stop': this.sel.units.forEach(function (id) { var u = g.get(id); if (u) { u.order = { type: 'idle' }; u.tgt = null; } }); break;
       case 'build': r = g.build(me, this.sel.plotId, v); if (typeof r === 'string') this.say(r); else { this.clear(); this.sel.buildingId = r.id; } break;
       case 'train': this.say(g.train(me, this.sel.buildingId, v)); break;
       case 'level': r = g.levelUp(me, this.sel.buildingId); this.say(r); break;
@@ -110,15 +113,35 @@
 
   function btn(a, v, ico, label, sub, opt) {
     opt = opt || {};
-    return '<button class="b' + (opt.on ? ' on' : '') + (opt.off ? ' off' : '') + '" data-a="' + a + '"' + (v != null ? ' data-v="' + esc(v) + '"' : '') + (opt.dis ? ' disabled' : '') + (opt.id ? ' id="' + opt.id + '"' : '') + '>' +
+    return '<button class="b' + (opt.cls ? ' ' + opt.cls : '') + (opt.on ? ' on' : '') + (opt.off ? ' off' : '') + '" data-a="' + a + '"' + (v != null ? ' data-v="' + esc(v) + '"' : '') + (opt.dis ? ' disabled' : '') + (opt.id ? ' id="' + opt.id + '"' : '') + ' aria-label="' + esc(label) + '">' +
       ico + '<span>' + esc(label) + '</span>' + (sub ? '<small>' + sub + '</small>' : '') + (opt.cd ? '<span class="cd">' + opt.cd + '</span>' : '') + '</button>';
   }
   function ico(k, f) { return A.iconHTML(k, f); }
+  // small line icons (pure SVG, gold via currentColor) for the command buttons
+  var SVG = {
+    attack: '<path d="M4 4l9 9M4 4v4M4 4h4M20 4l-9 9M20 4v4M20 4h-4M8 15l-3 3 1 1 3-3M16 15l3 3-1 1-3-3"/>',
+    move: '<path d="M5 12h12M12 6l6 6-6 6"/>',
+    stop: '<path d="M8.5 3h7L21 8.5v7L15.5 21h-7L3 15.5v-7z"/><path d="M9 9h6v6H9z"/>',
+    army: '<path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 10l3 3 3-3"/>',
+    heroes: '<path d="M4 18h16M5 18l-1-10 5 4 3-7 3 7 5-4-1 10"/>',
+    home: '<path d="M4 21V9h3v3h3V9h4v3h3V9h3v12zM10 21v-4h4v4"/>',
+    box: '<path d="M4 4h4M12 4h4M20 4v4M20 12v4M20 20h-4M12 20H8M4 20v-4M4 12V8"/>',
+    close: '<path d="M6 6l12 12M18 6L6 18"/>',
+    more: '<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
+    upgrade: '<path d="M6 13l6-6 6 6M6 19l6-6 6 6"/>',
+    build: '<path d="M14 4l6 6-3 3-6-6zM12 9l-8 8 3 3 8-8"/>'
+  };
+  function svg(k) { return '<svg class="ico svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + SVG[k] + '</svg>'; }
+  NC.svgIcon = svg;
+  // icon-only command button (caption kept tiny for clarity, screen readers get the full label)
+  function cmd(a, v, k, label, opt) { opt = opt || {}; opt.cls = 'cmd'; return btn(a, v, svg(k), label, null, opt); }
 
   P.panelHTML = function () {
     var g = this.g, me = g.player, S = this.me, fac = this.fac, resN = fac.res.toLowerCase(), self = this;
     var res = S.res, h = '', b = '';
-    var common = btn('army', null, '<span class="ico">⚔️</span>', 'Army') + btn('heroes', null, ico(fac.heroes[0]), 'Heroes') + btn('box', null, '<span class="ico">▢</span>', 'Box select', null, { on: this.boxMode }) + btn('home', null, '<span class="ico">🏰</span>', 'Home');
+    // rarely used commands live behind one 'More' button
+    var more = function (extra) { return cmd('more', null, 'more', 'More', { on: self.more }) + (self.more ? '<div class="more">' + extra + '</div>' : ''); };
+    var common = cmd('army', null, 'army', 'Army') + cmd('heroes', null, 'heroes', 'Heroes') + cmd('home', null, 'home', 'Home') + more(cmd('box', null, 'box', 'Box select', { on: this.boxMode }));
     // drop dead units from selection
     this.sel.units.forEach(function (id) { if (!g.get(id)) self.sel.units.delete(id); });
     if (this.sel.buildingId && !g.get(this.sel.buildingId)) this.sel.buildingId = null;
@@ -134,13 +157,14 @@
           b += btn('ability', u.id + ':' + i, '<span class="ico">' + ab.icon + '</span>', ab.name, esc(u.def.name.split(' ').pop()), { cd: cd, dis: !!cd });
         });
       });
-      b += btn('mode', null, '<span class="ico">' + (this.mode === 'amove' ? '⚔️' : '🏃') + '</span>', this.mode === 'amove' ? 'Attack-move' : 'Move only', 'tap to switch', { on: this.mode === 'move' });
-      b += btn('army', null, '<span class="ico">⚔️</span>', 'All army') + btn('box', null, '<span class="ico">▢</span>', 'Box', null, { on: this.boxMode }) + btn('clear', null, '<span class="ico">✖</span>', 'Deselect');
+      b += cmd('mode', null, this.mode === 'amove' ? 'attack' : 'move', this.mode === 'amove' ? 'Attack' : 'Move', { on: this.mode === 'move' });
+      b += cmd('stop', null, 'stop', 'Stop') + cmd('clear', null, 'close', 'Deselect');
+      b += more(cmd('army', null, 'army', 'All army') + cmd('box', null, 'box', 'Box', { on: this.boxMode }) + cmd('home', null, 'home', 'Home'));
     } else if (this.sel.plotId) {
       var plot = g.get(this.sel.plotId);
       h = '<b>Empty plot</b> - choose what to build' + (plot.base ? '' : ' (outpost: economy and towers only)');
       g.buildOptions(me, plot).forEach(function (k) { var d = NC.BUILDINGS[k]; b += btn('build', k, ico(k), d.name, d.cost + ' ' + resN + '<br>' + esc(d.desc || ''), { off: res < d.cost }); });
-      b += btn('clear', null, '<span class="ico">✖</span>', 'Close');
+      b += cmd('clear', null, 'close', 'Close');
     } else if (this.sel.buildingId) {
       var B = g.get(this.sel.buildingId), d = B.def, mine = B.owner === me;
       var lvlTxt = d.role === 'fortress' ? '' : ' ' + '★'.repeat(B.level) + ' <small>(level ' + B.level + ')</small>';
@@ -171,9 +195,9 @@
           });
           h += '<br><small>Heroes are strong single units with special powers. ' + NC.BASE_INCOME + ' ' + resN + '/sec from the Fortress.</small>';
         }
-        if (d.role !== 'fortress' && B.level < 3) b += btn('level', null, '<span class="ico">⬆️</span>', 'Level up now', NC.LEVEL_COST[B.level] + ' ' + resN, { off: res < NC.LEVEL_COST[B.level] });
+        if (d.role !== 'fortress' && B.level < 3) b += btn('level', null, svg('upgrade'), 'Level up', NC.LEVEL_COST[B.level] + ' ' + resN, { off: res < NC.LEVEL_COST[B.level] });
       }
-      b += btn('clear', null, '<span class="ico">✖</span>', 'Close');
+      b += cmd('clear', null, 'close', 'Close');
     } else {
       h = 'Tap a <b>＋ plot</b> to build. Capture <b>flags</b> for more land. Destroy the enemy Keep to win.';
       b = common;

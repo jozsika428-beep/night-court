@@ -8,6 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <title>Blood &amp; Dawn</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="art/ui/buttons.css">
 <link rel="icon" href="favicon.png">
 </head>
 <body>
@@ -23,7 +24,7 @@
     <div id="diffs" class="row"></div>
     <div id="gfx-wrap"><h2>Graphics</h2><div id="gfx" class="row"></div><h2>Models</h2><div id="models" class="row"></div></div>
     <div id="voice-wrap"><h2>Voice</h2><div class="row voice"><input type="range" id="vvol" min="0" max="100" step="5" aria-label="Voice volume"><span id="vvol-n"></span><button id="vmute">🔊 Mute</button></div></div>
-    <button id="play" class="big">▶ Play</button>
+    <button id="play" class="big">Play</button>
     <div class="viewlink"><a id="viewlink" href="?2d=1">Having trouble? Use the classic 2D view</a></div>
     <details class="how"><summary>How to play</summary>
       <ul>
@@ -49,8 +50,8 @@
     <div class="pill" id="h-pop"></div>
     <div class="pill" id="h-time"></div>
   </div>
-  <button class="pill btn" id="h-pause">⏸</button>
-  <div id="rot" class="hidden"><button class="pill btn" id="rot-l" aria-label="Rotate left">⟲</button><button class="pill btn" id="rot-r" aria-label="Rotate right">⟳</button></div>
+  <button class="pill btn" id="h-pause" aria-label="Pause"><svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg></button>
+  <div id="rot" class="hidden"><button class="pill btn" id="rot-l" aria-label="Rotate left"><svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v5h5"/></svg></button><button class="pill btn" id="rot-r" aria-label="Rotate right"><svg class="svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M20 4v5h-5"/></svg></button></div>
   <canvas id="minimap" width="110" height="165"></canvas>
   <div id="toasts"></div>
   <div id="panel"></div>

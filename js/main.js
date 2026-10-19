@@ -32,7 +32,7 @@
   function voiceMenu() {
     if (!voice) return;
     $('vvol').value = voice.vol; $('vvol-n').textContent = voice.muted ? 'muted' : voice.vol + '%';
-    $('vmute').textContent = voice.muted ? '🔇 Unmute' : '🔊 Mute'; $('vmute').classList.toggle('sel', voice.muted);
+    $('vmute').textContent = voice.muted ? 'Unmute' : 'Mute'; $('vmute').classList.toggle('sel', voice.muted);
   }
   if (voice) {
     $('vvol').oninput = function () { voice.setVolume(+this.value); if (voice.muted) voice.setMuted(false); voiceMenu(); };
@@ -65,7 +65,7 @@
     if (NC.three) return start(true);
     var btn = $('play'); btn.textContent = 'Loading 3D...';
     var done = false, t = setTimeout(function () { finish(false); }, 8000);
-    function finish(ok) { if (done) return; done = true; clearTimeout(t); btn.textContent = '▶ Play'; start(ok); }
+    function finish(ok) { if (done) return; done = true; clearTimeout(t); btn.textContent = 'Play'; start(ok); }
     window.addEventListener('nc3d-ready', function () { finish(true); }, { once: true });
     window.addEventListener('nc3d-failed', function () { finish(false); }, { once: true });
   };
