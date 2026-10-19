@@ -70,8 +70,9 @@
         "pitch_semitones": -0.5
       },
       "vael": {
-        "source": "voice/hero_memos/memo_3.m4a",
-        "performer": "Jozefino"
+        "source": "tts",
+        "tts": "Chatterbox (Resemble AI, MIT), v2 dramatic: exaggeration 0.85-1.1, cfg 0.3, best of 3 takes; v3: internal silences >0.25 s cut to 0.15 s (death 0.30 s)",
+        "reference": "voice/v2_sample/tools/ref_vael.wav = LibriVox 'Carmilla (Version 3)' ch.4 @398.8s, read by Louise J. Belle, public domain (archive.org carmilla_2011_librivox)"
       },
       "grimfang": {
         "source": "voice/hero_memos/memo_2.m4a",
@@ -133,8 +134,8 @@
       },
       "heroes_ready": {
         "vael": {
-          "label": "Countess: +11.7 st, formants x1.20, whisper double, dark cathedral (variant B)",
-          "pitch_st": 11.7,
+          "label": "Countess (TTS v2, dramatic, no pitch shift): 0.97 tempo, whisper double (0.42 on select/ability, 0.3 otherwise), dark cathedral 3.2 s",
+          "pitch_st": 0.0,
           "events": [
             "select",
             "move",
@@ -143,8 +144,7 @@
             "death"
           ],
           "path": "final/vael/",
-          "script": "voice/fx_heroes.py",
-          "formant_scale": 1.2
+          "script": "voice/v2_sample/tools/fx_vael_tts.py"
         },
         "grimfang": {
           "label": "clear beast: dry -2.5 st formant-preserved voice + quiet octave-down growl, very short room",
@@ -1024,94 +1024,122 @@
       {
         "file": "vael/select_1.ogg",
         "text": "You may speak.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 0.85 cfg 0.3",
+        "tts_text": "Ahh... you may speak.",
+        "edit": "internal gaps tightened (longest 0.48s -> 0.14s), v2_sample/tools/tighten_gaps.py"
       },
       {
         "file": "vael/select_2.ogg",
         "text": "The night bows to me.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 1.1 cfg 0.3",
+        "tts_text": "The night... bows to me.",
+        "edit": "internal gaps tightened (longest 0.23s -> 0.23s), v2_sample/tools/tighten_gaps.py"
       },
       {
         "file": "vael/select_3.ogg",
         "text": "Make it worth my time.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 1.1 cfg 0.3",
+        "tts_text": "Hm. Make it worth my time...",
+        "edit": "internal gaps tightened (longest 1.62s -> 0.15s), v2_sample/tools/tighten_gaps.py"
       }
     ],
     "move": [
       {
         "file": "vael/move_1.ogg",
         "text": "The darkness follows me.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 0.85 cfg 0.3",
+        "tts_text": "The darkness... follows me.",
+        "edit": "internal gaps tightened (longest 0.94s -> 0.15s), v2_sample/tools/tighten_gaps.py"
       },
       {
         "file": "vael/move_2.ogg",
         "text": "Where I walk, they kneel.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 1.1 cfg 0.3",
+        "tts_text": "Where I walk \u2014 they kneel.",
+        "edit": "internal gaps tightened (longest 1.48s -> 0.14s), v2_sample/tools/tighten_gaps.py"
       },
       {
         "file": "vael/move_3.ogg",
         "text": "Lead on, little shadow.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 0.85 cfg 0.3",
+        "tts_text": "Lead on, little shadow...",
+        "edit": "internal gaps tightened (longest 0.0s -> 0.0s), v2_sample/tools/tighten_gaps.py"
       }
     ],
     "attack": [
       {
         "file": "vael/attack_1.ogg",
         "text": "Kneel, cattle. Your blood belongs to me.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 1.1 cfg 0.3",
+        "tts_text": "Kneel, cattle! Your blood belongs to me!",
+        "edit": "internal gaps tightened (longest 0.62s -> 0.14s), v2_sample/tools/tighten_gaps.py"
       },
       {
         "file": "vael/attack_2.ogg",
         "text": "I've drunk better than you from rats.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 0.85 cfg 0.3",
+        "tts_text": "I've drunk better than you \u2014 from rats!",
+        "edit": "internal gaps tightened (longest 0.49s -> 0.14s), v2_sample/tools/tighten_gaps.py"
       },
       {
         "file": "vael/attack_3.ogg",
         "text": "Dawn always ends. I'm still here.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 1.1 cfg 0.3",
+        "tts_text": "Dawn always ends! I'm still here!",
+        "edit": "internal gaps tightened (longest 0.35s -> 0.15s), v2_sample/tools/tighten_gaps.py"
       }
     ],
     "ability": [
       {
         "file": "vael/ability_1.ogg",
         "text": "Rise, and serve me!",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 1.0 cfg 0.3",
+        "tts_text": "Rise! And serve me!",
+        "edit": "internal gaps tightened (longest 0.25s -> 0.25s), v2_sample/tools/tighten_gaps.py"
       },
       {
         "file": "vael/ability_2.ogg",
         "text": "Drink deep, my children.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 1.0 cfg 0.3",
+        "tts_text": "Drink deep, my children!",
+        "edit": "internal gaps tightened (longest 0.16s -> 0.16s), v2_sample/tools/tighten_gaps.py"
       },
       {
         "file": "vael/ability_3.ogg",
         "text": "The mist hungers.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 0.85 cfg 0.3",
+        "tts_text": "The mist... hungers!",
+        "edit": "internal gaps tightened (longest 0.24s -> 0.24s), v2_sample/tools/tighten_gaps.py"
       }
     ],
     "death": [
       {
         "file": "vael/death_1.ogg",
         "text": "This is... not... the end...",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 1.0 cfg 0.3",
+        "tts_text": "This is... not... the end!",
+        "edit": "internal gaps tightened (longest 0.51s -> 0.29s), v2_sample/tools/tighten_gaps.py"
       },
       {
         "file": "vael/death_2.ogg",
         "text": "I will return... thirsty.",
-        "source": "memo",
-        "voice": "jozefino"
+        "source": "tts",
+        "voice": "chatterbox:ref_vael (Louise J. Belle, LibriVox Carmilla v3 ch.4, PD) exag 0.85 cfg 0.3",
+        "tts_text": "Aagh... I will return... thirsty...",
+        "edit": "internal gaps tightened (longest 0.63s -> 0.3s), v2_sample/tools/tighten_gaps.py"
       }
     ]
   },
