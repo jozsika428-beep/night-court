@@ -1,0 +1,34 @@
+{
+ "grass": {
+  "color": "#2c3a24",
+  "roughness": 0.95,
+  "metalness": 0,
+  "map": "terrain/grass.jpg",
+  "repeat_m": 8
+ },
+ "mud": {
+  "color": "#3a2e24",
+  "roughness": 0.85,
+  "metalness": 0,
+  "map": "terrain/mud.jpg",
+  "repeat_m": 8
+ },
+ "ford": {
+  "color": "#3a4a4c",
+  "roughness": 0.35,
+  "metalness": 0,
+  "note": "wet shallows; can blend over mud",
+  "map": "terrain/ford.jpg",
+  "repeat_m": 8
+ },
+ "water": {
+  "color": "#14262e",
+  "roughness": 0.08,
+  "metalness": 0.1,
+  "opacity": 0.78,
+  "transparent": true,
+  "note": "use as transparent plane at y=0.05 above riverbed",
+  "map": "terrain/water.jpg",
+  "repeat_m": 8
+ }
+}

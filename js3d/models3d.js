@@ -185,56 +185,102 @@ export const PROPS = {
 // Agreed spec: .glb, Y-up, 1 unit = 1 m, faces +Z, origin at feet; clips Idle/Walk/Attack/Death (+Run, Ability);
 // recolourable material named "Team". Manifest: { key: { file | levels:[l1,l2,l3], faction, scale, height, clips:{...} } }
 export class ModelLib {
-  constructor(base = 'art3d/') { this.base = base; this.entries = {}; this.protos = {}; this.loader = new GLTFLoader(); this.tints = new Map(); this.version = 0; }
+  constructor(base = 'art3d/') {
+    this.base = base; this.entries = {}; this.protos = {}; this.loader = new GLTFLoader(); this.tints = new Map(); this.version = 0;
+    this.glowMats = []; this.glowCache = new Map(); this.terrain = {}; this.issues = []; this.propCache = {};
+  }
   async load() {
     let m;
     try { const r = await fetch(this.base + 'manifest.json', { cache: 'no-cache' }); if (!r.ok) return 0; m = await r.json(); } catch (e) { return 0; }
     const base = (m && typeof m.base === 'string') ? m.base : this.base;
-    const src = m.models || Object.assign({}, m.units || {}, m.heroes || {}, m.buildings || {}, (m.units || m.buildings) ? {} : m);
+    this.root = base;
+    const src = m.models || Object.assign({}, m.units || {}, m.heroes || {}, m.buildings || {}, m.props || {}, (m.units || m.buildings) ? {} : m);
     const jobs = [];
     for (const k in src) {
       const e = src[k]; if (!e || typeof e !== 'object') continue;
-      const files = e.levels ? e.levels : (e.file ? [e.file] : null); if (!files) continue;
+      if (e.type === 'terrain' || /^terrain_/.test(k)) { this.terrain[k] = e; continue; }
+      // buildings: { dir, levels:[...] }; units: { file }
+      const files = e.levels ? e.levels.map(f => f ? (e.dir || '') + f : null) : (e.file ? [e.file] : null); if (!files) continue;
       this.entries[k] = e;
-      files.forEach((f, i) => { if (!f) return; jobs.push(this.loader.loadAsync(base + f).then(gltf => { this.protos[k] = this.protos[k] || []; this.protos[k][i] = gltf; this.version++; }).catch(err => console.warn('model failed', k, f, err && err.message))); });
+      files.forEach((f, i) => { if (!f) return; jobs.push(this.loader.loadAsync(base + f).then(gltf => { this.protos[k] = this.protos[k] || []; this.protos[k][i] = gltf; this.version++; }).catch(err => { this.issues.push(k + ': ' + f + ' failed to load'); console.warn('model failed', k, f, err && err.message); })); });
     }
     await Promise.all(jobs);
+    this.done = true; this.version++;
     return Object.keys(this.protos).length;
   }
   has(key, level) { const p = this.protos[key]; return !!(p && (p[(level || 1) - 1] || p[0])); }
+  entryHeight(key, level) { const e = this.entries[key] || {}; return Array.isArray(e.height) ? e.height[(level || 1) - 1] : e.height; }
+  footprint(key, level) { const e = this.entries[key] || {}, f = e.footprint; if (!f) return null; return Array.isArray(f[0]) ? f[(level || 1) - 1] : f; }
   tint(mat, color) {
     const k = mat.uuid + color.getHexString(); let t = this.tints.get(k);
     if (!t) { t = mat.clone(); t.color = color.clone(); this.tints.set(k, t); }
     return t;
   }
-  // returns { root, mixer, actions, height } or null
-  instance(key, level, teamColor) {
+  // "Glow" -> unlit vertex-coloured material, shared, brightened at night by setGlow()
+  glow(mat) {
+    let g = this.glowCache.get(mat.uuid);
+    if (!g) {
+      const base = (mat.emissive && mat.emissive.getHex()) ? mat.emissive.clone() : (mat.color ? mat.color.clone() : new THREE.Color(1, 1, 1));
+      g = new THREE.MeshBasicMaterial({ vertexColors: !!mat.vertexColors, color: base, toneMapped: false, transparent: mat.transparent, opacity: mat.opacity });
+      g.name = 'Glow'; g.userData.base = base.clone(); this.glowCache.set(mat.uuid, g); this.glowMats.push(g);
+    }
+    return g;
+  }
+  setGlow(k) { this.glowMats.forEach(g => g.color.copy(g.userData.base).multiplyScalar(k)); }
+  fixMat(mat, teamColor, uniqueTeam) {
+    if (/glow/i.test(mat.name)) return this.glow(mat);
+    if (/metal/i.test(mat.name) && mat.metalness !== undefined) { // no environment map, so very metallic parts would render black
+      if (!mat.userData.fixed) { mat.metalness = Math.min(mat.metalness, 0.35); mat.roughness = Math.max(mat.roughness, 0.45); mat.userData.fixed = true; }
+      return mat;
+    }
+    if (/team/i.test(mat.name) && teamColor) { if (uniqueTeam) { const t = mat.clone(); t.color = teamColor.clone(); uniqueTeam.push(t); return t; } return this.tint(mat, teamColor); }
+    return mat;
+  }
+  // returns { root, mixer, actions, height, teamMats } or null
+  instance(key, level, teamColor, opts) {
     const p = this.protos[key]; if (!p) return null;
+    opts = opts || {};
     const gltf = p[(level || 1) - 1] || p[0], e = this.entries[key] || {};
-    const root = SkeletonUtils.clone(gltf.scene);
+    const root = SkeletonUtils.clone(gltf.scene), teamMats = opts.uniqueTeam ? [] : null;
     root.traverse(o => {
       if (!o.isMesh) return;
-      o.castShadow = true; o.frustumCulled = !o.isSkinnedMesh;
-      if (teamColor) {
-        if (Array.isArray(o.material)) o.material = o.material.map(m => /team/i.test(m.name) ? this.tint(m, teamColor) : m);
-        else if (o.material && /team/i.test(o.material.name)) o.material = this.tint(o.material, teamColor);
-      }
+      o.castShadow = !!opts.shadow; o.receiveShadow = false; o.frustumCulled = !o.isSkinnedMesh;
+      if (Array.isArray(o.material)) o.material = o.material.map(m => this.fixMat(m, teamColor, teamMats));
+      else if (o.material) o.material = this.fixMat(o.material, teamColor, teamMats);
     });
     const holder = new THREE.Group(); holder.add(root);
-    let s = e.scale || 1;
-    const box = new THREE.Box3().setFromObject(root), h = box.max.y - box.min.y;
-    if (!e.scale && e.height && h > 0) s = e.height / h;
-    root.scale.multiplyScalar(s);
-    const height = e.height || h * s || 2;
+    // measure in the Idle pose; the manifest height wins when the model disagrees by more than 15%
     let mixer = null, actions = {};
     if (gltf.animations && gltf.animations.length) {
       mixer = new THREE.AnimationMixer(root);
       const names = Object.assign({ idle: 'Idle', walk: 'Walk', run: 'Run', attack: 'Attack', death: 'Death', ability: 'Ability' }, e.clips || {});
       for (const st in names) {
         const clip = THREE.AnimationClip.findByName(gltf.animations, names[st]) || gltf.animations.find(a => a.name.toLowerCase() === String(names[st]).toLowerCase());
-        if (clip) { const a = mixer.clipAction(clip); if (st === 'death' || st === 'attack' || st === 'ability') { a.setLoop(st === 'attack' ? THREE.LoopRepeat : THREE.LoopOnce, Infinity); a.clampWhenFinished = true; } actions[st] = a; }
+        if (clip) { const a = mixer.clipAction(clip); if (st === 'death' || st === 'ability') { a.setLoop(THREE.LoopOnce, 1); a.clampWhenFinished = true; } actions[st] = a; }
       }
     }
-    return { root: holder, mixer, actions, height };
+    const want = this.entryHeight(key, level);
+    let pc = this.protoMeasure(key, level, gltf);
+    let s = e.scale || 1;
+    if (want && pc.h > 0 && Math.abs(pc.h * s / want - 1) > 0.15) s = want / pc.h;
+    root.scale.multiplyScalar(s);
+    if (Math.abs(pc.minY) > 0.05) root.position.y = -pc.minY * s; // feet on the ground
+    return { root: holder, mixer, actions, teamMats, height: (want || pc.h * s), footprint: [pc.w * s, pc.d * s] };
   }
+  protoMeasure(key, level, gltf) {
+    const k = key + (level || 1); if (this.propCache[k]) return this.propCache[k];
+    const c = SkeletonUtils.clone(gltf.scene);
+    if (gltf.animations && gltf.animations.length) { const mx = new THREE.AnimationMixer(c); const cl = THREE.AnimationClip.findByName(gltf.animations, 'Idle') || gltf.animations[0]; mx.clipAction(cl).play(); mx.update(0.4); }
+    c.updateMatrixWorld(true);
+    const b = new THREE.Box3().setFromObject(c, true);
+    return (this.propCache[k] = { h: b.max.y - b.min.y, minY: b.min.y, w: b.max.x - b.min.x, d: b.max.z - b.min.z });
+  }
+  // static props: geometry with node transforms baked in, for InstancedMesh
+  propParts(key) {
+    const p = this.protos[key]; if (!p || !p[0]) return null;
+    const out = []; p[0].scene.updateMatrixWorld(true);
+    p[0].scene.traverse(o => { if (o.isMesh && !o.isSkinnedMesh) { const g = o.geometry.clone(); g.applyMatrix4(o.matrixWorld); out.push({ geo: g, mat: this.fixMat(o.material) }); } });
+    return out;
+  }
+  terrainURL(k) { const t = this.terrain[k]; return t && t.map ? this.root + t.map : null; }
 }

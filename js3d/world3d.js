@@ -100,7 +100,22 @@ export class World3D {
     this.rangeRing = new THREE.Mesh(this.selRing.geometry, new THREE.MeshBasicMaterial({ color: '#ffd700', transparent: true, opacity: 0.3, depthWrite: false }));
     scene.add(this.selRing, this.rangeRing);
     this.miniBg = null;
-    this.modelsReady.then(() => { this.modelVer = -1; });
+    this.modelsReady.then(() => { this.modelVer = -1; this.loadTerrain3d(); });
+  }
+
+  loadTerrain3d() {
+    const M = this.models, keys = { grass: 'terrain_grass', mud: 'terrain_mud', ford: 'terrain_ford', water: 'terrain_water' }, imgs = {};
+    const jobs = Object.keys(keys).map(k => new Promise(res => { const u = M.terrainURL(keys[k]); if (!u) return res(); const i = new Image(); i.onload = () => { imgs[k] = i; res(); }; i.onerror = () => res(); i.src = u; }));
+    // the artist's tiles are true (dark) albedo; brighten them ~1.8x so the canvas-painted ground matches our lighting
+    const bright = (img, k) => { const c = document.createElement('canvas'); c.width = img.width; c.height = img.height; const x = c.getContext('2d'); x.drawImage(img, 0, 0); x.globalCompositeOperation = 'lighter'; x.globalAlpha = k - 1; x.drawImage(img, 0, 0); return c; };
+    Promise.all(jobs).then(() => { if (!Object.keys(imgs).length) return; for (const k of ['grass', 'mud', 'ford']) if (imgs[k]) imgs[k] = bright(imgs[k], 1.8); this.tex3d = imgs; this.groundArt = false; this.force3dGround = true; this.applyWater(); });
+  }
+  applyWater() {
+    if (!this.tex3d || !this.tex3d.water || !this.water) return;
+    const W = this.NC.WORLD, t = new THREE.Texture(this.tex3d.water); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; t.needsUpdate = true;
+    t.repeat.set(W.w * S / 8, ((W.riverBot - W.riverTop) * S + 8) / 8);
+    const e = this.models.terrain.terrain_water || {};
+    this.water.material.map = t; this.water.material.color.set('#ffffff'); this.water.material.opacity = e.opacity || 0.78; this.water.material.needsUpdate = true; this.waterTex = t;
   }
 
   paintGround(art) {
@@ -108,8 +123,11 @@ export class World3D {
     const cv = document.createElement('canvas'); cv.width = W.w * q; cv.height = W.h * q;
     const x = cv.getContext('2d'); x.scale(q, q);
     const rnd = NC.util.rng(7);
-    const pat = (k) => { const i = art && A.sprite(k); return i ? x.createPattern(i, 'repeat') : null; };
-    const grass = pat('tile_grass'), mud = pat('tile_mud'), ford = pat('tile_ford');
+    // art3d terrain textures (512 px tiles, 8 m repeat) win over the 2D art tiles
+    const T = this.tex3d || {};
+    const pat3 = (img) => { const pt = x.createPattern(img, 'repeat'); if (pt.setTransform) pt.setTransform(new DOMMatrix().scale(80 / img.width)); return pt; };
+    const pat = (k, k3) => { if (T[k3]) return pat3(T[k3]); const i = art && A.sprite(k); return i ? x.createPattern(i, 'repeat') : null; };
+    const grass = pat('tile_grass', 'grass'), mud = pat('tile_mud', 'mud'), ford = pat('tile_ford', 'ford');
     x.fillStyle = grass || '#2c3a26'; x.fillRect(0, 0, W.w, W.h);
     x.fillStyle = 'rgba(8,14,10,0.22)'; x.fillRect(0, 0, W.w, W.h);
     for (let i = 0; i < 260; i++) { x.fillStyle = rnd() < 0.5 ? 'rgba(60,75,45,0.18)' : 'rgba(8,12,8,0.2)'; x.beginPath(); x.arc(rnd() * W.w, rnd() * W.h, 15 + rnd() * 50, 0, 7); x.fill(); }
@@ -129,6 +147,7 @@ export class World3D {
   }
 
   buildProps() {
+    (this.propMeshes || []).forEach(m => this.scene.remove(m)); this.propMeshes = [];
     const NC = this.NC, W = NC.WORLD, g = this.g, rnd = NC.util.rng(42), list = { pine: [], oak: [], dead: [], rock: [], reed: [] };
     const keep = [].concat(g.map.fortress.map(f => ({ x: f.x, y: f.y, r: 400 })), g.outposts.map(o => ({ x: o.x, y: o.y, r: 150 })));
     for (let i = 0; i < 300; i++) {
@@ -140,11 +159,24 @@ export class World3D {
     }
     for (let i = 0; i < 120; i++) { const rx = rnd() * W.w; if (NC.util.fordAt(rx)) continue; list.reed.push([rx, rnd() < 0.5 ? W.riverTop - 4 - rnd() * 12 : W.riverBot + 4 + rnd() * 12, 0.8 + rnd() * 0.7, rnd() * 6]); }
     W.fords.forEach(fd => { for (let i = 0; i < 6; i++) list.rock.push([fd.x1 + 20 + rnd() * (fd.x2 - fd.x1 - 40), W.riverTop + 15 + rnd() * (W.riverBot - W.riverTop - 30), 0.35 + rnd() * 0.3, rnd() * 6]); });
-    for (const k in list) {
-      const arr = list[k]; if (!arr.length) continue;
-      const m = new THREE.InstancedMesh(PROPS[k], this.mat.lit, arr.length);
-      arr.forEach((p, i) => { _o.position.set(p[0] * S, this.height(p[0], p[1]) - 0.05, p[1] * S); _o.rotation.set(0, p[3], 0); _o.scale.setScalar(p[2]); _o.updateMatrix(); m.setMatrixAt(i, _o.matrix); });
-      m.castShadow = this.high && k !== 'reed'; m.receiveShadow = false; this.scene.add(m);
+    // artist props (art3d) per kind, with variants; placeholder shapes otherwise
+    const VAR = { pine: ['prop_pine_a', 'prop_pine_b'], oak: ['prop_oak'], dead: ['prop_dead_tree', 'prop_stump'], rock: ['prop_rock_large', 'prop_rock_tall', 'prop_rocks_small'], reed: ['prop_reeds'] };
+    const groups = {};
+    for (const k in list) list[k].forEach((p, i) => {
+      const vs = VAR[k].filter(v => this.models.has(v));
+      const key = vs.length ? vs[i % vs.length] : 'ph_' + k;
+      const fordRock = k === 'rock' && p[2] < 0.7; // small rocks placed in the fords
+      const kk = fordRock && this.models.has('prop_rocks_small') ? 'prop_rocks_small' : key;
+      (groups[kk] = groups[kk] || []).push(vs.length ? [p[0], p[1], fordRock ? 0.5 + p[2] * 0.5 : 0.7 + (p[2] - 0.8) * 0.6, p[3]] : p);
+    });
+    for (const key in groups) {
+      const arr = groups[key];
+      const parts = key.startsWith('ph_') ? [{ geo: PROPS[key.slice(3)], mat: this.mat.lit }] : this.models.propParts(key);
+      parts.forEach(pt => {
+        const m = new THREE.InstancedMesh(pt.geo, pt.mat, arr.length);
+        arr.forEach((p, i) => { _o.position.set(p[0] * S, this.height(p[0], p[1]) - 0.05, p[1] * S); _o.rotation.set(0, p[3], 0); _o.scale.setScalar(p[2]); _o.updateMatrix(); m.setMatrixAt(i, _o.matrix); });
+        m.castShadow = this.high && !/reed/.test(key); m.receiveShadow = false; this.scene.add(m); this.propMeshes.push(m);
+      });
     }
   }
 
@@ -176,8 +208,13 @@ export class World3D {
 
   makeOutpost(o) {
     const grp = new THREE.Group(), og = outpostGeometry(o.type), h = this.height(o.x, o.y);
-    const deco = new THREE.Mesh(og.geo, this.mat.lit); deco.castShadow = this.high; grp.add(deco);
-    if (og.glow) { const gm = new THREE.Mesh(og.glow, this.mat.glow); grp.add(gm); grp.userData.crystal = o.type === 'shrine' ? gm : null; }
+    let teamMats = null;
+    const mi = o.type !== 'shrine' && this.models.has('outpost_plot') && this.models.instance('outpost_plot', 1, new THREE.Color('#9a9a9a'), { uniqueTeam: true, shadow: this.high });
+    if (mi) { mi.root.scale.setScalar(1.25); grp.add(mi.root); teamMats = mi.teamMats; }
+    else {
+      const deco = new THREE.Mesh(og.geo, this.mat.lit); deco.castShadow = this.high; grp.add(deco);
+      if (og.glow) { const gm = new THREE.Mesh(og.glow, this.mat.glow); grp.add(gm); grp.userData.crystal = o.type === 'shrine' ? gm : null; }
+    }
     const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 6, 6), new THREE.MeshLambertMaterial({ color: '#2a2a2a' })); pole.position.set(6.5, 3, 2); grp.add(pole);
     const flagMat = new THREE.MeshLambertMaterial({ color: '#999', side: THREE.DoubleSide });
     const flag = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 1.3, 4, 1), flagMat); flag.position.set(7.6, 5.2, 2); grp.add(flag);
@@ -188,14 +225,22 @@ export class World3D {
     const lbl = this.label(o.name + (o.type === 'shrine' ? ' (+15%)' : ''), '#eee'); lbl.position.set(0, 7.5, 0); lbl.scale.set(9, 1.7, 1); grp.add(lbl);
     grp.position.set(o.x * S, o.type === 'shrine' ? Math.max(h, -0.3) : h, o.y * S);
     this.scene.add(grp);
-    return { o, grp, flag, flagMat, ringMat, arc, arcMat, lastV: 99 };
+    return { o, grp, flag, flagMat, ringMat, arc, arcMat, lastV: 99, teamMats };
   }
 
   makeBuilding(b) {
     const grp = new THREE.Group(), fac = this.NC.BUILDINGS[b.type].faction, lvl = b.def.role === 'fortress' ? 3 : b.level;
     let height;
-    const mi = this.models.has(b.type, lvl) && this.models.instance(b.type, lvl, TEAM[this.g.sides[b.owner].faction]);
-    if (mi) { grp.add(mi.root); height = mi.height; grp.userData.lvlScale = 1; }
+    const team = TEAM[this.g.sides[b.owner].faction];
+    const mi = this.models.has(b.type, lvl) && this.models.instance(b.type, lvl, team, { shadow: this.high });
+    if (mi) {
+      grp.add(mi.root); height = mi.height;
+      // the artist's levels already grow; size every level from the level-3 footprint so the plot always fits
+      const fp = this.models.footprint(b.type, 3) || this.models.footprint(b.type, lvl) || mi.footprint, mx = Math.max(fp[0], fp[1]) || 8;
+      const want = 2 * b.r * S;
+      grp.userData.lvlScale = 1; grp.userData.fitScale = b.def.role === 'fortress' ? want * 1.05 / mx : Math.min(1, want * 1.1 / mx);
+      if (mi.mixer && mi.actions.idle) { mi.actions.idle.play(); grp.userData.mixer = mi.mixer; }
+    }
     else {
       const bg = buildingGeometry(this.NC, b.type, lvl);
       const m = new THREE.Mesh(bg.geo, this.mat.lit); m.castShadow = this.high; m.receiveShadow = this.high; grp.add(m);
@@ -203,8 +248,11 @@ export class World3D {
       if (bg.blades) { const bl = new THREE.Mesh(bg.blades, this.mat.lit); bl.position.set(1.4, 4.2, 2.95); grp.add(bl); grp.userData.blades = bl; }
       height = bg.height; grp.userData.lvlScale = b.def.role === 'fortress' ? 1 : [0.8, 0.9, 1][b.level - 1];
     }
-    const sc = b.r * S / (b.def.role === 'fortress' ? 6.2 : 3.6); // fit the footprint to the sim radius
+    const sc = grp.userData.fitScale || b.r * S / (b.def.role === 'fortress' ? 6.2 : 3.6); // fit the footprint to the sim radius
     grp.userData.baseScale = sc * grp.userData.lvlScale;
+    // team ring on the ground: always shows the owner, even when a model has no Team material (ntower L1/L2)
+    const ring = new THREE.Mesh(this.bRingGeo || (this.bRingGeo = new THREE.RingGeometry(0.86, 1, 48).rotateX(-Math.PI / 2)), this.bRingMat(team));
+    ring.scale.setScalar(b.r * S * 1.02 / sc); ring.position.y = 0.06 / sc; ring.renderOrder = 2; grp.add(ring);
     const stars = b.def.role === 'fortress' ? '' : ' ' + '★'.repeat(b.level);
     const lbl = this.label((this.NC.Assets.map[b.type] && this.NC.Assets.map[b.type].label || b.def.name) + stars, b.owner === this.g.player ? '#fff' : '#ffd0a0');
     lbl.position.set(0, height + 1.8, 0); lbl.scale.set(8, 1.5, 1); grp.add(lbl); grp.userData.label = lbl;
@@ -214,6 +262,10 @@ export class World3D {
     return { grp, key: b.type + b.level + (mi ? 'm' : 'p'), height: height * grp.userData.baseScale, seen: 0 };
   }
 
+  bRingMat(col) {
+    this._brm = this._brm || {}; const k = col.getHexString();
+    return this._brm[k] || (this._brm[k] = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.55, depthWrite: false }));
+  }
   makeUnitModel(u) {
     const mi = this.models.instance(u.type, 1, TEAM[this.g.sides[u.owner].faction]); if (!mi) return null;
     mi.root.scale.setScalar(UNIT_VIS); this.scene.add(mi.root);
@@ -229,11 +281,12 @@ export class World3D {
 
   // ---------- per-frame ----------
   draw(ui) {
-    const g = this.g, NC = this.NC, cam = this.cam, now = performance.now() / 1000, dt = Math.min(0.1, this.last ? now - this.last : 0.016); this.last = now; this.t += dt;
+    const g = this.g, NC = this.NC, cam = this.cam, now = performance.now() / 1000, dt = Math.min(0.1, this.last ? now - this.last : 0.016); this.last = now; this.t += dt; this.dt = dt; this.tick = (this.tick || 0) + 1;
     this.fpsN++; this.fpsT += dt; if (this.fpsT >= 1) { this.fps = this.fpsN / this.fpsT; this.fpsN = 0; this.fpsT = 0; }
     cam.apply(dt);
     this.frustum.setFromProjectionMatrix(_m.multiplyMatrices(cam.cam.projectionMatrix, cam.cam.matrixWorldInverse));
-    if (!this.groundArt && NC.Assets.loaded && NC.Assets.allReady(['tile_grass', 'tile_mud', 'tile_ford'])) { this.groundArt = true; if (NC.Assets.has('tile_grass')) { this.groundTex.image = this.paintGround(true); this.groundTex.needsUpdate = true; this.miniBg = null; } }
+    if (!this.groundArt && (this.force3dGround || (NC.Assets.loaded && NC.Assets.allReady(['tile_grass', 'tile_mud', 'tile_ford'])))) { this.groundArt = true; if (this.tex3d || NC.Assets.has('tile_grass')) { this.groundTex.image = this.paintGround(true); this.groundTex.needsUpdate = true; this.miniBg = null; } }
+    if (this.waterTex) { this.waterTex.offset.x = this.t * 0.02; this.waterTex.offset.y = Math.sin(this.t * 0.3) * 0.05; }
     if (this.modelVer !== this.models.version) { this.modelVer = this.models.version; this.rebuildModels(); }
     this.lighting();
     this.syncBuildings(ui); this.syncUnits(ui, dt); this.syncPlots(ui); this.syncOutposts(); this.syncProjectiles(); this.syncFx(); this.syncCorpses();
@@ -259,10 +312,17 @@ export class World3D {
     const sx = dk > 0.5 ? -40 : 50, sz = dk > 0.5 ? -30 : 40;
     this.sun.position.set(tx + sx, 80, tz + sz); this.sun.target.position.set(tx, 0, tz); this.sun.target.updateMatrixWorld();
     if (this.high) { const sc = this.sun.shadow.camera, e = Math.min(90, d * 0.9); sc.left = -e; sc.right = e; sc.top = e; sc.bottom = -e; sc.updateProjectionMatrix(); }
-    this.water.material.color.set('#1d4560').lerp(_c.set('#0a1a2c'), dk);
+    if (!this.waterTex) this.water.material.color.set('#1d4560').lerp(_c.set('#0a1a2c'), dk);
+    else this.water.material.color.setScalar(1.7 - 1.0 * dk);
+    const gk = 1 + 0.9 * dk; if (this.glowK !== gk) { this.glowK = gk; this.models.setGlow(gk); this.mat.glow.color.setScalar(gk); }
   }
 
   rebuildModels() {
+    if (this.models.done && !this.staticDone) { // once everything has loaded: outposts and scenery
+      this.staticDone = true;
+      if (this.opRecs) { this.opRecs.forEach(r => this.scene.remove(r.grp)); this.opRecs = this.g.outposts.map(o => this.makeOutpost(o)); }
+      this.buildProps();
+    }
     for (const [id, r] of this.brec) { this.scene.remove(r.grp); } this.brec.clear();
     for (const [id, r] of this.urec) if (r.mi) { this.scene.remove(r.mi.root); r.mi = null; }
   }
@@ -278,6 +338,7 @@ export class World3D {
       r.seen = frame;
       const s = r.grp.userData.baseScale; r.grp.scale.set(s, s * (b.built < 1 ? 0.15 + 0.85 * b.built : 1), s);
       if (r.grp.userData.blades) r.grp.userData.blades.rotation.z += 0.02;
+      if (r.grp.userData.mixer && b.built >= 1 && this.frustum.containsPoint(r.grp.position)) r.grp.userData.mixer.update(this.dt || 0.016);
       r.grp.userData.label.scale.y = 1.5 / (r.grp.scale.y / s);
       if (ui && ui.sel.buildingId === b.id) selB = b;
     }
@@ -327,7 +388,14 @@ export class World3D {
         r.mi.root.position.set(X, Y, Z); r.mi.root.rotation.y = r.rot; r.mi.root.visible = vis;
         const st = u.leap ? 'ability' : (u.swing > 0 || (u.tgt && u.cd > u.def.cd - 0.35 && !u.moving)) ? 'attack' : u.moving ? (u.def.speed > 85 ? 'run' : 'walk') : 'idle';
         this.playState(r.mi, st);
-        if (vis && r.mi.mixer) r.mi.mixer.update(dt);
+        if (r.mi.mixer) {
+          const a = r.mi.actions[st === 'run' && !r.mi.actions.run ? 'walk' : st];
+          if (a && (st === 'walk' || st === 'run')) a.timeScale = Math.max(0.75, Math.min(1.6, u.def.speed / (st === 'run' ? 110 : 65)));
+          // Low graphics: animate at half rate (every other frame, double step)
+          r.mi.acc = (r.mi.acc || 0) + dt;
+          if (vis && (this.high || (this.tick + u.id) % 2 === 0)) { r.mi.mixer.update(r.mi.acc); r.mi.acc = 0; }
+          else if (!vis) r.mi.acc = Math.min(r.mi.acc, 0.2);
+        }
         height = r.mi.height * UNIT_VIS;
       } else {
         let bob = 0, lunge = 0;
@@ -357,7 +425,12 @@ export class World3D {
     }
     this.dying = this.dying.filter(dd => {
       dd.t += dt; const r = dd.r;
-      if (r.mi) { if (r.mi.mixer) r.mi.mixer.update(dt); if (!r.mi.actions.death) r.mi.root.position.y -= dt * 0.8; if (dd.t > 2.2) { this.scene.remove(r.mi.root); return false; } return true; }
+      if (r.mi) {
+        if (r.mi.mixer) r.mi.mixer.update(dt);
+        const hold = r.mi.actions.death ? Math.max(0.9, r.mi.actions.death.getClip().duration + 0.5) : 0;
+        if (dd.t > hold) r.mi.root.position.y -= dt * 0.9; // lie still, then sink into the ground
+        if (dd.t > hold + 1.5) { this.scene.remove(r.mi.root); return false; } return true;
+      }
       if (dd.t > 1.4) return false;
       const f = Math.min(1, dd.t / 0.5), X = r.x * S, Z = r.y * S, Y = Math.max(this.height(r.x, r.y), -0.38) - Math.max(0, dd.t - 0.6) * 1.2;
       if (this.frustum.containsPoint(_v.set(X, Y, Z))) place(r.type, X, Y, Z, r.rot, -f * Math.PI / 2, UNIT_VIS * (r.hero ? 1.12 : 1));
@@ -397,7 +470,7 @@ export class World3D {
     const g = this.g;
     for (const r of this.opRecs) {
       const o = r.o, col = o.owner >= 0 ? TEAM[g.sides[o.owner].faction] : _c.set('#9a9a9a');
-      r.flagMat.color.copy(col); r.ringMat.color.copy(col);
+      r.flagMat.color.copy(col); r.ringMat.color.copy(col); if (r.teamMats) r.teamMats.forEach(m => m.color.copy(col));
       r.flag.rotation.y = Math.sin(this.t * 2 + o.id) * 0.25;
       if (r.grp.userData.crystal) { r.grp.userData.crystal.rotation.y = this.t; r.grp.userData.crystal.position.y = Math.sin(this.t * 2) * 0.25; }
       const v = Math.abs(o.v) < 1 ? o.v : 0;

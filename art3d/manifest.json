@@ -1,0 +1,720 @@
+{
+ "ghoul": {
+  "file": "units/ghoul.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.8,
+  "tris": 1442,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG"
+ },
+ "thrall": {
+  "file": "units/thrall.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.8,
+  "tris": 1500,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG"
+ },
+ "werewolf": {
+  "file": "units/werewolf.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 2.4,
+  "tris": 1488,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG"
+ },
+ "archer": {
+  "file": "units/archer.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.8,
+  "tris": 1499,
+  "bones": 12,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run",
+   "ability": "Ability"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "wODZYCgX5Z"
+ },
+ "bloodknight": {
+  "file": "units/bloodknight.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 2.4,
+  "tris": 2994,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG+qvTrSG9pZF"
+ },
+ "crossbow": {
+  "file": "units/crossbow.glb",
+  "faction": "dawn",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.8,
+  "tris": 1499,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG"
+ },
+ "knight": {
+  "file": "units/knight.glb",
+  "faction": "dawn",
+  "type": "unit",
+  "scale": 1,
+  "height": 2.4,
+  "tris": 2996,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG+bEdE4rmZy9"
+ },
+ "priest": {
+  "file": "units/priest.glb",
+  "faction": "dawn",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.8,
+  "tris": 1500,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG"
+ },
+ "torch": {
+  "file": "units/torch.glb",
+  "faction": "dawn",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.8,
+  "tris": 1500,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG"
+ },
+ "vael": {
+  "file": "heroes/vael.glb",
+  "faction": "night",
+  "type": "hero",
+  "scale": 1,
+  "height": 2.2,
+  "tris": 2019,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run",
+   "ability": "Ability"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG"
+ },
+ "grimfang": {
+  "file": "heroes/grimfang.glb",
+  "faction": "night",
+  "type": "hero",
+  "scale": 1,
+  "height": 2.6,
+  "tris": 2131,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run",
+   "ability": "Ability"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG"
+ },
+ "ashen": {
+  "file": "heroes/ashen.glb",
+  "faction": "dawn",
+  "type": "hero",
+  "scale": 1,
+  "height": 2.2,
+  "tris": 2171,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "attack": "Attack",
+   "death": "Death",
+   "run": "Run",
+   "ability": "Ability"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HMnuH5geEG"
+ },
+ "fortress": {
+  "dir": "buildings/",
+  "levels": [
+   "fortress_l1.glb",
+   "fortress_l2.glb",
+   "fortress_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   8.52,
+   9.9,
+   11.95
+  ],
+  "footprint": [
+   [
+    5.25,
+    2.75
+   ],
+   [
+    7.5,
+    7.5
+   ],
+   [
+    7.37,
+    7.9
+   ]
+  ],
+  "tris": [
+   1520,
+   4900,
+   4900
+  ],
+  "teamMaterial": "Team"
+ },
+ "crypt": {
+  "dir": "buildings/",
+  "levels": [
+   "crypt_l1.glb",
+   "crypt_l2.glb",
+   "crypt_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   3.83,
+   3.93,
+   3.96
+  ],
+  "footprint": [
+   [
+    4.73,
+    4.6
+   ],
+   [
+    6.84,
+    6.36
+   ],
+   [
+    7.9,
+    7.21
+   ]
+  ],
+  "tris": [
+   1453,
+   2352,
+   4452
+  ],
+  "teamMaterial": "Team"
+ },
+ "bloodfarm": {
+  "dir": "buildings/",
+  "levels": [
+   "bloodfarm_l1.glb",
+   "bloodfarm_l2.glb",
+   "bloodfarm_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   2.98,
+   2.84,
+   3.9
+  ],
+  "footprint": [
+   [
+    4.66,
+    5.77
+   ],
+   [
+    7.9,
+    7.24
+   ],
+   [
+    7.9,
+    6.69
+   ]
+  ],
+  "tris": [
+   1597,
+   3700,
+   4900
+  ],
+  "teamMaterial": "Team"
+ },
+ "ntower": {
+  "dir": "buildings/",
+  "levels": [
+   "ntower_l1.glb",
+   "ntower_l2.glb",
+   "ntower_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   7.25,
+   8.87,
+   10.48
+  ],
+  "footprint": [
+   [
+    1.6,
+    1.6
+   ],
+   [
+    2.36,
+    2.36
+   ],
+   [
+    3.17,
+    2.41
+   ]
+  ],
+  "tris": [
+   664,
+   1102,
+   1728
+  ],
+  "teamMaterial": "Team"
+ },
+ "keep": {
+  "dir": "buildings/",
+  "levels": [
+   "keep_l1.glb",
+   "keep_l2.glb",
+   "keep_l3.glb"
+  ],
+  "faction": "dawn",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   7.03,
+   8.68,
+   10.94
+  ],
+  "footprint": [
+   [
+    5.25,
+    1.8
+   ],
+   [
+    7.5,
+    7.5
+   ],
+   [
+    7.5,
+    7.5
+   ]
+  ],
+  "tris": [
+   868,
+   4844,
+   4900
+  ],
+  "teamMaterial": "Team"
+ },
+ "barracks": {
+  "dir": "buildings/",
+  "levels": [
+   "barracks_l1.glb",
+   "barracks_l2.glb",
+   "barracks_l3.glb"
+  ],
+  "faction": "dawn",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   2.98,
+   4.03,
+   7.61
+  ],
+  "footprint": [
+   [
+    3.93,
+    3.75
+   ],
+   [
+    7.9,
+    6.77
+   ],
+   [
+    7.9,
+    6.39
+   ]
+  ],
+  "tris": [
+   1377,
+   2308,
+   4298
+  ],
+  "teamMaterial": "Team"
+ },
+ "mill": {
+  "dir": "buildings/",
+  "levels": [
+   "mill_l1.glb",
+   "mill_l2.glb",
+   "mill_l3.glb"
+  ],
+  "faction": "dawn",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   7.32,
+   10.86,
+   13.57
+  ],
+  "footprint": [
+   [
+    5.84,
+    2.53
+   ],
+   [
+    7.31,
+    5.59
+   ],
+   [
+    7.9,
+    6.68
+   ]
+  ],
+  "tris": [
+   1218,
+   2418,
+   4372
+  ],
+  "teamMaterial": "Team",
+  "clips": {
+   "idle": "Idle"
+  },
+  "loop": [
+   "Idle"
+  ],
+  "note": "sails spin via looping Idle clip"
+ },
+ "dtower": {
+  "dir": "buildings/",
+  "levels": [
+   "dtower_l1.glb",
+   "dtower_l2.glb",
+   "dtower_l3.glb"
+  ],
+  "faction": "dawn",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   4.96,
+   7.91,
+   9.53
+  ],
+  "footprint": [
+   [
+    1.6,
+    1.6
+   ],
+   [
+    1.6,
+    1.6
+   ],
+   [
+    1.6,
+    1.63
+   ]
+  ],
+  "tris": [
+   630,
+   1120,
+   1550
+  ],
+  "teamMaterial": "Team"
+ },
+ "outpost_plot": {
+  "file": "buildings/outpost_plot.glb",
+  "faction": "neutral",
+  "type": "building",
+  "scale": 1,
+  "height": 1.71,
+  "footprint": [
+   7.9,
+   7.11
+  ],
+  "tris": 1112,
+  "teamMaterial": "Team"
+ },
+ "watchtower": {
+  "file": "buildings/watchtower.glb",
+  "faction": "neutral",
+  "type": "building",
+  "scale": 1,
+  "height": 7.14,
+  "footprint": [
+   3.08,
+   2.38
+  ],
+  "tris": 1148,
+  "teamMaterial": "Team"
+ },
+ "prop_dead_tree": {
+  "file": "props/dead_tree.glb",
+  "faction": "neutral",
+  "type": "prop",
+  "scale": 1,
+  "height": 4.36,
+  "tris": 84,
+  "map": "blackwater_fords"
+ },
+ "prop_oak": {
+  "file": "props/oak.glb",
+  "faction": "neutral",
+  "type": "prop",
+  "scale": 1,
+  "height": 5.4,
+  "tris": 196,
+  "map": "blackwater_fords"
+ },
+ "prop_pine_a": {
+  "file": "props/pine_a.glb",
+  "faction": "neutral",
+  "type": "prop",
+  "scale": 1,
+  "height": 7.04,
+  "tris": 134,
+  "map": "blackwater_fords"
+ },
+ "prop_pine_b": {
+  "file": "props/pine_b.glb",
+  "faction": "neutral",
+  "type": "prop",
+  "scale": 1,
+  "height": 6.18,
+  "tris": 230,
+  "map": "blackwater_fords"
+ },
+ "prop_reeds": {
+  "file": "props/reeds.glb",
+  "faction": "neutral",
+  "type": "prop",
+  "scale": 1,
+  "height": 1.49,
+  "tris": 112,
+  "map": "blackwater_fords"
+ },
+ "prop_rock_large": {
+  "file": "props/rock_large.glb",
+  "faction": "neutral",
+  "type": "prop",
+  "scale": 1,
+  "height": 0.78,
+  "tris": 80,
+  "map": "blackwater_fords"
+ },
+ "prop_rock_tall": {
+  "file": "props/rock_tall.glb",
+  "faction": "neutral",
+  "type": "prop",
+  "scale": 1,
+  "height": 2.99,
+  "tris": 136,
+  "map": "blackwater_fords"
+ },
+ "prop_rocks_small": {
+  "file": "props/rocks_small.glb",
+  "faction": "neutral",
+  "type": "prop",
+  "scale": 1,
+  "height": 0.57,
+  "tris": 52,
+  "map": "blackwater_fords"
+ },
+ "prop_stump": {
+  "file": "props/stump.glb",
+  "faction": "neutral",
+  "type": "prop",
+  "scale": 1,
+  "height": 2.0,
+  "tris": 120,
+  "map": "blackwater_fords"
+ },
+ "terrain_grass": {
+  "type": "terrain",
+  "color": "#2c3a24",
+  "roughness": 0.95,
+  "metalness": 0,
+  "map": "terrain/grass.jpg",
+  "repeat_m": 8
+ },
+ "terrain_mud": {
+  "type": "terrain",
+  "color": "#3a2e24",
+  "roughness": 0.85,
+  "metalness": 0,
+  "map": "terrain/mud.jpg",
+  "repeat_m": 8
+ },
+ "terrain_ford": {
+  "type": "terrain",
+  "color": "#3a4a4c",
+  "roughness": 0.35,
+  "metalness": 0,
+  "note": "wet shallows; can blend over mud",
+  "map": "terrain/ford.jpg",
+  "repeat_m": 8
+ },
+ "terrain_water": {
+  "type": "terrain",
+  "color": "#14262e",
+  "roughness": 0.08,
+  "metalness": 0.1,
+  "opacity": 0.78,
+  "transparent": true,
+  "note": "use as transparent plane at y=0.05 above riverbed",
+  "map": "terrain/water.jpg",
+  "repeat_m": 8
+ }
+}

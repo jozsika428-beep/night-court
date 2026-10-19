@@ -15,19 +15,22 @@ def run(p, w, h, name):
     b = p.chromium.launch(executable_path='/usr/bin/google-chrome', args=ARGS)
     ctx = b.new_context(viewport={'width': w, 'height': h}, device_scale_factor=2, is_mobile=True, has_touch=True)
     pg = ctx.new_page()
-    # art3d/manifest.json does not exist until the artist adds it; that one 404 is expected and ignored
     def con(m):
         if m.type not in ('error', 'warning') or 'GPU stall' in m.text or 'GL Driver' in m.text: return
-        if 'art3d/manifest.json' in (m.location or {}).get('url', ''): return
         errors.append(f'{name} console.{m.type}: {m.text} {(m.location or {}).get("url", "")}')
     pg.on('console', con)
     pg.on('pageerror', lambda e: errors.append(f'{name} pageerror: {e}'))
     pg.on('requestfailed', lambda r: errors.append(f'{name} requestfailed: {r.url}'))
+    pg.on('response', lambda r: r.status >= 400 and errors.append(f'{name} HTTP {r.status}: {r.url}'))
     pg.add_init_script(f"localStorage.setItem('nc_gfx', '{GFX}')")
     pg.goto(URL); pg.wait_for_timeout(1500)
     if name == 'portrait': pg.screenshot(path=OUT + '3d_menu_390x844.png')
     pg.tap('#play'); pg.wait_for_timeout(2500)
     view = pg.evaluate("() => NC_VIEW"); print(name, 'view:', view, 'gfx:', GFX)
+    pg.wait_for_function("() => NC_WORLD.models.done", timeout=60000); pg.wait_for_timeout(500)
+    ml = pg.evaluate("() => ({ loaded: Object.keys(NC_WORLD.models.protos).length, entries: Object.keys(NC_WORLD.models.entries).length, terrain: Object.keys(NC_WORLD.models.terrain).length, issues: NC_WORLD.models.issues })")
+    print(name, 'models:', json.dumps(ml))
+    if ml['issues'] or ml['loaded'] < ml['entries']: errors.append(name + ' model load issues ' + json.dumps(ml))
     if view != '3d': errors.append(name + ' did not start in 3D')
     # tap an empty plot (projected to screen) -> build menu -> build Crypt
     sp = pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM; const p = g.plots.filter(p => p.base && p.owner === 0)[4]; c.x = p.x; c.y = p.y - 40; c.clamp(); c.apply();
@@ -74,11 +77,24 @@ def run(p, w, h, name):
     pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM; const gf = g.units.find(u => u.type === 'grimfang'); if (gf) g.useAbility(0, gf.id, 0);
       NC_UI.selectArmy(); const ar = g.units.filter(u => u.owner === 0 && u.y < 1700); c.x = ar.reduce((a,u)=>a+u.x,0)/ar.length; c.y = ar.reduce((a,u)=>a+u.y,0)/ar.length + 20; c.z = 1.7; c.clamp(); }""")
     pg.wait_for_timeout(1500)
-    pg.screenshot(path=OUT + f'3d_battle_{w}x{h}.png')
+    pg.screenshot(path=OUT + f'3d_models_battle_{w}x{h}.png')
     # base in daylight
     pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM, f = g.get(g.sides[0].fortressId); NC_UI.clear(); g.t += (240 - g.cycle()) + 20; g.updateDayNight(); c.x = f.x; c.y = f.y - 60; c.z = 1.15; c.yaw = c.yawTarget = 0.35; c.clamp(); }""")
     pg.wait_for_timeout(1500)
-    pg.screenshot(path=OUT + f'3d_base_{w}x{h}.png')
+    pg.screenshot(path=OUT + f'3d_models_base_{w}x{h}.png')
+    # base at night: Glow parts should light up
+    pg.evaluate("() => { const g = NC_GAME; g.t += (g.NC ? 0 : 0) + (NC.NIGHT_START + 40 - g.cycle()); g.updateDayNight(); }")
+    pg.wait_for_timeout(1200)
+    pg.screenshot(path=OUT + f'3d_models_night_{w}x{h}.png')
+    # line-up of every unit + hero model in daylight, close camera: scale, facing, feet
+    pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM; g.t += (NC.DAY_LEN - g.cycle()) + 30; g.updateDayNight();
+      const T = ['ghoul','thrall','werewolf','archer','vael','grimfang','crossbow','knight','priest','torch','ashen'];
+      window.__line = T.map((t, i) => { const u = g.spawnUnit(t, i < 6 ? 0 : 1, 1160 + (i % 6) * 30, 1560 + Math.floor(i / 6) * 45); u.order = { type: 'idle' }; u.face = Math.PI / 2; return u.id; });
+      window.__upd = g.update; g.update = function () {};
+      c.x = 1235; c.y = 1570; c.z = 2.2; c.yaw = c.yawTarget = 0; c.clamp(); }""")
+    pg.wait_for_timeout(1500)
+    pg.screenshot(path=OUT + f'3d_models_lineup_{w}x{h}.png')
+    pg.evaluate("() => { const g = NC_GAME; g.update = window.__upd; g.units = g.units.filter(u => !window.__line.includes(u.id)); }")
     # stress: ~100 units on screen, measure fps from the render loop
     pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM; const types0 = ['ghoul','archer','thrall','werewolf','bat'], types1 = ['torch','crossbow','knight','priest'];
       let n0 = g.units.filter(u => u.owner === 0).length, n1 = g.units.filter(u => u.owner === 1).length;
@@ -86,9 +102,11 @@ def run(p, w, h, name):
       for (let i = 0; n1 < 50; i++, n1++) { const u = g.spawnUnit(types1[i % 4], 1, 600 + (i % 10) * 40, 1000 - Math.floor(i / 10) * 30); u.order = { type: 'amove', x: 800, y: 1400 }; }
       c.x = 800; c.y = 1260; c.z = 0.8; c.yaw = c.yawTarget = 0; c.clamp(); }""")
     pg.wait_for_timeout(2500)
-    fps = pg.evaluate("() => new Promise(r => setTimeout(() => r({ fps: Math.round(NC_WORLD.fps * 10) / 10, units: NC_GAME.units.length, calls: NC_WORLD.r.info.render.calls, tris: NC_WORLD.r.info.render.triangles }), 3000))")
+    fps = pg.evaluate("""() => new Promise(r => { const W = NC_WORLD, R = W.r, orig = R.render.bind(R); let rt = 0, n = 0, t0 = 0, tot = 0; const od = W.draw.bind(W);
+      R.render = (a, b) => { const t = performance.now(); orig(a, b); rt += performance.now() - t; n++; }; W.draw = (u) => { const t = performance.now(); od(u); tot += performance.now() - t; };
+      setTimeout(() => { R.render = orig; W.draw = od; r({ fps: Math.round(W.fps * 10) / 10, units: NC_GAME.units.length, calls: R.info.render.calls, tris: R.info.render.triangles, js_ms: Math.round((tot - rt) / n * 10) / 10, gl_ms: Math.round(rt / n * 10) / 10 }); }, 3000); })""")
     print(name, 'stress', json.dumps(fps))
-    pg.screenshot(path=OUT + f'3d_stress_{w}x{h}.png')
+    pg.screenshot(path=OUT + f'3d_models_stress_{w}x{h}.png')
     # classic 2D fallback still loads
     pg2 = ctx.new_page(); pg2.on('pageerror', lambda e: errors.append(f'{name} 2d pageerror: {e}'))
     pg2.goto(URL.split('?')[0] + '?2d=1'); pg2.wait_for_timeout(800); pg2.tap('#play'); pg2.wait_for_timeout(1500)
