@@ -133,8 +133,8 @@
       },
       "heroes_ready": {
         "vael": {
-          "label": "cold whisper-double, dark cathedral",
-          "pitch_st": -1.5,
+          "label": "Countess: +6 st, formants x1.2, whisper double, dark cathedral (variant B)",
+          "pitch_st": 6.0,
           "events": [
             "select",
             "move",
@@ -143,11 +143,12 @@
             "death"
           ],
           "path": "final/vael/",
-          "script": "voice/fx_heroes.py"
+          "script": "voice/fx_heroes.py",
+          "formant_scale": 1.2
         },
         "grimfang": {
-          "label": "deep growl, growl layer, short rough room",
-          "pitch_st": -4.5,
+          "label": "clear beast: dry -2.5 st formant-preserved voice + quiet octave-down growl, very short room",
+          "pitch_st": -2.5,
           "events": [
             "select",
             "move",
@@ -159,8 +160,8 @@
           "script": "voice/fx_heroes.py"
         },
         "ashen": {
-          "label": "clean firm hunter, slight grit, short plate",
-          "pitch_st": 0.0,
+          "label": "stern armoured hunter-priest: -2.5 st formant-shifted, chest EQ, tube grit, octave double, stone chapel",
+          "pitch_st": -2.5,
           "events": [
             "select",
             "move",
