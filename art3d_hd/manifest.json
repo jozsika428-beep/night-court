@@ -415,7 +415,7 @@
   "height": [
    4.6,
    5.88,
-   7.75
+   6.59
   ],
   "footprint": [
    [
@@ -427,14 +427,14 @@
     6.61
    ],
    [
-    7.88,
-    7.75
+    6.71,
+    6.59
    ]
   ],
   "tris": [
    8993,
    8993,
-   9456
+   9455
   ],
   "teamMaterial": "Team",
   "lod": {
@@ -511,7 +511,7 @@
   "height": [
    2.11,
    2.46,
-   5.91
+   6.76
   ],
   "footprint": [
    [
@@ -523,14 +523,14 @@
     5.35
    ],
    [
-    5.88,
-    4.17
+    6.72,
+    4.77
    ]
   ],
   "tris": [
    649,
    1322,
-   8981
+   8980
   ],
   "teamMaterial": "Team",
   "lod": {
@@ -655,7 +655,7 @@
   "height": [
    7.25,
    8.87,
-   8.37
+   9.44
   ],
   "footprint": [
    [
@@ -667,8 +667,8 @@
     2.36
    ],
    [
-    4.39,
-    4.47
+    4.96,
+    5.04
    ]
   ],
   "tris": [
@@ -751,7 +751,7 @@
   "height": [
    3.66,
    4.51,
-   6.11
+   6.38
   ],
   "footprint": [
    [
@@ -763,14 +763,14 @@
     6.54
    ],
    [
-    7.9,
-    4.3
+    6.71,
+    3.66
    ]
   ],
   "tris": [
    8973,
    8978,
-   8993
+   8992
   ],
   "teamMaterial": "Team",
   "lod": {
@@ -799,7 +799,7 @@
   "height": [
    2.98,
    2.26,
-   3.33
+   2.83
   ],
   "footprint": [
    [
@@ -811,14 +811,14 @@
     4.17
    ],
    [
-    7.87,
-    3.73
+    6.69,
+    3.17
    ]
   ],
   "tris": [
    1001,
    1859,
-   8999
+   8998
   ],
   "teamMaterial": "Team",
   "lod": {
@@ -933,48 +933,48 @@
  "dtower": {
   "dir": "buildings/",
   "levels": [
-   "../../art3d/buildings/dtower_l1.glb",
-   "../../art3d/buildings/dtower_l2.glb",
+   "dtower_l1.glb",
+   "dtower_l2.glb",
    "dtower_l3.glb"
   ],
   "faction": "dawn",
   "type": "building",
   "scale": 1,
   "height": [
-   4.96,
-   7.91,
-   7.62
+   5.23,
+   5.75,
+   8.0
   ],
   "footprint": [
    [
-    1.6,
-    1.6
+    5.04,
+    5.04
    ],
    [
-    1.6,
-    1.6
+    5.04,
+    4.94
    ],
    [
-    2.43,
-    2.42
+    5.03,
+    4.83
    ]
   ],
   "tris": [
-   630,
-   1120,
-   9000
+   8998,
+   8979,
+   8970
   ],
   "teamMaterial": "Team",
   "lod": {
    "far": [
-    null,
-    null,
+    "dtower_l1_far.glb",
+    "dtower_l2_far.glb",
     "dtower_l3_far.glb"
    ]
   },
   "hdLevels": [
-   false,
-   false,
+   true,
+   true,
    true
   ]
  }
