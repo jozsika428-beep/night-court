@@ -655,5 +655,59 @@
    false,
    true
   ]
+ },
+ "knight": {
+  "file": "units/knight.glb",
+  "faction": "dawn",
+  "type": "cavalry",
+  "scale": 1,
+  "height": 2.34,
+  "tris": 2999,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> TripoSR -> Blender bake/retopo; skinned to std knight horse+rider skeleton (Quaternius Horse rig, weights transferred from std mesh), std clips",
+  "lod": {
+   "far": "units/knight_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "bloodknight": {
+  "file": "units/bloodknight.glb",
+  "faction": "night",
+  "type": "cavalry",
+  "scale": 1,
+  "height": 2.48,
+  "tris": 2996,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> TripoSR -> Blender bake/retopo; skinned to std bloodknight horse+rider skeleton (Quaternius Horse rig, weights transferred from std mesh), std clips",
+  "lod": {
+   "far": "units/bloodknight_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
  }
 }
