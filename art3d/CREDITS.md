@@ -13,7 +13,7 @@ Everything in this pack is either **CC0 1.0 (public domain)** or made for this p
 Author: Quaternius — https://quaternius.com
 
 ## Kenney (CC0 1.0), https://kenney.nl
-- Castle Kit: https://kenney.nl/assets/castle-kit
+- Castle Kit: https://kenney.nl/assets/castle-kit. It also supplies the base models for the `catapult` (siege-catapult) and the `ballista` (siege-ballista).
 - Graveyard Kit 5.0: https://kenney.nl/assets/graveyard-kit
 - Fantasy Town Kit 2.0: https://kenney.nl/assets/fantasy-town-kit
 - Nature Kit: https://kenney.nl/assets/nature-kit
@@ -21,7 +21,8 @@ Author: Quaternius — https://quaternius.com
 The exact pieces used are listed in `sources.csv`.
 
 ## Project-original
-- Procedural parts built in Blender: weapons, armour, capes, hoods, wings, banners, the dead tree and the reeds.
+- Procedural parts built in Blender: weapons, armour, capes, hoods, wings, banners, braziers, silos, the dead tree and the reeds.
+- The whole `bat` swarm, including its rig, is procedural.
 - Terrain textures, made from the project's own 2D pack v1 terrain art.
 
 All of it was recoloured, combined, decimated and re-rigged with the Blender scripts in `_scripts/`.

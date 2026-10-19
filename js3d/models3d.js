@@ -228,6 +228,7 @@ export class ModelLib {
   }
   setGlow(k) { this.glowMats.forEach(g => g.color.copy(g.userData.base).multiplyScalar(k)); }
   fixMat(mat, teamColor, uniqueTeam) {
+    if (this.frontSide && mat.side !== THREE.FrontSide) mat.side = THREE.FrontSide; // Low graphics: skip back faces
     if (/glow/i.test(mat.name)) return this.glow(mat);
     if (/metal/i.test(mat.name) && mat.metalness !== undefined) { // no environment map, so very metallic parts would render black
       if (!mat.userData.fixed) { mat.metalness = Math.min(mat.metalness, 0.35); mat.roughness = Math.max(mat.roughness, 0.45); mat.userData.fixed = true; }
@@ -261,12 +262,17 @@ export class ModelLib {
     }
     const want = this.entryHeight(key, level);
     let pc = this.protoMeasure(key, level, gltf);
-    let s = e.scale || 1;
-    if (want && pc.h > 0 && Math.abs(pc.h * s / want - 1) > 0.15) s = want / pc.h;
+    // the manifest heights are measured from the files, so trust the file scale. Flying units (bat) keep their own
+    // hover (minY); siege engines move parts in their clips, so their animated bbox is never used for fitting.
+    const s = e.scale || 1;
     root.scale.multiplyScalar(s);
-    if (Math.abs(pc.minY) > 0.05) root.position.y = -pc.minY * s; // feet on the ground
-    return { root: holder, mixer, actions, teamMats, height: (want || pc.h * s), footprint: [pc.w * s, pc.d * s] };
+    const trustY = e.flying || e.minY !== undefined || e.type === 'siege';
+    if (!trustY && Math.abs(pc.minY) > 0.05) { root.position.y = -pc.minY * s; this.note(key + (level ? '_l' + level : '') + ': feet ' + pc.minY.toFixed(2) + ' m off the ground (corrected)'); }
+    if (want && pc.h > 0 && e.type !== 'siege' && !e.flying && Math.abs(pc.h / want - 1) > 0.15) this.note(key + (level ? '_l' + level : '') + ': height ' + pc.h.toFixed(2) + ' m vs manifest ' + want);
+    const top = (want || pc.h * s) + (e.flying ? (e.minY || 0) * s : 0);
+    return { root: holder, mixer, actions, teamMats, height: top, flying: !!e.flying, footprint: [pc.w * s, pc.d * s] };
   }
+  note(t) { this.notes = this.notes || []; if (!this.notes.includes(t)) this.notes.push(t); }
   protoMeasure(key, level, gltf) {
     const k = key + (level || 1); if (this.propCache[k]) return this.propCache[k];
     const c = SkeletonUtils.clone(gltf.scene);

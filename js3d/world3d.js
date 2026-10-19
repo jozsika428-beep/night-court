@@ -16,6 +16,8 @@ export class World3D {
     this.r.outputColorSpace = THREE.SRGBColorSpace;
     this.r.shadowMap.enabled = this.high; this.r.shadowMap.type = THREE.PCFShadowMap;
     this.models = new ModelLib('art3d/');
+    // Low graphics draws model faces one-sided (cheaper); ?double=1 forces the artist's double-sided materials
+    this.models.frontSide = !this.high && !/[?&]double=1/.test(location.search);
     this.modelsReady = this.models.load();
     this.raycaster = new THREE.Raycaster(); this.ground = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     this.frustum = new THREE.Frustum(); this.t = 0; this.fpsN = 0; this.fpsT = 0; this.fps = 0;
@@ -385,6 +387,7 @@ export class World3D {
       if (!r.mi && this.models.has(u.type)) r.mi = this.makeUnitModel(u);
       let height;
       if (r.mi) {
+        if (r.mi.flying) Y = Math.max(0, gh) + 0.8 + Math.sin(this.t * 3 + u.id) * 0.25; // the bat model hovers by itself (minY); lift a little to clear heads
         r.mi.root.position.set(X, Y, Z); r.mi.root.rotation.y = r.rot; r.mi.root.visible = vis;
         const st = u.leap ? 'ability' : (u.swing > 0 || (u.tgt && u.cd > u.def.cd - 0.35 && !u.moving)) ? 'attack' : u.moving ? (u.def.speed > 85 ? 'run' : 'walk') : 'idle';
         this.playState(r.mi, st);

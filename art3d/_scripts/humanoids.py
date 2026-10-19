@@ -3,6 +3,7 @@ from units import *
 MAN = f"{CAND}/HMnuH5geEG.glb"
 MANCLIPS = {"Idle": "Man_Idle", "Walk": "Man_Walk", "Run": "Man_Run", "Attack": "Man_SwordSlash", "Death": "Man_Death"}
 C = srgb
+INF = 950  # infantry tri target
 
 def hand(R, side="R"):
     p = R.bonepos("Palm." + side); f = R.bonepos("Fingers." + side)
@@ -158,7 +159,7 @@ def ghoul():
     R.offset_bone_rotation("Abdomen", (1, 0, 0), 25)
     R.offset_bone_rotation("Torso", (1, 0, 0), 12)
     R.offset_bone_rotation("Neck", (1, 0, 0), -25)
-    return R.finish("ghoul", 1.75 / 1.8, dict(MANCLIPS, Attack="Man_Punch"), 1450)
+    return R.finish("ghoul", 1, dict(MANCLIPS, Attack="Man_Punch"), INF, target_h=1.7)
 
 def thrall():
     R = Rig(MAN, "night", {"Shirt": C("#1c1418"), "Skin": C("#e0d8d6"), "Pants": C("#121014"), "Socks": C("#241618"), "Hair": C("#0a0808"), "Eyes": C("#100c0c")})
@@ -166,7 +167,7 @@ def thrall():
     clothe(R, "#141014", "#1c1418", "#2a1a1c")
     cape(R); collar(R, mat="Team"); breastplate(R, "#3a3438"); pauldrons(R, "#3a3438", 0.14)
     sword(R, 0.9, 0.05, col="#d0d4dc", guard="#8a1020")
-    return R.finish("thrall", 1.0, MANCLIPS, 1500)
+    return R.finish("thrall", 1, MANCLIPS, INF, target_h=1.8)
 
 def werewolf(key="werewolf", fur="#2c2826", h=2.4, hero=False):
     R = Rig(MAN, "night", {"Shirt": C(fur), "Skin": C(fur), "Hair": C(fur), "Socks": C(fur), "Pants": C("#ffffff"), "Eyes": C("#100c0c")},
@@ -177,19 +178,21 @@ def werewolf(key="werewolf", fur="#2c2826", h=2.4, hero=False):
     glow_eyes(R, y=-0.115, z=1.70, dx=0.05)
     claws(R, length=0.16); tail(R, fur)
     if hero:
-        bone_trophies(R); banner_back(R, 2.2)
+        bone_trophies(R)
+        R.part(prim("cube", (0.5, 0.04, 0.12), loc=(0, -0.16, 0.98)), "Hips", "Metal", C("#8a8070"))  # belt
+        R.part(prim("ico", (0.12, 0.12, 0.14), loc=(0, -0.2, 0.98)), "Hips", "Glow", (1, 0.1, 0.03, 1))  # blood gem
     R.offset_bone_rotation("Abdomen", (1, 0, 0), 14)
     R.offset_bone_rotation("Neck", (1, 0, 0), -10)
     clips = dict(MANCLIPS, Attack="Man_Punch")
     if hero: clips["Ability"] = "Man_Jump"
-    return R.finish(key, h / 1.8, clips, 2900 if hero else 1500, path=f"{OUT}/{'heroes' if hero else 'units'}/{key}.glb")
+    return R.finish(key, 1, clips, 2900 if hero else INF, target_h=h, path=f"{OUT}/{'heroes' if hero else 'units'}/{key}.glb")
 
 def crossbowman():
     R = Rig(MAN, "dawn", {"Shirt": C("#ffffff"), "Skin": C("#c99a74"), "Pants": C("#6c7078"), "Socks": C("#4a3222"), "Hair": C("#5a3a20"), "Eyes": C("#100c0c")},
             team_mats=("Shirt",))
     clothe(R, "#6c7078", "#8a8f98", "#5a3a22")
     helmet(R, "#c0c6d0", "kettle"); tabard(R); crossbow(R)
-    return R.finish("crossbow", 1.0, dict(MANCLIPS, Attack="Man_Punch"), 1500)
+    return R.finish("crossbow", 1, dict(MANCLIPS, Attack="Man_Punch"), INF, target_h=1.8)
 
 def torchbearer():
     R = Rig(MAN, "dawn", {"Shirt": C("#ffffff"), "Skin": C("#d0a07a"), "Pants": C("#5a4a3a"), "Socks": C("#4a3222"), "Hair": C("#6a4a2a"), "Eyes": C("#100c0c")},
@@ -197,14 +200,14 @@ def torchbearer():
     fix_glow(R.mats["Glow"], (1, 0.45, 0.08, 1), 8)
     clothe(R, "#5a4a3a", "#e6dcc8")
     hood(R, "#e6dcc8", "Body", 0.13); torch(R)
-    return R.finish("torch", 1.0, MANCLIPS, 1500)
+    return R.finish("torch", 1, MANCLIPS, INF, target_h=1.8)
 
 def priest():
     R = Rig(MAN, "dawn", {"Shirt": C("#ece6d8"), "Skin": C("#d0a07a"), "Pants": C("#ece6d8"), "Socks": C("#ece6d8"), "Hair": C("#6a4a2a"), "Eyes": C("#100c0c")})
     fix_glow(R.mats["Glow"], (1, 0.75, 0.25, 1), 5)
     clothe(R, "#ece6d8", "#ece6d8", "#ece6d8")
     robe(R, col="#ece6d8"); hood(R, "#ece6d8"); tabard(R); staff(R, "sun")
-    return R.finish("priest", 1.0, dict(MANCLIPS, Attack="Man_Punch"), 1500)
+    return R.finish("priest", 1, dict(MANCLIPS, Attack="Man_Punch"), INF, target_h=1.8)
 
 def vael():
     R = Rig(MAN, "night", {"Shirt": C("#16101a"), "Skin": C("#e8e0e0"), "Pants": C("#16101a"), "Socks": C("#16101a"), "Hair": C("#0a0808"), "Eyes": C("#100c0c")})
@@ -218,16 +221,17 @@ def vael():
     R.part(prim("cone", (0.24, 0.24, 0.12), loc=(0, 0.0, 1.84), r2=0.2, segs=6), "Head", "Metal", C("#c8a040"))  # tiara band
     sword(R, 0.8, 0.025, col="#e0e4ea", guard="#c8a040")
     clips = dict(MANCLIPS); clips["Ability"] = "Man_Clapping"
-    return R.finish("vael", 2.2 / 1.8, clips, 2900, path=f"{OUT}/heroes/vael.glb")
+    return R.finish("vael", 1, clips, 2900, target_h=2.2, path=f"{OUT}/heroes/vael.glb")
 
 def ashen():
     R = Rig(MAN, "dawn", {"Shirt": C("#ece6d8"), "Skin": C("#c08a66"), "Pants": C("#ece6d8"), "Socks": C("#5a3a22"), "Hair": C("#8a8580"), "Eyes": C("#100c0c")})
     fix_glow(R.mats["Glow"], (1, 0.78, 0.3, 1), 6)
     clothe(R, "#ece6d8", "#ece6d8", "#8a8f98")
     robe(R, col="#ece6d8"); hood(R, "#ece6d8", r=0.15); pauldrons(R, "#b8bec8", 0.17); tabard(R)
-    banner_back(R, 2.4); holy_hand(R, "L"); sword(R, 0.8, 0.06, col="#d8dce4", guard="#c8a040")
+    holy_hand(R, "L")
+    R.part(prim("cyl", (0.2, 0.2, 0.02), loc=(0, 0.2, 1.72), rot=(math.pi / 2, 0, 0), segs=10), "Head", "Glow", (1.0, 0.75, 0.25, 1))  # halo disc behind head; sword(R, 0.8, 0.06, col="#d8dce4", guard="#c8a040")
     clips = dict(MANCLIPS); clips["Ability"] = "Man_Clapping"
-    return R.finish("ashen", 2.2 / 1.8, clips, 2900, path=f"{OUT}/heroes/ashen.glb")
+    return R.finish("ashen", 1, clips, 2900, target_h=2.2, path=f"{OUT}/heroes/ashen.glb")
 
 def grimfang():
     return werewolf("grimfang", "#6a625c", 2.6, hero=True)
@@ -258,7 +262,7 @@ def bone_archer():
     tb = R.bonepos("Torso")
     R.part(prim("cyl", (0.11, 0.11, 0.42), loc=(0.1, 0.17, tb.z + 0.2), rot=(math.radians(15), math.radians(-20), 0), segs=6), "Torso", "Body", C("#3a1c18"))
     clips = {"Idle": "Skeleton_Idle", "Walk": "Skeleton_Running", "Run": "Skeleton_Running", "Attack": "Skeleton_Attack", "Death": "Skeleton_Death", "Ability": "Skeleton_Spawn"}
-    return R.finish("archer", 1.0, clips, 1500)
+    return R.finish("archer", 1, clips, INF, target_h=1.7, stretch={"Death": 3.0})
 
 ALL["archer"] = bone_archer
 

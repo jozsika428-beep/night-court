@@ -43,11 +43,34 @@ def tone(style):
         return (s2lin(r), s2lin(g), s2lin(b), 1)
     return f
 
+GLOWCOL = {"night": (1.0, 0.2, 0.05, 1), "dawn": (1.0, 0.68, 0.28, 1), "neutral": (1.0, 0.55, 0.2, 1), "fords": (1.0, 0.55, 0.2, 1)}
+
+def sweep_points(o):
+    """world-space bbox points of an object spinning about its local Y axis through its origin."""
+    M = o.matrix_world; piv = M.translation; ax = (M.to_3x3() @ Vector((0, 1, 0))).normalized()
+    r = 0; ys = []
+    for v in o.data.vertices:
+        w = M @ v.co; d = w - piv; a = d.dot(ax); r = max(r, (d - ax * a).length); ys.append(a)
+    u = ax.orthogonal().normalized(); w2 = ax.cross(u).normalized(); pts = []
+    for a in (min(ys), max(ys)):
+        for k in range(16):
+            t = k / 16 * 2 * math.pi; pts.append(piv + ax * a + (u * math.cos(t) + w2 * math.sin(t)) * r)
+    return pts
+
+def full_bbox(objs, sweeps=()):
+    mn, mx = bbox([o for o in objs if o not in sweeps] or objs)
+    for o in sweeps:
+        for p in sweep_points(o):
+            mn = Vector((min(mn.x, p.x), min(mn.y, p.y), min(mn.z, p.z))); mx = Vector((max(mx.x, p.x), max(mx.y, p.y), max(mx.z, p.z)))
+    return mn, mx
+
 class Build:
-    def __init__(self, faction, style=None):
+    def __init__(self, faction, style=None, glow=None):
         reset()
         self.faction = faction; self.style = style or faction
         self.mats = materials(faction if faction in TEAM else "night")
+        self.glow = glow or GLOWCOL.get(self.style, GLOWCOL["neutral"])
+        fix_glow(self.mats["Glow"], self.glow, 5.0)
         if faction == "neutral":
             b = next(n for n in self.mats["Team"].node_tree.nodes if n.type == "BSDF_PRINCIPLED")
         self.objs = []; self.anim = []
@@ -90,7 +113,10 @@ class Build:
         for p in o.data.polygons: p.material_index = MAT_ORDER.index(mat)
         self.objs.append(o); return o
 
-    def finish(self, path, scale=1.0, keep_separate=(), budget=4900):
+    def glowbox(self, size, loc, rot=(0, 0, 0), kind="cube", segs=6):
+        return self.prim(kind, size, loc, rot, mat="Glow", color=self.glow, segs=segs)
+
+    def finish(self, path, scale=1.0, keep_separate=(), budget=4900, sweeps=(), fit=7.9):
         # apply transforms, join all static into one mesh, scale, centre footprint on origin
         bpy.ops.object.select_all(action="DESELECT")
         stat = [o for o in self.objs if o not in keep_separate]
@@ -113,10 +139,11 @@ class Build:
             bpy.ops.object.modifier_apply(modifier=mod.name)
             mod = m.modifiers.new("tr", "TRIANGULATE"); bpy.ops.object.modifier_apply(modifier=mod.name)
             extra = tris(allm) - tris([m])
-            if tris(allm) > budget: decimate(m, budget - extra)
-        mn, mx = bbox(allm)
+            if tris(allm) > budget:
+                print("WARN_COLLAPSE", path, tris(allm)); decimate(m, budget - extra)
+        mn, mx = full_bbox(allm, sweeps)
         fp = max(mx.x - mn.x, mx.y - mn.y)
-        k = 7.9 / fp if fp > 7.9 else 1.0
+        k = fit / fp if fp > fit else 1.0
         c = Vector(((mn.x + mx.x) / 2, (mn.y + mx.y) / 2, mn.z))
         for o in allm:
             o.matrix_world = Matrix.Diagonal((k, k, k, 1)) @ Matrix.Translation(-c) @ o.matrix_world
@@ -124,7 +151,8 @@ class Build:
             if a.name != "Idle": bpy.data.actions.remove(a)
         for o in allm:
             if o.animation_data and not o.animation_data.action and not o.animation_data.nla_tracks: o.animation_data_clear()
-        mn, mx = bbox(allm)
+        bpy.context.view_layer.update()
+        mn, mx = full_bbox(allm, sweeps)
         t = tris(allm)
         exp = allm
         for o in list(bpy.data.objects):

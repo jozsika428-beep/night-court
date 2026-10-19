@@ -5,6 +5,7 @@ from playwright.sync_api import sync_playwright
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://localhost:8765/index.html'
 GFX = sys.argv[2] if len(sys.argv) > 2 else 'low'
 OUT = '/workspace/game/screens/'
+PFX = '3d_b2_double_' if 'double=1' in URL else '3d_b2_'  # double=1: the artist's double-sided materials on Low (for comparison)
 errors = []
 ARGS = ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist']
 
@@ -46,7 +47,7 @@ def run(p, w, h, name):
     bp = pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM, f = g.get(g.sides[0].fortressId); NC_UI.clear(); NC_UI.refresh(true); c.x = f.x; c.y = f.y - 30; c.clamp(); c.apply(); const s = c.project(f.x, f.y, 4); return s; }""")
     pg.wait_for_timeout(200); pg.touchscreen.tap(bp['x'], bp['y']); pg.wait_for_timeout(400)
     fort_ok = 'Fortress' in pg.inner_text('#panel'); print(name, 'raycast tap on Fortress opens it:', fort_ok)
-    if not fort_ok: errors.append(name + ' building raycast pick failed')
+    if not fort_ok: errors.append(name + ' building raycast pick failed: ' + pg.inner_text('#panel')[:120].replace('\n', ' '))
     # drag to pan, pinch to zoom, twist to rotate (raw CDP touch events)
     cdp = ctx.new_cdp_session(pg)
     def touch(kind, pts): cdp.send('Input.dispatchTouchEvent', {'type': kind, 'touchPoints': [{'x': x, 'y': y, 'id': i} for i, (x, y) in enumerate(pts)]})
@@ -77,24 +78,40 @@ def run(p, w, h, name):
     pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM; const gf = g.units.find(u => u.type === 'grimfang'); if (gf) g.useAbility(0, gf.id, 0);
       NC_UI.selectArmy(); const ar = g.units.filter(u => u.owner === 0 && u.y < 1700); c.x = ar.reduce((a,u)=>a+u.x,0)/ar.length; c.y = ar.reduce((a,u)=>a+u.y,0)/ar.length + 20; c.z = 1.7; c.clamp(); }""")
     pg.wait_for_timeout(1500)
-    pg.screenshot(path=OUT + f'3d_models_battle_{w}x{h}.png')
+    pg.screenshot(path=OUT + f'{PFX}battle_{w}x{h}.png')
     # base in daylight
     pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM, f = g.get(g.sides[0].fortressId); NC_UI.clear(); g.t += (240 - g.cycle()) + 20; g.updateDayNight(); c.x = f.x; c.y = f.y - 60; c.z = 1.15; c.yaw = c.yawTarget = 0.35; c.clamp(); }""")
     pg.wait_for_timeout(1500)
-    pg.screenshot(path=OUT + f'3d_models_base_{w}x{h}.png')
+    pg.screenshot(path=OUT + f'{PFX}base_{w}x{h}.png')
     # base at night: Glow parts should light up
     pg.evaluate("() => { const g = NC_GAME; g.t += (g.NC ? 0 : 0) + (NC.NIGHT_START + 40 - g.cycle()); g.updateDayNight(); }")
     pg.wait_for_timeout(1200)
-    pg.screenshot(path=OUT + f'3d_models_night_{w}x{h}.png')
+    pg.screenshot(path=OUT + f'{PFX}night_{w}x{h}.png')
     # line-up of every unit + hero model in daylight, close camera: scale, facing, feet
     pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM; g.t += (NC.DAY_LEN - g.cycle()) + 30; g.updateDayNight();
-      const T = ['ghoul','thrall','werewolf','archer','vael','grimfang','crossbow','knight','priest','torch','ashen'];
-      window.__line = T.map((t, i) => { const u = g.spawnUnit(t, i < 6 ? 0 : 1, 1160 + (i % 6) * 30, 1560 + Math.floor(i / 6) * 45); u.order = { type: 'idle' }; u.face = Math.PI / 2; return u.id; });
+      const T = ['ghoul','thrall','werewolf','archer','vael','grimfang','bat','catapult','crossbow','knight','priest','torch','ashen','ballista'];
+      window.__line = T.map((t, i) => { const u = g.spawnUnit(t, i < 8 ? 0 : 1, 640 + (i < 8 ? i : i - 8) * 26, 1740 + (i < 8 ? 0 : 50)); u.order = { type: 'idle' }; u.face = Math.PI / 2; return u.id; });
       window.__upd = g.update; g.update = function () {};
-      c.x = 1235; c.y = 1570; c.z = 2.2; c.yaw = c.yawTarget = 0; c.clamp(); }""")
+      c.x = 730; c.y = 1760; c.z = 2.0; c.yaw = c.yawTarget = 0; c.clamp(); }""")
     pg.wait_for_timeout(1500)
-    pg.screenshot(path=OUT + f'3d_models_lineup_{w}x{h}.png')
-    pg.evaluate("() => { const g = NC_GAME; g.update = window.__upd; g.units = g.units.filter(u => !window.__line.includes(u.id)); }")
+    pg.screenshot(path=OUT + f'{PFX}lineup_{w}x{h}.png')
+    # every unit swings: Attack pose (siege fire, bat), then building line-ups (3 levels per row), night + dawn
+    pg.evaluate("() => { NC_GAME.units.forEach(u => { if (window.__line.includes(u.id)) u.swing = 9; }); }"); pg.wait_for_timeout(700)
+    pg.screenshot(path=OUT + f'{PFX}lineup_attack_{w}x{h}.png')
+    # siege + bat close-up from the side (facing: they should point at the camera's left = south)
+    pg.evaluate("() => { const g = NC_GAME, c = NC_CAM; g.units.forEach(u => { if (window.__line.includes(u.id)) u.swing = 0; }); const s = g.units.filter(u => window.__line.includes(u.id) && /bat|catapult|ballista/.test(u.type)); g.units = g.units.filter(u => !window.__line.includes(u.id) || s.includes(u)); s.forEach((u, i) => { u.x = 1000 + i * 45; u.y = 1830; }); c.x = 1045; c.y = 1850; c.z = 2.8; c.yaw = c.yawTarget = 0.7; c.clamp(); }")
+    pg.wait_for_timeout(1200)
+    pg.screenshot(path=OUT + f'{PFX}siege_{w}x{h}.png')
+    pg.evaluate("() => { const g = NC_GAME; g.units = g.units.filter(u => !window.__line.includes(u.id)); }")
+    for fac, types in (('night', ['wolfden', 'altar', 'slaughter']), ('dawn', ['stables', 'forge', 'granary']), ('old', ['crypt', 'bloodfarm', 'ntower', 'barracks', 'mill', 'dtower'])):
+        pg.evaluate("""([types]) => { const g = NC_GAME, c = NC_CAM; window.__bl = [];
+          types.forEach((t, row) => [1, 2, 3].forEach(l => { const b = g.addBuilding(t, NC.BUILDINGS[t].faction === g.sides[0].faction ? 0 : 1, 560 + (l - 1) * 85 + (row >= 3 ? 290 : 0), 1660 + (row % 3) * 85, null, true); b.level = l; window.__bl.push(b.id); }));
+          c.x = types.length > 3 ? 790 : 645; c.y = 1760; c.z = types.length > 3 ? 0.75 : 1.2; c.yaw = c.yawTarget = 0.3; c.clamp(); }""", [types])
+        pg.wait_for_timeout(1800)
+        pg.screenshot(path=OUT + f'{PFX}buildings_{fac}_{w}x{h}.png')
+        pg.evaluate("() => { const g = NC_GAME; g.buildings = g.buildings.filter(b => !window.__bl.includes(b.id)); window.__bl.forEach(id => delete g.ents[id]); }")
+    notes = pg.evaluate("() => NC_WORLD.models.notes || []"); print(name, 'model notes:', json.dumps(notes))
+    pg.evaluate("() => { NC_GAME.update = window.__upd; }")
     # stress: ~100 units on screen, measure fps from the render loop
     pg.evaluate("""() => { const g = NC_GAME, c = NC_CAM; const types0 = ['ghoul','archer','thrall','werewolf','bat'], types1 = ['torch','crossbow','knight','priest'];
       let n0 = g.units.filter(u => u.owner === 0).length, n1 = g.units.filter(u => u.owner === 1).length;
@@ -106,7 +123,7 @@ def run(p, w, h, name):
       R.render = (a, b) => { const t = performance.now(); orig(a, b); rt += performance.now() - t; n++; }; W.draw = (u) => { const t = performance.now(); od(u); tot += performance.now() - t; };
       setTimeout(() => { R.render = orig; W.draw = od; r({ fps: Math.round(W.fps * 10) / 10, units: NC_GAME.units.length, calls: R.info.render.calls, tris: R.info.render.triangles, js_ms: Math.round((tot - rt) / n * 10) / 10, gl_ms: Math.round(rt / n * 10) / 10 }); }, 3000); })""")
     print(name, 'stress', json.dumps(fps))
-    pg.screenshot(path=OUT + f'3d_models_stress_{w}x{h}.png')
+    pg.screenshot(path=OUT + f'{PFX}stress_{w}x{h}.png')
     # classic 2D fallback still loads
     pg2 = ctx.new_page(); pg2.on('pageerror', lambda e: errors.append(f'{name} 2d pageerror: {e}'))
     pg2.goto(URL.split('?')[0] + '?2d=1'); pg2.wait_for_timeout(800); pg2.tap('#play'); pg2.wait_for_timeout(1500)

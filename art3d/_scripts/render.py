@@ -67,7 +67,14 @@ def render_glb(glb, out, clip=None, frame_frac=0.35, res=384, samples=24, yaw=-3
             f0, f1 = act.frame_range
             bpy.context.scene.frame_set(int(f0 + (f1 - f0) * frame_frac))
     bpy.context.view_layer.update()
-    frame_camera(cam, [o for o in objs if o.type == "MESH"], yaw, pitch, margin or (0.62 if arm else 0.78))
+    if not arm and clip:
+        fr = None
+        for o in objs:
+            a = bpy.data.actions.get(f"{clip}_{o.name}")
+            if a:
+                (o.animation_data or o.animation_data_create()).action = a; fr = a.frame_range
+        if fr: bpy.context.scene.frame_set(int(fr[0] + (fr[1] - fr[0]) * frame_frac))
+    frame_camera(cam, [o for o in objs if o.type == "MESH"], yaw, pitch, margin or (0.72 if arm else 0.78))
     bpy.context.scene.render.filepath = out
     bpy.ops.render.render(write_still=True)
 

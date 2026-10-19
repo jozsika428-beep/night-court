@@ -68,6 +68,12 @@ class Rig:
         for n in MAT_ORDER: me.materials.append(self.mats[n])
         for p, t in zip(me.polygons, target): p.material_index = MAT_ORDER.index(t)
         set_corner_color(self.body, lambda p: p.material_index == 1, WHITE)
+        self._tag(self.body, True)
+
+    @staticmethod
+    def _tag(o, dec):
+        a = o.data.attributes.get("dec") or o.data.attributes.new("dec", "BOOLEAN", "POINT")
+        for d in a.data: d.value = dec
 
     def _order_mats(self):
         me = self.body.data
@@ -103,6 +109,7 @@ class Rig:
         for i, p in enumerate(o.data.polygons): p.material_index = idx[i] if keep else mi
         for vg in list(o.vertex_groups):
             if vg.name not in weights: o.vertex_groups.remove(vg)
+        self._tag(o, len(o.data.vertices) > 24)
         bpy.ops.object.select_all(action="DESELECT")
         o.select_set(True); self.body.select_set(True)
         bpy.context.view_layer.objects.active = self.body
@@ -138,16 +145,45 @@ class Rig:
                 for i in range(4): fcs[i].keyframe_points.insert(f, q[i], options={"FAST"})
             for fc in fcs.values(): fc.update()
 
-    def finish(self, key, height_factor, clips, tri_budget, max_bones=30, path=None, protect=()):
+    def idle_bbox(self, clips):
+        act = next((a for a in bpy.data.actions if a.name == clips["Idle"]), None) or next(a for a in bpy.data.actions if clips["Idle"] in a.name)
+        ad = self.arm.animation_data or self.arm.animation_data_create()
+        prev = ad.action; ad.action = act
+        bpy.context.scene.frame_set(int(act.frame_range[0])); bpy.context.view_layer.update()
+        mn, mx = bbox([self.body]); ad.action = prev; bpy.context.scene.frame_set(0); bpy.context.view_layer.update()
+        return mn, mx
+
+    def finish(self, key, height_factor, clips, tri_budget, max_bones=30, path=None, protect=(), target_h=None, stretch=None):
         # bone reduction, scale, decimate body only portions? decimate whole body mesh
         nb = reduce_bones(self.arm, [self.body], max_bones, protect)
+        for clip, fac in (stretch or {}).items():
+            act = next((a for a in bpy.data.actions if a.name == clips[clip]), None) or next(a for a in bpy.data.actions if clips[clip] in a.name)
+            t0 = act.frame_range[0]
+            for fc in act.fcurves:
+                for k in fc.keyframe_points:
+                    for attr in ("co", "handle_left", "handle_right"):
+                        v = getattr(k, attr); v.x = t0 + (v.x - t0) * fac
+                fc.update()
+            act.frame_range = (t0, t0 + (act.frame_range[1] - t0) * fac) if act.use_frame_range else act.frame_range
         f = height_factor
+        if target_h:
+            mn, mx = self.idle_bbox(clips); f = target_h / (mx.z - mn.z)
         if abs(f - 1) > 1e-4:
             self.arm.scale = (f, f, f); bpy.context.view_layer.update()
             bpy.ops.object.select_all(action="DESELECT"); self.arm.select_set(True); self.body.select_set(True)
             bpy.context.view_layer.objects.active = self.arm
             bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
             scale_actions_location(f)
+        a = self.body.data.attributes.get("dec")
+        if a and tris([self.body]) > tri_budget:
+            vg = self.body.vertex_groups.new(name="_dec")
+            vg.add([i for i, d in enumerate(a.data) if d.value], 1.0, "REPLACE")
+            bpy.context.view_layer.objects.active = self.body
+            mod = self.body.modifiers.new("dec", "DECIMATE"); mod.ratio = tri_budget / tris([self.body]); mod.use_collapse_triangulate = True
+            mod.vertex_group = "_dec"; mod.vertex_group_factor = 1.0
+            while self.body.modifiers[0] != mod: bpy.ops.object.modifier_move_up(modifier=mod.name)
+            bpy.ops.object.modifier_apply(modifier=mod.name)
+            self.body.vertex_groups.remove(self.body.vertex_groups["_dec"])
         t = decimate(self.body, tri_budget)
         limit_weights(self.body, 4)
         # drop unused material slots
@@ -159,7 +195,9 @@ class Rig:
         path = path or f"{OUT}/units/{key}.glb"
         size = export_glb(path, [self.arm, self.body])
         mn, mx = rest_bbox([self.body])
-        info = dict(file=os.path.relpath(path, OUT), tris=t, bones=nb, clips=names, height=round(mx.z - mn.z, 2), bytes=size)
+        try: imn, imx = self.idle_bbox({"Idle": "Idle"})
+        except Exception: imn, imx = mn, mx
+        info = dict(file=os.path.relpath(path, OUT), tris=t, bones=nb, clips=names, height=round(mx.z - mn.z, 2), idle_height=round(imx.z - imn.z, 2), bytes=size)
         print("BUILT", json.dumps(info))
         return info
 
@@ -189,6 +227,7 @@ class Rig:
         for n in MAT_ORDER: o.data.materials.append(self.mats[n])
         mi = MAT_ORDER.index(mat)
         for p in o.data.polygons: p.material_index = mi
+        self._tag(o, len(o.data.vertices) > 24)
         bpy.ops.object.select_all(action="DESELECT")
         o.select_set(True); self.body.select_set(True)
         bpy.context.view_layer.objects.active = self.body
