@@ -133,8 +133,8 @@
       },
       "heroes_ready": {
         "vael": {
-          "label": "Countess: +6 st, formants x1.2, whisper double, dark cathedral (variant B)",
-          "pitch_st": 6.0,
+          "label": "Countess: +11.7 st, formants x1.20, whisper double, dark cathedral (variant B)",
+          "pitch_st": 11.7,
           "events": [
             "select",
             "move",
