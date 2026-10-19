@@ -9,3 +9,6 @@
 - Orientation follows SPEC: Y-up, metres, faces +Z, origin at the feet or footprint centre.
 - `raw/`, `concepts/` and `_cfg/` are the working sources (TRELLIS/TripoSR meshes, FLUX concepts, build configs). They are not referenced by the manifest.
 - To rebuild one model: `python3 /workspace/tools3d/hd/roster.py <name> build`, then `/workspace/tools3d/hd/finalize.sh` and `python3 /workspace/tools3d/hd/manifest.py`.
+
+## Cavalry (knight, bloodknight) — added 12:50 CEST
+The Man rig can't carry horse + rider, so the HD mesh (FLUX concept -> TripoSR -> same bake/decimate as the other units) is aligned to the std model (`tools3d/hd/align_cav.py`: PCA yaw, low-slice leg fit) and skinned to the **std horse+rider skeleton** by weight transfer from the std mesh (`tools3d/hd/xfer_rig.py`, plus rules: rider -> Torso, head -> Head; rules in `_cfg/<n>_rules.json`). Same 30 bones and the same Idle/Walk/Run/Attack/Death clips as std, on both the HD and far LODs. 3.0k / 0.8k tris, 1024 / 256 albedo, KTX2 + meshopt. Preview: previews/batchC_cavalry_sheet.png.

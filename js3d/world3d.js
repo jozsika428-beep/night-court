@@ -243,6 +243,14 @@ export class World3D {
       const fp = this.models.footprint(b.type, 3) || this.models.footprint(b.type, lvl) || mi.footprint, mx = Math.max(fp[0], fp[1]) || 8;
       const want = 2 * b.r * S;
       grp.userData.lvlScale = 1; grp.userData.fitScale = b.def.role === 'fortress' ? want * 1.05 / mx : Math.min(1, want * 1.1 / mx);
+      // HD set: models differ in size from the old ones (HD towers wider, HD wolf den L3 smaller), so fit each level to
+      // the gameplay footprint on its own: never wider than the plot (no overlap), and an HD model that is clearly
+      // smaller grows a little (max 1.25x, height scales with it). Levels borrowed from the standard set only shrink.
+      const ent = this.models.entries[b.type];
+      if (b.def.role !== 'fortress' && this.models.source[b.type] === 'hd' && ent && ent.levels) {
+        const f = ent.levels[lvl - 1] || '', own = !/(^|\/)art3d\//.test(f), fl = this.models.footprint(b.type, lvl) || mi.footprint, ml = Math.max(fl[0], fl[1]) || 8;
+        grp.userData.fitScale = own ? Math.min(1.25, want * 1.05 / ml) : Math.min(1, want * 1.1 / ml);
+      }
       if (mi.mixer && mi.actions.idle) { mi.actions.idle.play(); grp.userData.mixer = mi.mixer; }
       const fmi = this.models.hasFar(b.type, lvl) && this.models.instance(b.type, lvl, team, { shadow: this.high, far: true });
       if (fmi) { // building LOD: both models live in the group, one visible

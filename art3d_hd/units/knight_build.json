@@ -1,0 +1,32 @@
+{
+ "info": {
+  "knight.glb": {
+   "tris": 2999,
+   "bytes": 474564,
+   "dims": [
+    0.763,
+    1.691,
+    2.337
+   ]
+  },
+  "knight_far.glb": {
+   "tris": 797,
+   "bytes": 79308,
+   "dims": [
+    0.755,
+    1.691,
+    2.287
+   ]
+  }
+ },
+ "team_factor": [
+  0.1079830527305603,
+  0.29911673069000244,
+  0.6678246259689331
+ ],
+ "team_faces": [
+  508,
+  128
+ ],
+ "source": "HD: concept (FLUX.1-schnell) -> TripoSR -> Blender bake/retopo; skinned to std knight horse+rider skeleton (Quaternius Horse rig, weights transferred from std mesh), std clips"
+}

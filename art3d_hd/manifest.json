@@ -107,6 +107,33 @@
   },
   "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
  },
+ "bloodknight": {
+  "file": "units/bloodknight.glb",
+  "faction": "night",
+  "type": "cavalry",
+  "scale": 1,
+  "height": 2.48,
+  "tris": 2996,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> TripoSR -> Blender bake/retopo; skinned to std bloodknight horse+rider skeleton (Quaternius Horse rig, weights transferred from std mesh), std clips",
+  "lod": {
+   "far": "units/bloodknight_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
  "crossbow": {
   "file": "units/crossbow.glb",
   "faction": "dawn",
@@ -131,6 +158,33 @@
   "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
   "lod": {
    "far": "units/crossbow_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "knight": {
+  "file": "units/knight.glb",
+  "faction": "dawn",
+  "type": "cavalry",
+  "scale": 1,
+  "height": 2.34,
+  "tris": 2999,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> TripoSR -> Blender bake/retopo; skinned to std knight horse+rider skeleton (Quaternius Horse rig, weights transferred from std mesh), std clips",
+  "lod": {
+   "far": "units/knight_far.glb"
   },
   "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
  },
@@ -416,6 +470,54 @@
    true
   ]
  },
+ "wolfden": {
+  "dir": "buildings/",
+  "levels": [
+   "../../art3d/buildings/wolfden_l1.glb",
+   "../../art3d/buildings/wolfden_l2.glb",
+   "wolfden_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   2.11,
+   2.46,
+   5.91
+  ],
+  "footprint": [
+   [
+    4.19,
+    4.02
+   ],
+   [
+    7.28,
+    5.35
+   ],
+   [
+    5.88,
+    4.17
+   ]
+  ],
+  "tris": [
+   649,
+   1322,
+   8981
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    null,
+    null,
+    "wolfden_l3_far.glb"
+   ]
+  },
+  "hdLevels": [
+   false,
+   false,
+   true
+  ]
+ },
  "altar": {
   "dir": "buildings/",
   "levels": [
@@ -464,10 +566,106 @@
    true
   ]
  },
+ "slaughter": {
+  "dir": "buildings/",
+  "levels": [
+   "../../art3d/buildings/slaughter_l1.glb",
+   "../../art3d/buildings/slaughter_l2.glb",
+   "slaughter_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   2.98,
+   3.67,
+   5.25
+  ],
+  "footprint": [
+   [
+    4.57,
+    4.18
+   ],
+   [
+    7.35,
+    7.9
+   ],
+   [
+    7.89,
+    7.39
+   ]
+  ],
+  "tris": [
+   2001,
+   3891,
+   8974
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    null,
+    null,
+    "slaughter_l3_far.glb"
+   ]
+  },
+  "hdLevels": [
+   false,
+   false,
+   true
+  ]
+ },
+ "ntower": {
+  "dir": "buildings/",
+  "levels": [
+   "../../art3d/buildings/ntower_l1.glb",
+   "../../art3d/buildings/ntower_l2.glb",
+   "ntower_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   7.25,
+   8.87,
+   8.37
+  ],
+  "footprint": [
+   [
+    1.6,
+    1.6
+   ],
+   [
+    2.36,
+    2.36
+   ],
+   [
+    4.39,
+    4.47
+   ]
+  ],
+  "tris": [
+   692,
+   1130,
+   8991
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    null,
+    null,
+    "ntower_l3_far.glb"
+   ]
+  },
+  "hdLevels": [
+   false,
+   false,
+   true
+  ]
+ },
  "keep": {
   "dir": "buildings/",
   "levels": [
-   "../../art3d/buildings/keep_l1.glb",
+   "keep_l1.glb",
    "keep_l2.glb",
    "keep_l3.glb"
   ],
@@ -475,14 +673,14 @@
   "type": "building",
   "scale": 1,
   "height": [
-   8.53,
+   3.61,
    7.19,
    7.43
   ],
   "footprint": [
    [
-    3.7,
-    4.48
+    4.48,
+    4.42
    ],
    [
     7.91,
@@ -494,20 +692,20 @@
    ]
   ],
   "tris": [
-   1424,
+   8967,
    8962,
    8929
   ],
   "teamMaterial": "Team",
   "lod": {
    "far": [
-    null,
+    "keep_l1_far.glb",
     "keep_l2_far.glb",
     "keep_l3_far.glb"
    ]
   },
   "hdLevels": [
-   false,
+   true,
    true,
    true
   ]
@@ -608,6 +806,54 @@
    true
   ]
  },
+ "forge": {
+  "dir": "buildings/",
+  "levels": [
+   "../../art3d/buildings/forge_l1.glb",
+   "../../art3d/buildings/forge_l2.glb",
+   "forge_l3.glb"
+  ],
+  "faction": "dawn",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   4.23,
+   4.23,
+   5.55
+  ],
+  "footprint": [
+   [
+    3.39,
+    2.72
+   ],
+   [
+    6.89,
+    3.53
+   ],
+   [
+    7.92,
+    7.8
+   ]
+  ],
+  "tris": [
+   474,
+   873,
+   8968
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    null,
+    null,
+    "forge_l3_far.glb"
+   ]
+  },
+  "hdLevels": [
+   false,
+   false,
+   true
+  ]
+ },
  "granary": {
   "dir": "buildings/",
   "levels": [
@@ -656,58 +902,52 @@
    true
   ]
  },
- "knight": {
-  "file": "units/knight.glb",
+ "dtower": {
+  "dir": "buildings/",
+  "levels": [
+   "../../art3d/buildings/dtower_l1.glb",
+   "../../art3d/buildings/dtower_l2.glb",
+   "dtower_l3.glb"
+  ],
   "faction": "dawn",
-  "type": "cavalry",
+  "type": "building",
   "scale": 1,
-  "height": 2.34,
-  "tris": 2999,
-  "bones": 30,
-  "clips": {
-   "idle": "Idle",
-   "walk": "Walk",
-   "run": "Run",
-   "attack": "Attack",
-   "death": "Death"
-  },
-  "loop": [
-   "Idle",
-   "Walk",
-   "Run"
+  "height": [
+   4.96,
+   7.91,
+   7.62
+  ],
+  "footprint": [
+   [
+    1.6,
+    1.6
+   ],
+   [
+    1.6,
+    1.6
+   ],
+   [
+    2.43,
+    2.42
+   ]
+  ],
+  "tris": [
+   630,
+   1120,
+   9000
   ],
   "teamMaterial": "Team",
-  "source": "HD: concept (FLUX.1-schnell) -> TripoSR -> Blender bake/retopo; skinned to std knight horse+rider skeleton (Quaternius Horse rig, weights transferred from std mesh), std clips",
   "lod": {
-   "far": "units/knight_far.glb"
+   "far": [
+    null,
+    null,
+    "dtower_l3_far.glb"
+   ]
   },
-  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
- },
- "bloodknight": {
-  "file": "units/bloodknight.glb",
-  "faction": "night",
-  "type": "cavalry",
-  "scale": 1,
-  "height": 2.48,
-  "tris": 2996,
-  "bones": 30,
-  "clips": {
-   "idle": "Idle",
-   "walk": "Walk",
-   "run": "Run",
-   "attack": "Attack",
-   "death": "Death"
-  },
-  "loop": [
-   "Idle",
-   "Walk",
-   "Run"
-  ],
-  "teamMaterial": "Team",
-  "source": "HD: concept (FLUX.1-schnell) -> TripoSR -> Blender bake/retopo; skinned to std bloodknight horse+rider skeleton (Quaternius Horse rig, weights transferred from std mesh), std clips",
-  "lod": {
-   "far": "units/bloodknight_far.glb"
-  },
-  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+  "hdLevels": [
+   false,
+   false,
+   true
+  ]
  }
 }

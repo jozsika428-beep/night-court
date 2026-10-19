@@ -1,0 +1,32 @@
+{
+ "info": {
+  "bloodknight.glb": {
+   "tris": 2996,
+   "bytes": 400292,
+   "dims": [
+    0.96,
+    1.76,
+    2.476
+   ]
+  },
+  "bloodknight_far.glb": {
+   "tris": 794,
+   "bytes": 77548,
+   "dims": [
+    0.955,
+    1.756,
+    2.453
+   ]
+  }
+ },
+ "team_factor": [
+  0.4824883043766022,
+  0.07713181525468826,
+  0.11559230089187622
+ ],
+ "team_faces": [
+  501,
+  131
+ ],
+ "source": "HD: concept (FLUX.1-schnell) -> TripoSR -> Blender bake/retopo; skinned to std bloodknight horse+rider skeleton (Quaternius Horse rig, weights transferred from std mesh), std clips"
+}
