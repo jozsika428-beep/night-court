@@ -8,7 +8,8 @@ GFX = sys.argv[2] if len(sys.argv) > 2 else 'low'
 MODELS = sys.argv[3] if len(sys.argv) > 3 else 'std'
 if MODELS == 'hdfix': URL += ('&' if '?' in URL else '?') + 'hd=1&hdset=test/fixtures/hd/'
 OUT = '/workspace/game/screens/'
-PFX = '3d_b2_double_' if 'double=1' in URL else '3d_b2_'  # double=1: the artist's double-sided materials on Low (for comparison)
+PFX = '3d_b2_double_' if 'double=1' in URL else '3d_b2_'
+if MODELS == 'hd': PFX = 'hd_live_' if 'github.io' in URL else '3d_hd_'  # double=1: the artist's double-sided materials on Low (for comparison)
 errors = []
 ARGS = ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist']
 
@@ -44,7 +45,9 @@ def run(p, w, h, name):
     if MODELS == 'hdfix' and (hd['set'] != 'hd' or hd['hdKeys'] != 3 or hd['ktx2Maps'] < 1): errors.append(name + ' HD fixture not used ' + json.dumps(hd))
     if MODELS == 'hdfix' and GFX == 'low' and (hd['lodKeys'] or hd['normalMaps']): errors.append(name + ' Low should use far models only, without normal maps')
     if MODELS == 'hdfix' and GFX == 'high' and (len(hd['lodKeys']) != 3 or hd['normalMaps'] < 1): errors.append(name + ' High should load near+far with normal maps')
-    if MODELS != 'hdfix' and hd['set'] != 'std': errors.append(name + ' expected Standard set (HD not available yet)')
+    hd_avail = json.load(open('/workspace/game/art3d_sets.json'))['hd']['available']
+    if MODELS == 'std' and hd['set'] != 'std': errors.append(name + ' expected Standard set')
+    if MODELS == 'hd' and hd['set'] != ('hd' if hd_avail else 'std'): errors.append(name + ' HD set not used ' + json.dumps(hd))
     if ml['issues'] or ml['loaded'] < ml['entries']: errors.append(name + ' model load issues ' + json.dumps(ml))
     if view != '3d': errors.append(name + ' did not start in 3D')
     # tap an empty plot (projected to screen) -> build menu -> build Crypt

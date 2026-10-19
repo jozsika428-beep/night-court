@@ -5,6 +5,6 @@
  },
  "hd": {
   "base": "art3d_hd/",
-  "available": false
+  "available": true
  }
 }

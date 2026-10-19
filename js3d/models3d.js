@@ -212,8 +212,9 @@ export class ModelLib {
     this.root = std ? std.root : hd.root; this.set = hd ? 'hd' : 'std';
     const S0 = std ? ModelLib.flat(std.m) : {}, S1 = hd ? ModelLib.flat(hd.m) : {};
     const jobs = [], keys = new Set([...Object.keys(S0), ...Object.keys(S1)]);
-    const get = (k, i, f, slot) => jobs.push(this.loader.loadAsync(f).then(gltf => { gltf.scene.traverse(o => { if (o.isMesh) [].concat(o.material).forEach(m => this.prep(m)); }); (slot[k] = slot[k] || [])[i] = gltf; this.version++; })
-      .catch(err => { this.issues.push(k + ': ' + f + ' failed to load'); console.warn('model failed', k, f, err && err.message); }));
+    this.nDone = 0; this.nTotal = 0; // for the loading bar
+    const get = (k, i, f, slot) => (this.nTotal++, jobs.push(this.loader.loadAsync(f).finally(() => this.nDone++).then(gltf => { gltf.scene.traverse(o => { if (o.isMesh) [].concat(o.material).forEach(m => this.prep(m)); }); (slot[k] = slot[k] || [])[i] = gltf; this.version++; })
+      .catch(err => { this.issues.push(k + ': ' + f + ' failed to load'); console.warn('model failed', k, f, err && err.message); })));
     for (const k of keys) {
       const useHd = S1[k] && typeof S1[k] === 'object', e = useHd ? S1[k] : S0[k], root = useHd ? hd.root : std.root;
       if (!e || typeof e !== 'object') continue;

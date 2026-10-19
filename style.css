@@ -77,3 +77,20 @@ button.big { display: block; width: 100%; margin: 22px 0 10px; min-height: 64px;
 .row.voice input[type=range] { flex: 1 1 50%; height: 44px; accent-color: #e8304a; }
 .row.voice #vvol-n { min-width: 56px; text-align: right; font-size: 15px; }
 .row.voice button { flex: 0 0 auto; padding: 0 14px; }
+
+/* title art: loading screen + menu background (js/splash.js) */
+#menu { background-color: #0a0507; background-size: cover; background-position: center; }
+#title-h { margin: 0; line-height: 0; }
+#logo { display: block; width: min(92%, 520px); height: auto; margin: 0 auto -4px; mix-blend-mode: screen; filter: drop-shadow(0 0 10px rgba(0,0,0,0.6)); }
+#logo:not([src]) { display: none; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+#splash { position: fixed; inset: 0; z-index: 100; pointer-events: none; background: #0a0507 center / cover no-repeat; transition: opacity 0.45s; }
+#splash.fade { opacity: 0; }
+#sp-bar { position: absolute; box-sizing: border-box; border-radius: 999px; background: #050203; padding: 0.75%; box-shadow: 0 0 0 2px rgba(0,0,0,0.6), 0 4px 18px rgba(0,0,0,0.7); }
+#sp-bar::before { content: ''; position: absolute; inset: 22% 2.2%; border: 1.5px solid #c9a24a; border-radius: 999px; pointer-events: none; }
+#sp-bar i { position: absolute; left: 2.6%; top: 30%; bottom: 30%; width: calc(var(--f, 0) * 94.8%); border-radius: 999px; background: linear-gradient(#e0263a, #9e0f1e); box-shadow: 0 0 8px #e0263a; transition: width 0.25s; }
+#sp-bar:not(.over-art) { padding: 0; }
+#sp-bar:not(.over-art)::before { inset: 3px; }
+#sp-bar:not(.over-art) i { left: 6px; top: 6px; bottom: 6px; width: calc(var(--f, 0) * (100% - 12px)); }
+#sp-label { position: absolute; left: 0; right: 0; bottom: calc(5% + 30px + env(safe-area-inset-bottom)); text-align: center; color: #f0d9a8; font: 600 14px/1 Georgia, serif; letter-spacing: 1px; text-shadow: 0 1px 3px #000, 0 0 10px #000; }
+@media (orientation: landscape) { #logo { display: none; } #menu .menu-inner { padding-top: 96px; } }

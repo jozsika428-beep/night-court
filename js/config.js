@@ -1,6 +1,9 @@
 // Night Court - game data. All numbers in one place so they are easy to tune.
 (function (NC) {
   NC.TITLE = 'Blood & Dawn';
+  // title art (files in title/, made by tools/title_web.py): loading screen, menu background, menu logo.
+  // To use v2 for the loading screen too, change loading: 'v3' to loading: 'v2'.
+  NC.TITLE_ART = { loading: 'v3', menu: 'v2', logo: 'v2' };
 
   NC.WORLD = { w: 1600, h: 2400, riverTop: 1130, riverBot: 1270,
     fords: [{ x1: 170, x2: 370 }, { x1: 710, x2: 890 }, { x1: 1230, x2: 1430 }] };

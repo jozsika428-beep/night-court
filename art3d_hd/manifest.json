@@ -1,0 +1,563 @@
+{
+ "ghoul": {
+  "file": "units/ghoul.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.75,
+  "tris": 2599,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
+  "lod": {
+   "far": "units/ghoul_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "thrall": {
+  "file": "units/thrall.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.8,
+  "tris": 2600,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
+  "lod": {
+   "far": "units/thrall_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "werewolf": {
+  "file": "units/werewolf.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 2.4,
+  "tris": 2594,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
+  "lod": {
+   "far": "units/werewolf_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "archer": {
+  "file": "units/archer.glb",
+  "faction": "night",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.7,
+  "tris": 2597,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
+  "lod": {
+   "far": "units/archer_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "crossbow": {
+  "file": "units/crossbow.glb",
+  "faction": "dawn",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.8,
+  "tris": 2596,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
+  "lod": {
+   "far": "units/crossbow_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "priest": {
+  "file": "units/priest.glb",
+  "faction": "dawn",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.8,
+  "tris": 2599,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
+  "lod": {
+   "far": "units/priest_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "torch": {
+  "file": "units/torch.glb",
+  "faction": "dawn",
+  "type": "unit",
+  "scale": 1,
+  "height": 1.8,
+  "tris": 2595,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
+  "lod": {
+   "far": "units/torch_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "vael": {
+  "file": "heroes/vael.glb",
+  "faction": "night",
+  "type": "hero",
+  "scale": 1,
+  "height": 2.2,
+  "tris": 7500,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death",
+   "ability": "Ability"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
+  "lod": {
+   "far": "heroes/vael_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "grimfang": {
+  "file": "heroes/grimfang.glb",
+  "faction": "night",
+  "type": "hero",
+  "scale": 1,
+  "height": 2.6,
+  "tris": 6999,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death",
+   "ability": "Ability"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
+  "lod": {
+   "far": "heroes/grimfang_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "ashen": {
+  "file": "heroes/ashen.glb",
+  "faction": "dawn",
+  "type": "hero",
+  "scale": 1,
+  "height": 2.2,
+  "tris": 6998,
+  "bones": 30,
+  "clips": {
+   "idle": "Idle",
+   "walk": "Walk",
+   "run": "Run",
+   "attack": "Attack",
+   "death": "Death",
+   "ability": "Ability"
+  },
+  "loop": [
+   "Idle",
+   "Walk",
+   "Run"
+  ],
+  "teamMaterial": "Team",
+  "source": "HD: concept (FLUX.1-schnell) -> image-to-3D -> Blender bake/retopo; rig Quaternius Man retarget",
+  "lod": {
+   "far": "heroes/ashen_far.glb"
+  },
+  "textures": "KTX2 (ETC1S colour, UASTC normal) + meshopt"
+ },
+ "fortress": {
+  "dir": "buildings/",
+  "levels": [
+   "../../art3d/buildings/fortress_l1.glb",
+   "../../art3d/buildings/fortress_l2.glb",
+   "fortress_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   8.52,
+   9.71,
+   7.51
+  ],
+  "footprint": [
+   [
+    5.25,
+    2.75
+   ],
+   [
+    7.36,
+    7.9
+   ],
+   [
+    7.39,
+    7.91
+   ]
+  ],
+  "tris": [
+   1520,
+   4014,
+   8941
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    null,
+    null,
+    "fortress_l3_far.glb"
+   ]
+  },
+  "hdLevels": [
+   false,
+   false,
+   true
+  ]
+ },
+ "crypt": {
+  "dir": "buildings/",
+  "levels": [
+   "crypt_l1.glb",
+   "crypt_l2.glb",
+   "crypt_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   4.6,
+   5.88,
+   7.75
+  ],
+  "footprint": [
+   [
+    4.72,
+    4.53
+   ],
+   [
+    6.82,
+    6.61
+   ],
+   [
+    7.88,
+    7.75
+   ]
+  ],
+  "tris": [
+   8993,
+   8993,
+   9456
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    "crypt_l1_far.glb",
+    "crypt_l2_far.glb",
+    "crypt_l3_far.glb"
+   ]
+  },
+  "hdLevels": [
+   true,
+   true,
+   true
+  ]
+ },
+ "bloodfarm": {
+  "dir": "buildings/",
+  "levels": [
+   "../../art3d/buildings/bloodfarm_l1.glb",
+   "../../art3d/buildings/bloodfarm_l2.glb",
+   "bloodfarm_l3.glb"
+  ],
+  "faction": "night",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   2.98,
+   2.84,
+   6.52
+  ],
+  "footprint": [
+   [
+    4.66,
+    5.77
+   ],
+   [
+    7.9,
+    7.24
+   ],
+   [
+    7.43,
+    7.41
+   ]
+  ],
+  "tris": [
+   1597,
+   3700,
+   8971
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    null,
+    null,
+    "bloodfarm_l3_far.glb"
+   ]
+  },
+  "hdLevels": [
+   false,
+   false,
+   true
+  ]
+ },
+ "keep": {
+  "dir": "buildings/",
+  "levels": [
+   "../../art3d/buildings/keep_l1.glb",
+   "keep_l2.glb",
+   "keep_l3.glb"
+  ],
+  "faction": "dawn",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   8.53,
+   7.19,
+   7.43
+  ],
+  "footprint": [
+   [
+    3.7,
+    4.48
+   ],
+   [
+    7.91,
+    7.81
+   ],
+   [
+    7.86,
+    7.67
+   ]
+  ],
+  "tris": [
+   1424,
+   8962,
+   8929
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    null,
+    "keep_l2_far.glb",
+    "keep_l3_far.glb"
+   ]
+  },
+  "hdLevels": [
+   false,
+   true,
+   true
+  ]
+ },
+ "barracks": {
+  "dir": "buildings/",
+  "levels": [
+   "../../art3d/buildings/barracks_l1.glb",
+   "../../art3d/buildings/barracks_l2.glb",
+   "barracks_l3.glb"
+  ],
+  "faction": "dawn",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   2.98,
+   4.03,
+   6.11
+  ],
+  "footprint": [
+   [
+    3.93,
+    3.75
+   ],
+   [
+    7.9,
+    6.77
+   ],
+   [
+    7.9,
+    4.3
+   ]
+  ],
+  "tris": [
+   1377,
+   2308,
+   8993
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    null,
+    null,
+    "barracks_l3_far.glb"
+   ]
+  },
+  "hdLevels": [
+   false,
+   false,
+   true
+  ]
+ },
+ "dtower": {
+  "dir": "buildings/",
+  "levels": [
+   "../../art3d/buildings/dtower_l1.glb",
+   "../../art3d/buildings/dtower_l2.glb",
+   "dtower_l3.glb"
+  ],
+  "faction": "dawn",
+  "type": "building",
+  "scale": 1,
+  "height": [
+   4.96,
+   7.91,
+   2.0
+  ],
+  "footprint": [
+   [
+    1.6,
+    1.6
+   ],
+   [
+    1.6,
+    1.6
+   ],
+   [
+    1.63,
+    1.63
+   ]
+  ],
+  "tris": [
+   630,
+   1120,
+   8995
+  ],
+  "teamMaterial": "Team",
+  "lod": {
+   "far": [
+    null,
+    null,
+    "dtower_l3_far.glb"
+   ]
+  },
+  "hdLevels": [
+   false,
+   false,
+   true
+  ]
+ }
+}

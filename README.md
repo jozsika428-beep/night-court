@@ -36,3 +36,7 @@ Play: open `index.html` from any static web server (GitHub Pages works). No inst
 - Audio: `voice/final/` is the main set, `voice/raw/` the fallback for units missing in final (folder names: `bonearcher`, `crossbowman`, `torchbearer` = archer, crossbow, torch). Heroes (`vael/`, `grimfang/`, `ashen/`) stay silent until their lines appear in `final/index.json`.
 - Web Audio, each file decoded on first use; audio unlocks on the first tap (iOS). Menu: Voice volume + Mute (saved).
 - Browsers without Ogg Opus (older iOS Safari) get `.m4a` (AAC) copies. **After the artist adds or changes lines, run:** `python3 tools/voice_m4a.py && python3 tools/asset_index.py --voice-only`, then commit `voice/` and push. Only `index.json`, `.ogg` and `.m4a` are shipped (TTS/FX tooling is git-ignored).
+
+## Title art
+- Loading screen (boot, and while 3D models load) and menu background come from `title/` (WebP with JPG fallback, each under 400 KB), made from the artist's PNGs in `art/title/` by `python3 tools/title_web.py`.
+- One setting picks the versions: `NC.TITLE_ART` in `js/config.js` (now `{ loading: 'v3', menu: 'v2', logo: 'v2' }`). Portrait or landscape art is picked by screen orientation. When an image has a drawn loading bar (v2 portrait), the real bar is laid exactly over it; otherwise it sits in the clear bottom strip.

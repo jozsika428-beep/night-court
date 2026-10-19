@@ -10,3 +10,8 @@ voice/*
 !voice/final/
 voice/raw/**/*.py
 voice/final/**/*.py
+art3d_hd/_jpg/
+art3d_hd/_cfg/
+art3d_hd/previews/
+art3d_hd/*/textures/
+art/title/

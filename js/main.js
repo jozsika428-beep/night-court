@@ -7,7 +7,8 @@
   // model set: Standard (art3d/) or HD (art3d_hd/, falls back per model). ?hd=1 forces HD for this visit.
   // art3d_sets.json (written by tools/asset_index.py) says whether the HD set exists, so nothing 404s.
   var qs = new URLSearchParams(location.search);
-  state.models = qs.get('hd') === '1' ? 'hd' : (localStorage.getItem('nc_models') || 'std');
+  // default for new players: HD on High graphics, Standard on Low (an explicit pick in the menu is saved and wins)
+  state.models = qs.get('hd') === '1' ? 'hd' : (localStorage.getItem('nc_models') || (state.gfx === 'high' ? 'hd' : 'std'));
   var hdBase = qs.get('hdset') || null; // test hook: an alternative HD folder
   var hdAvail = !!hdBase;
   fetch('art3d_sets.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
@@ -15,13 +16,19 @@
   }).catch(function () {});
   function modelOpts() { return { hd: state.models === 'hd' && hdAvail ? hdBase : null }; }
   var mode = null; // '3d' or '2d' for the current match
-  var game, bot, ren, ui, input, cam, cam2d, cam3d, world, input3d, running = false, paused = false, acc = 0, last = 0, mmT = 0, uiT = 0;
+  var game, bot, ren, ui, input, cam, cam2d, cam3d, world, input3d, running = false, paused = false, loading = false, loadT0 = 0, acc = 0, last = 0, mmT = 0, uiT = 0;
   var STEP = 1 / 30;
 
   document.title = NC.TITLE; $('title').textContent = NC.TITLE;
   if (!want3d) { $('viewlink').textContent = 'Switch to the 3D view'; $('viewlink').href = location.pathname; $('gfx-wrap').classList.add('hidden'); }
 
+  // ---- loading screen at boot: 2D art, 3D engine, voice index ----
+  var SP = NC.Splash; if (SP) SP.init();
+  var bootJobs = 0, bootDone = 0, bootT0 = performance.now();
+  function bootJob(p) { bootJobs++; return Promise.resolve(p).catch(function () {}).then(function () { bootDone++; if (SP) SP.set(bootDone / bootJobs); if (bootDone === bootJobs && SP) SP.hide(900); }); }
+  setTimeout(function () { if (SP) SP.hide(); }, 8000); // never keep the player waiting on a slow file
   var voice = NC.Voice ? new NC.Voice() : null; window.NC_VOICE = voice;
+  if (voice) bootJob(voice.ready);
   function voiceMenu() {
     if (!voice) return;
     $('vvol').value = voice.vol; $('vvol-n').textContent = voice.muted ? 'muted' : voice.vol + '%';
@@ -48,7 +55,7 @@
   $('maps').onclick = function (e) { var c = e.target.closest('[data-map]'); if (c && NC.MAPS[c.dataset.map].playable) { state.map = c.dataset.map; menu(); } };
   $('diffs').onclick = function (e) { var c = e.target.closest('[data-diff]'); if (c) { state.diff = c.dataset.diff; localStorage.setItem('nc_diff', state.diff); menu(); } };
   $('models').onclick = function (e) { var c = e.target.closest('[data-models]'); if (c && !c.disabled) { state.models = c.dataset.models; localStorage.setItem('nc_models', state.models); menu(); } };
-  $('gfx').onclick = function (e) { var c = e.target.closest('[data-gfx]'); if (c) { state.gfx = c.dataset.gfx; localStorage.setItem('nc_gfx', state.gfx); menu(); } };
+  $('gfx').onclick = function (e) { var c = e.target.closest('[data-gfx]'); if (c) { state.gfx = c.dataset.gfx; localStorage.setItem('nc_gfx', state.gfx); if (!localStorage.getItem('nc_models') && qs.get('hd') !== '1') state.models = state.gfx === 'high' ? 'hd' : 'std'; menu(); } };
 
   // ---- wait for the 3D module (or give up and use 2D) ----
   var failed3d = false;
@@ -124,6 +131,9 @@
     if (voice) voice.attach(game, ui, cam);
     ui.toast('Build on the ＋ plots. Start with a Crypt and a Blood Farm.', 'hero');
     running = true; paused = false; acc = 0; last = performance.now();
+    // 3D: keep the loading screen up (and the battle frozen) until the models are in
+    loading = !!(use3d && world && world.models && !world.models.done);
+    if (loading && SP) { SP.show('Loading models…'); loadT0 = performance.now(); }
     window.NC_GAME = game; window.NC_BOT = bot; window.NC_CAM = cam; window.NC_VIEW = mode; window.NC_WORLD = mode === '3d' ? world : null; window.NC_UI = ui; // for tests
     ui.refresh(true);
   }
@@ -146,7 +156,12 @@
     requestAnimationFrame(frame);
     if (!running) return;
     var dt = Math.min(0.25, (now - last) / 1000); last = now;
-    if (!paused && game.winner < 0) {
+    if (loading) {
+      var M = world.models, f = M.nTotal ? M.nDone / M.nTotal : 0;
+      if (SP) SP.set(0.05 + 0.95 * f);
+      if (M.done || now - loadT0 > 30000) { loading = false; last = now; acc = 0; if (SP) SP.hide(500); }
+    }
+    if (!paused && !loading && game.winner < 0) {
       acc += dt;
       var steps = 0;
       while (acc >= STEP && steps < 6) { bot.update(STEP); game.update(STEP); acc -= STEP; steps++; }
@@ -161,7 +176,10 @@
   }
 
   menu();
+  if (want3d) bootJob(new Promise(function (res) { if (NC.three) return res(); addEventListener('nc3d-ready', res); addEventListener('nc3d-failed', res); setTimeout(res, 8000); }));
+  var assetsDone; bootJob(new Promise(function (res) { assetsDone = res; }));
   NC.Assets.load(function () {
+    assetsDone();
     if (ren && mode === '2d') ren.bgArt = false;
     var P = NC.Assets.portraits;
     $('banner').innerHTML = ['vael', 'grimfang'].filter(function (k) { return P[k]; }).map(function (k) { return '<img src="' + P[k] + '" alt="">'; }).join('');
